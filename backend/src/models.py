@@ -10,8 +10,14 @@ metadata = MetaData(
 
 db = SQLAlchemy(metadata=metadata)
 
-purchased_games = db.Table(
+purchased_game = db.Table(
     "purchased_games",
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+    db.Column("game_id", db.Integer, db.ForeignKey("games.id"), primary_key=True),
+)
+
+wishlist_game = db.Table(
+    "wishlist_games",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
     db.Column("game_id", db.Integer, db.ForeignKey("games.id"), primary_key=True),
 )
@@ -28,7 +34,10 @@ class User(db.Model):
     reviews = db.relationship("Review", backref="user", lazy=True)
 
     bought_games = db.relationship(
-        "Game", secondary=purchased_games, back_populates="buyers"
+        "Game", secondary=purchased_game, back_populates="buyers"
+    )
+    wishlist_game = db.relationship(
+        "Game", secondary=wishlist_game, back_populates="user_wishlist"
     )
     purchases = db.relationship("Purchase", back_populates="user")
 
@@ -48,7 +57,10 @@ class Game(db.Model):
     reviews = db.relationship("Review", backref="game", lazy=True)
 
     buyers = db.relationship(
-        "User", secondary=purchased_games, back_populates="bought_games"
+        "User", secondary=purchased_game, back_populates="bought_games"
+    )
+    user_wishlist = db.relationship(
+        "User", secondary=wishlist_game, back_populates="wishlist_game"
     )
     purchases = db.relationship("Purchase", back_populates="game")
 
