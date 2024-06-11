@@ -36,10 +36,10 @@ class User(db.Model):
     bought_games = db.relationship(
         "Game", secondary=purchased_game, back_populates="buyers"
     )
-    wishlist_game = db.relationship(
+    user_wishlist_games = db.relationship(
         "Game", secondary=wishlist_game, back_populates="user_wishlist"
     )
-    purchases = db.relationship("Purchase", back_populates="user")
+    purchases = db.relationship("Purchase", backref="user", lazy=True)
 
 
 class Game(db.Model):
@@ -60,21 +60,20 @@ class Game(db.Model):
         "User", secondary=purchased_game, back_populates="bought_games"
     )
     user_wishlist = db.relationship(
-        "User", secondary=wishlist_game, back_populates="wishlist_game"
+        "User", secondary=wishlist_game, back_populates="user_wishlist_games"
     )
-    purchases = db.relationship("Purchase", back_populates="game")
+    purchases = db.relationship("Purchase", backref="game", lazy=True)
 
 
 class Purchase(db.Model):
     __tablename__ = "purchases"
 
-    purchase_id = db.Column(db.Integer, primary_key=True)
-    game_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    payment_method = db.Column(db.String(255), default="Visa")
     transaction_date = db.Column(db.DateTime, default=datetime.now())
-
-    user = db.relationship("User", back_populates="purchases")
-    game = db.relationship("Game", back_populates="purchases")
+    
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
 
 class Review(db.Model):

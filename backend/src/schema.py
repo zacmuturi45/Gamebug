@@ -1,4 +1,3 @@
-import graphene
 from graphene import (
     Field,
     Int,
@@ -13,7 +12,12 @@ from graphene import (
     ID,
 )
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-from models import User as UserModel, Game as GameModel, Review as ReviewModel, db
+from src.models import (
+    User as UserModel,
+    Game as GameModel,
+    Purchase as PurchaseModel,
+    Review as ReviewModel,
+)
 
 
 class User(SQLAlchemyObjectType):
@@ -31,6 +35,12 @@ class Game(SQLAlchemyObjectType):
 class Review(SQLAlchemyObjectType):
     class Meta:
         model = ReviewModel
+        interfaces = (relay.Node,)
+
+
+class Purchase(SQLAlchemyObjectType):
+    class Meta:
+        model = PurchaseModel
         interfaces = (relay.Node,)
 
 

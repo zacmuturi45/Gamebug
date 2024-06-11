@@ -2,9 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_graphql import GraphQLView
-from models import db
+from .models import db
 from config import config
-from schema import schema
+from .schema import schema
 
 migrate = Migrate()
 

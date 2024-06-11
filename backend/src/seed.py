@@ -1,13 +1,14 @@
 import random
-import math
-from faker import Faker
-from models import User, Game, Review, Purchase, db
 from src import create_app
+from faker import Faker
+from src.models import User, Game, Review, Purchase, db
+
 
 
 fake = Faker()
 platforms = ["PS1", "PS2", "PS3", "PS4", "PS5"]
 genres = ["Action", "Fantasy", "RPG", "Adventure", "Strategy", "Adult", "Sport"]
+user_bought_games = []
 
 
 def create_fake_user():
@@ -54,14 +55,25 @@ def seed():
         users.append(user)
         db.session.add(user)
     db.session.commit()
+    
+    for _ in range(200):
+        game = create_fake_game()
+        db.session.add(game)
+        db.session.commit()
+        user_bought_games.append(game)
+        
 
     for user in users:
 
         for _ in range(random.randint(1, 5)):
-            game = create_fake_game()
-            db.session.add(game)
-            db.session.commit()
-
+            game = random.choice(user_bought_games)  
+            wishlist = random.choice(user_bought_games)
+            if game not in user.bought_games:
+                user.bought_games.append(game)
+                
+            if wishlist not in user.user_wishlist_games:
+                user.user_wishlist_games.append(wishlist)
+                          
             purchase = Purchase(game_id=game.id, user_id=user.id)
             db.session.add(purchase)
 
@@ -69,6 +81,7 @@ def seed():
             db.session.add(review)
 
         db.session.commit()
+    
 
 
 if __name__ == "__main__":
