@@ -1,7 +1,7 @@
 import random
 from src import create_app
 from faker import Faker
-from src.models import User, Game, Review, Purchase, db
+from src.models import User, Game, Review, Purchase, db, purchased_game, wishlist_game
 
 
 
@@ -46,6 +46,8 @@ def seed():
     db.session.query(Game).delete()
     db.session.query(Review).delete()
     db.session.query(Purchase).delete()
+    db.session.query(purchased_game).delete()
+    db.session.query(wishlist_game).delete()
     db.session.commit()
 
     users = []
@@ -62,6 +64,13 @@ def seed():
         db.session.commit()
         user_bought_games.append(game)
         
+    for g in user_bought_games:
+        for _ in range(random.randint(1, 5)):
+            r = random.choice(users)
+            review = create_fake_review(r.id, g.id)
+            db.session.add(review)
+            db.session.commit()
+        
 
     for user in users:
 
@@ -76,9 +85,11 @@ def seed():
                           
             purchase = Purchase(game_id=game.id, user_id=user.id)
             db.session.add(purchase)
+            db.session.commit()
 
             review = create_fake_review(user.id, game.id)
             db.session.add(review)
+            db.session.commit()
 
         db.session.commit()
     
