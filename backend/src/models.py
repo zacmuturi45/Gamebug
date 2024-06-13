@@ -71,7 +71,7 @@ class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     payment_method = db.Column(db.String(255), default="Visa")
     transaction_date = db.Column(db.DateTime, default=datetime.now())
-    
+
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 

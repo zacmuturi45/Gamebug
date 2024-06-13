@@ -4,7 +4,6 @@ from faker import Faker
 from src.models import User, Game, Review, Purchase, db, purchased_game, wishlist_game
 
 
-
 fake = Faker()
 platforms = ["PS1", "PS2", "PS3", "PS4", "PS5"]
 genres = ["Action", "Fantasy", "RPG", "Adventure", "Strategy", "Adult", "Sport"]
@@ -57,32 +56,31 @@ def seed():
         users.append(user)
         db.session.add(user)
     db.session.commit()
-    
+
     for _ in range(200):
         game = create_fake_game()
         db.session.add(game)
         db.session.commit()
         user_bought_games.append(game)
-        
+
     for g in user_bought_games:
         for _ in range(random.randint(1, 5)):
             r = random.choice(users)
             review = create_fake_review(r.id, g.id)
             db.session.add(review)
             db.session.commit()
-        
 
     for user in users:
 
         for _ in range(random.randint(1, 5)):
-            game = random.choice(user_bought_games)  
+            game = random.choice(user_bought_games)
             wishlist = random.choice(user_bought_games)
             if game not in user.bought_games:
                 user.bought_games.append(game)
-                
+
             if wishlist not in user.user_wishlist_games:
                 user.user_wishlist_games.append(wishlist)
-                          
+
             purchase = Purchase(game_id=game.id, user_id=user.id)
             db.session.add(purchase)
             db.session.commit()
@@ -92,7 +90,6 @@ def seed():
             db.session.commit()
 
         db.session.commit()
-    
 
 
 if __name__ == "__main__":
