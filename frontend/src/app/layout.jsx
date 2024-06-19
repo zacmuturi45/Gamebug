@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
 import ApolloProviderWrapper from "./components/apolloProviderWrapper";
+import Navbar from "./components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <ApolloProviderWrapper>
-          {children}
+          <main className="container wrapper">
+            <Navbar />
+            {children}
+          </main>
         </ApolloProviderWrapper>
       </body>
     </html>

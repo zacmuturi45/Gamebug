@@ -1,0 +1,477 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* reset styles */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+* {
+  color: inherit;
+  margin: 0;
+}
+
+body {
+  font-family: Poppins;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+@media (min-width: 0) {
+  .col-12-xs {
+    box-sizing: border-box;
+    flex-grow: 0;
+    width: 100%;
+  }
+}
+@media (min-width: 980px) {
+  .col-10-lg {
+    box-sizing: border-box;
+    flex-grow: 0;
+    width: 83.3333333333%;
+  }
+}
+
+.spans-gray {
+  color: #808080;
+}
+
+.spans-black {
+  color: black;
+}
+
+.thickspans-white {
+  background-color: white;
+}
+
+.navbar .container, .navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.navbar {
+  padding: 0.2rem 0.4rem;
+  box-shadow: 2px 2px 3px rgb(0, 0, 1);
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 2rem;
+}
+
+.m-b-2 {
+  margin-bottom: 1rem;
+}
+
+.m-b-4 {
+  margin-bottom: 3rem;
+}
+
+.m-r-1 {
+  margin-right: 0.5rem;
+}
+
+.m-r-2 {
+  margin-right: 1rem;
+}
+
+.m-r-5 {
+  margin-right: 4rem;
+}
+
+.br-lg {
+  border-radius: 32px;
+}
+
+.dsp-f {
+  display: flex;
+}
+
+.fd-c {
+  flex-direction: column;
+}
+
+.ai-c {
+  align-items: center;
+}
+
+.fs-lg {
+  font-size: 1.5rem;
+}
+
+body {
+  background: hsl(200, 5%, 8%);
+  font-family: "Ubuntu", sans-serif;
+}
+
+.wrapper {
+  height: auto;
+  position: relative;
+  color: white;
+  padding-top: 125px;
+}
+
+.links {
+  text-decoration: none;
+}
+
+.main__navbar {
+  width: 100%;
+  position: fixed;
+  height: 75px;
+  top: 0;
+  left: 0;
+  padding: 15px 32px;
+  backdrop-filter: blur(15px);
+  z-index: 2;
+  transition: all 0.3s ease-in-out;
+}
+.main__navbar h1 {
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: 0.5rem;
+  font-size: 1.1rem;
+}
+.main__navbar form {
+  flex: 1;
+  position: relative;
+  height: 43px;
+  margin: 0 2.5rem 0 1.5%;
+}
+.main__navbar form .faSearch-icon {
+  transform: scale(1.3);
+  position: absolute;
+  left: 6.3%;
+  top: 37%;
+  color: rgb(131, 131, 131);
+}
+.main__navbar form .form-div {
+  height: 43px;
+  position: relative;
+}
+.main__navbar form .form-div .onSearchTab {
+  visibility: hidden;
+  position: absolute;
+  top: 65px;
+  left: 5.3%;
+  border-radius: 15px;
+  width: 92.3%;
+  min-height: 0;
+  height: auto;
+  background-color: black;
+}
+.main__navbar input {
+  height: 120%;
+  width: 90%;
+  border: none;
+  outline: none;
+  background-color: rgb(69, 67, 67);
+  font-size: 17px;
+  padding: 0 0 0 3rem;
+  color: lightgray;
+  font-size: 20px;
+  flex: 1;
+  color: black;
+  margin-left: 5%;
+}
+.main__navbar input:focus {
+  background: rgb(227, 227, 227);
+}
+.main__navbar input:hover {
+  background-color: white;
+  transition: 0.5s ease-in-out;
+  color: black;
+}
+.main__navbar .nav-ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 50px;
+  width: 220px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+.main__navbar .nav-ul > * {
+  font-size: 17px;
+  cursor: pointer;
+}
+.main__navbar .nav-ul .ul-divp {
+  padding: 2px;
+  overflow: hidden;
+}
+.main__navbar .nav-ul .ul-div1 {
+  position: relative;
+}
+.main__navbar .nav-ul .ul-div1 .ul-child-div1 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0.5px;
+  width: 0;
+  background-color: rgb(152, 152, 152);
+}
+.main__navbar .nav-ul .ul-div1 .ul-child-div1b {
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  height: 0.5px;
+  width: 95%;
+  background-color: rgb(152, 152, 152);
+}
+.main__navbar .nav-ul .ul-div2 {
+  position: relative;
+}
+.main__navbar .nav-ul .ul-div2 .ul-child-div2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0.5px;
+  width: 0;
+  background-color: rgb(152, 152, 152);
+}
+.main__navbar .nav-ul .ul-div2 .ul-child-div1c {
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  height: 0.5px;
+  width: 95%;
+  background-color: rgb(152, 152, 152);
+}
+.main__navbar .nav-ul .ellipsis-div-main {
+  position: relative;
+}
+.main__navbar .nav-ul .ellipsis-div-main:hover .ellipsis-div {
+  display: flex;
+}
+.main__navbar .nav-ul .ellipsis-div-main .faEllipsis {
+  font-size: 20px;
+}
+.main__navbar .nav-ul .ellipsis-div-main .ellipsis-div {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 16px;
+  width: 205px;
+  height: 200px;
+  background-color: white;
+  border-radius: 8px;
+}
+.main__navbar .menuToggler {
+  display: none;
+}
+.main__navbar .faremove {
+  position: absolute;
+  top: -0.6rem;
+  right: 2rem;
+  color: black;
+  border-radius: 22px 0 0 22px;
+  padding: 1rem 1.8rem;
+  min-width: 250px;
+}
+.main__navbar .faremove p {
+  margin: 0.5rem 0;
+  font-size: 17px;
+}
+.main__navbar .faremove h2 {
+  font-size: 27px;
+  font-weight: 600;
+}
+.main__navbar .rateG {
+  width: 80%;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 2px;
+  padding: 0.2rem;
+  margin: 1.4rem 0 2.2rem 0;
+}
+.main__navbar .menuBar {
+  margin-right: 4rem;
+  cursor: pointer;
+  height: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main__navbar .menuBar > div {
+  width: 30px;
+  height: 1px;
+  background-color: white;
+}
+.main__navbar .menuBar .div1 {
+  margin-bottom: 7px;
+}
+.main__navbar .menuBar .div3 {
+  margin-top: 7px;
+}
+
+@media screen and (max-width: 1500px) {
+  .main__navbar form .faSearch-icon {
+    left: 7.5%;
+  }
+  .main__navbar form .form-div .onSearchTab {
+    left: 55px;
+  }
+}
+@media screen and (max-width: 980px) {
+  .main__navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+  }
+  .main__navbar .toggle {
+    position: relative;
+    width: 90px;
+  }
+  .main__navbar h1 {
+    letter-spacing: 0;
+  }
+  .main__navbar .nav-ul {
+    display: none;
+  }
+  .main__navbar .menuToggler {
+    display: flex;
+  }
+  .main__navbar form {
+    max-width: 400px;
+    height: 35px;
+  }
+  .main__navbar form .faSearch-icon {
+    left: 35px;
+    font-size: 14px;
+    top: 30%;
+  }
+  .main__navbar form input {
+    font-size: 17px;
+    height: 100%;
+  }
+  .main__navbar form .form-div .onSearchTab {
+    left: 40px;
+    top: 50px;
+  }
+  .menuBar {
+    align-self: flex-end;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-70%, -50%);
+  }
+}
+@media screen and (max-width: 480px) {
+  .main__navbar h1 {
+    font-size: 1rem;
+  }
+  .main__navbar form input {
+    height: 80%;
+  }
+  .main__navbar form .form-div .onSearchTab {
+    top: 40px;
+    width: 100%;
+    left: 12%;
+  }
+  .main__navbar form .faSearch-icon {
+    top: 23%;
+    left: 28px;
+  }
+}
+.nav-hidden {
+  top: -125px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidenavlayout {
+  width: 100%;
+  height: 300vh;
+  position: relative;
+}
+.sidenavlayout .sidenavbar {
+  border: 2px solid red;
+  width: 250px;
+  height: auto;
+  position: sticky;
+  top: 0;
+  padding-top: 2rem;
+}
+.sidenavlayout .sidenavbar .sidenavbar-content {
+  margin-top: 35px;
+}
+.sidenavlayout .sidenavbar .sidenavbar-content h2 {
+  margin-bottom: 2rem;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.sidenavlayout .sidenavbar .sidenavbar-children h2 {
+  font-size: 30px;
+  margin-bottom: 1rem;
+}
+.sidenavlayout .main-pagejsx {
+  border: 2px solid blue;
+  width: 100%;
+  height: 100%;
+  padding-top: 1.5rem;
+}
+.sidenavlayout .main-pagejsx .main-pagejsx-h1 h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.sidenavlayout .sidenavlayout-children {
+  width: 100%;
+  flex: 1;
+  height: auto;
+}
+.sidenavlayout .sidenavbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.sidenavlayout .sidenavbox p {
+  margin-left: 0.5rem;
+  font-size: 20px;
+}
+.sidenavlayout .sidenavbox-container {
+  display: flex;
+  flex-direction: column;
+}
+.sidenavlayout .sidenavbox-container > * {
+  margin-top: 10px;
+}
+.sidenavlayout .visible {
+  display: block;
+}
+.sidenavlayout .invisible {
+  display: none;
+}
+.sidenavlayout .img {
+  transform: rotate(180deg);
+}

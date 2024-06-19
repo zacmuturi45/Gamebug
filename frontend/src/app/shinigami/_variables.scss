@@ -1,0 +1,45 @@
+//variable theme colors
+$primary: #326dee;
+$secondary: #1ac888;
+$error: #d32752;
+$info: #f6c31c;
+$section-padding: 2rem;
+$container-padding: .5rem;
+
+// font-sizes
+$base-font-size: 1rem;
+$font-size-small: $base-font-size * .75;
+$font-size-medium: $base-font-size * 1;
+$font-size-large: $base-font-size * 1.5;
+$font-size-xl: $base-font-size * 2;
+$font-size-xxl: $base-font-size * 3;
+
+//box-shadow
+$base-box-shadow: 2px 2px 3px rgba(0, 0, 0.75);
+
+//padding
+$base-padding: .2rem;
+$base-border-radius: 16px;
+$base-border-thickness: 2px;
+
+//margin
+$base-margin: .5rem;
+
+// colors
+$colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "info": $info,
+    "error": $error,
+    "blue": #1919e6,
+    "red": #e61919,
+    "yellow": #e6e619,
+    "green": #19e635,
+    "orange": #ffa600,
+    "purple": #9900ff,
+    "gray": #808080,
+    "black": black,
+    "white": white,
+    "rebeccapurple": rebeccapurple,
+);
+

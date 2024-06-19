@@ -1,0 +1,39 @@
+@each $key, $val in $colors {
+    .spans-#{$key} {
+        color: $val
+    }
+    .thickspans-#{$key} {
+        background-color: $val
+    }
+
+    // light color variations
+    @if($val != black and $val != white) {
+        @for $i from 1 through 10 {
+            .spans-#{$key}-light-#{$i} {
+                color: mix(white, $val, $i * 10%);
+            }
+            .spans-hover-#{$key}-light-#{$i} {
+                &:hover {
+                    color: mix(white, $val, $i * 10%);
+                }
+            }
+            .thickspans-#{$key}-light-#{$i} {
+                background-color: mix(white, $val, $i * 10%);
+            }
+        }
+
+        @for $i from 1 through 10 {
+            .spans-#{$key}-dark-#{$i} {
+                color: mix(black, $val, $i * 10%);
+            }
+            .thickspans-hover-#{$key}-dark-#{$i} {
+                &:hover {
+                    background-color: mix(black, $val, $i * 10%);
+                }
+            }
+            .thickspans-#{$key}-dark-#{$i} {
+                background-color: mix(black, $val, $i * 10%);
+            }
+        }
+    }
+}
