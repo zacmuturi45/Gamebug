@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import "../../css/index.css"
 import Link from 'next/link'
 import Image from 'next/image';
-import { flame, star, next, calendar, android, ios, ps, xbox, nintendo, windows, arrowDown, adventure, sports, rpg, shooter, strategy, action, guns } from '../../../../public/images';
+import { newReleases, genres, platforms, arrowDown } from '../../../../public/images';
 import SideNavBox from '../sideNavBox';
 
 export default function SideNavBar() {
@@ -18,37 +18,12 @@ export default function SideNavBar() {
   const sidenavRef = useRef(null);
 
   useEffect(() => {
-    if(sidenavRef.current) {
+    if (sidenavRef.current) {
       const reflow = sidenavRef.current.offsetHeight;
       console.log(reflow)
     }
   }, [toSlice, toSlice1])
 
-  const newReleases = [
-    { image: star, text: "Last 30 days" },
-    { image: flame, text: "This week" },
-    { image: next, text: "Next week" },
-    { image: calendar, text: "Latest releases" }
-  ]
-
-  const platforms = [
-    { image: windows, text: "PC" },
-    { image: ps, text: "PlayStation 5" },
-    { image: xbox, text: "Xbox One" },
-    { image: nintendo, text: "Nintendo Switch" },
-    { image: ios, text: "iOS" },
-    { image: android, text: "Android" },
-  ]
-
-  const genres = [
-    { image: action, text: "Action" },
-    { image: guns, text: "Guns" },
-    { image: shooter, text: "Shooter" },
-    { image: rpg, text: "RPG" },
-    { image: adventure, text: "Adventure" },
-    { image: sports, text: "Sports" },
-    { image: strategy, text: "Strategy" }
-  ]
 
   const handlePlatforms = () => {
     setToSlice(platforms.length)

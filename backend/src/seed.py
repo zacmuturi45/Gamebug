@@ -5,8 +5,8 @@ from src.models import User, Game, Review, Purchase, db, purchased_game, wishlis
 
 
 fake = Faker()
-platforms = ["PS1", "PS2", "PS3", "PS4", "PS5"]
-genres = ["Action", "Fantasy", "RPG", "Adventure", "Strategy", "Adult", "Sport"]
+platforms = ["PS5", "PC", "Xbox One", "Nintendo Switch", "iOS", "Android"]
+genres = ["Action", "Shooter", "RPG", "Adventure", "Strategy", "Racing", "Puzzle", "Sports"]
 user_bought_games = []
 
 

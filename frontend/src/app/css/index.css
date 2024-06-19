@@ -139,6 +139,10 @@ body {
 .links {
   text-decoration: none;
 }
+.links:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
 
 .main__navbar {
   width: 100%;
@@ -156,6 +160,10 @@ body {
   font-weight: 800;
   letter-spacing: 0.5rem;
   font-size: 1.1rem;
+}
+.main__navbar h1:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
 }
 .main__navbar form {
   flex: 1;
@@ -458,6 +466,10 @@ body {
 .sidenavlayout .sidenavbox p {
   margin-left: 0.5rem;
   font-size: 20px;
+}
+.sidenavlayout .sidenavbox:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
 }
 .sidenavlayout .sidenavbox-container {
   display: flex;
