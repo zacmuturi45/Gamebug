@@ -9,6 +9,8 @@ import nintendo from './nintendo.svg';
 import xbox from './xbox.svg';
 import windows from './windows.svg';
 export { default as arrowDown } from './arrow-down.svg';
+export { default as arrowdown } from './arrowDown.svg';
+export { default as tick } from './tick.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';
