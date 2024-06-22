@@ -101,7 +101,7 @@ export default function Navbar() {
 
     return (
         <main className={visible ? 'main__navbar dsp-f ai-c justify-space-between' : 'main__navbar nav-hidden dsp-f ai-c justify-space-between'}>
-            <h1>GAMEGO</h1>
+            <h1>GameGo</h1>
             <form>
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' />

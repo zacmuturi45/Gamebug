@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.5",
+    "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",

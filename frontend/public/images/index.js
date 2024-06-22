@@ -11,6 +11,14 @@ import windows from './windows.svg';
 export { default as arrowDown } from './arrow-down.svg';
 export { default as arrowdown } from './arrowDown.svg';
 export { default as tick } from './tick.svg';
+export { default as iosWhite } from './iosWhite.svg';
+export { default as androidWhite } from './androidWhite.svg';
+export { default as psWhite } from './psWhite.svg';
+export { default as xboxWhite } from './xboxWhite.svg';
+export { default as windowsWhite } from './windowsWhite.svg';
+export { default as ellipsisWhite } from './ellipsisWhite.svg';
+export { default as plusWhite } from './plusWhite.svg';
+export { default as giftBox } from './giftBox.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';
@@ -50,3 +58,4 @@ export const genres = [
     { image: strategy, text: "Strategy" },
     { image: puzzle, text: "Puzzle"}
   ]
+
