@@ -5,7 +5,7 @@
 
 
 body {
-    background: hsl(200, 5%, 8%);
+    background: hsl(10, 3%, 8%);
     font-family: "Ubuntu", sans-serif;
 }
 
@@ -387,7 +387,7 @@ body {
             .options-box-child {
                 position: relative;
                 cursor: pointer;
-                border-radius: 7px;
+                border-radius: 12px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -441,7 +441,7 @@ body {
             .options-box-child1 {
                 cursor: pointer;
                 position: relative;
-                border-radius: 7px;
+                border-radius: 12px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -488,6 +488,32 @@ body {
                         transform: scale(0.99);
                         cursor: pointer;
                     }
+                }
+            }
+        }
+        .load-more {
+            width: 100%;
+            position: relative;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0 0 0;
+            height: auto;
+            padding: 1rem;
+            > span {
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: rgb(141, 141, 141);
+                font-size: 1.2rem;
+                padding: 1rem;
+                border-radius: 8px;
+                width: 200px;
+                background-color: rgb(52, 52, 52);
+                &:hover {
+                    transform: scale(0.99);
+                    opacity: 0.7;
                 }
             }
         }
@@ -543,6 +569,7 @@ body {
 
     .main-pagejsx {
         display: flex;
+        border: 1px solid red;
         flex-direction: column;
         justify-content: center;
         .main-pagejsx-h1 {
@@ -615,7 +642,8 @@ body {
         background: hsl(200, 3%, 11%);
         border-radius: 15px;
         &:hover {
-            transform: scaleY(1.03);
+            transform: scale(1.03);
+            z-index: 999;
             transition: .2s ease-in-out;
         }
     }
@@ -625,12 +653,13 @@ body {
     .cloudinary {
         position: relative;
         width: 100%;
-        height: auto;
-        border-radius: 15px;
+        height: 60%;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
         overflow: hidden;
         .img {
             width: 100%;
-            height: auto;
+            height: 100%;
             z-index: 1;
             transform: scale(1.02);
         }
@@ -658,7 +687,7 @@ body {
     .cloudinary-container {
         padding: .8rem .8rem .8rem 1rem;
         position: absolute;
-        background-color: rgb(30, 30, 30);
+        background-color: hsl(200, 3%, 11%);
         height: auto;
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
@@ -815,6 +844,7 @@ body {
 }
 
 @media screen and (max-width: 580px) {
+    
     .cards {
         display: flex;
         flex-direction: column;

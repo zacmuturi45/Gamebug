@@ -158,7 +158,7 @@ img {
 }
 
 body {
-  background: hsl(200, 5%, 8%);
+  background: hsl(10, 3%, 8%);
   font-family: "Ubuntu", sans-serif;
 }
 
@@ -496,7 +496,7 @@ body {
 .sidenavlayout .main-pagejsx .options-box .options-box-child {
   position: relative;
   cursor: pointer;
-  border-radius: 7px;
+  border-radius: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -550,7 +550,7 @@ body {
 .sidenavlayout .main-pagejsx .options-box .options-box-child1 {
   cursor: pointer;
   position: relative;
-  border-radius: 7px;
+  border-radius: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -597,6 +597,32 @@ body {
   transform: scale(0.99);
   cursor: pointer;
 }
+.sidenavlayout .main-pagejsx .load-more {
+  width: 100%;
+  position: relative;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0 0 0;
+  height: auto;
+  padding: 1rem;
+}
+.sidenavlayout .main-pagejsx .load-more > span {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(141, 141, 141);
+  font-size: 1.2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 200px;
+  background-color: rgb(52, 52, 52);
+}
+.sidenavlayout .main-pagejsx .load-more > span:hover {
+  transform: scale(0.99);
+  opacity: 0.7;
+}
 .sidenavlayout .sidenavlayout-children {
   width: 100%;
   flex: 1;
@@ -640,6 +666,7 @@ body {
   }
   .sidenavlayout .main-pagejsx {
     display: flex;
+    border: 1px solid red;
     flex-direction: column;
     justify-content: center;
   }
@@ -700,7 +727,8 @@ body {
   border-radius: 15px;
 }
 .sidenavlayout .main_card:hover {
-  transform: scaleY(1.03);
+  transform: scale(1.03);
+  z-index: 999;
   transition: 0.2s ease-in-out;
 }
 .sidenavlayout .cards {
@@ -709,13 +737,14 @@ body {
 .sidenavlayout .cloudinary {
   position: relative;
   width: 100%;
-  height: auto;
-  border-radius: 15px;
+  height: 60%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   overflow: hidden;
 }
 .sidenavlayout .cloudinary .img {
   width: 100%;
-  height: auto;
+  height: 100%;
   z-index: 1;
   transform: scale(1.02);
 }
@@ -740,7 +769,7 @@ body {
 .sidenavlayout .cloudinary-container {
   padding: 0.8rem 0.8rem 0.8rem 1rem;
   position: absolute;
-  background-color: rgb(30, 30, 30);
+  background-color: hsl(200, 3%, 11%);
   height: auto;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;

@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 
-export default function Card() {
+export default function Card({ image, index }) {
 
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
@@ -17,7 +17,7 @@ export default function Card() {
 
     const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } })
     const vid = "my-videos/new.mp4"
-    const img = "my-videos/images_vvnxxn"
+    const img = "my-videos/boat_tyrkf7"
 
     const onMouseOver = () => {
         playerRef.current.videoRef.current.play()
@@ -36,11 +36,11 @@ export default function Card() {
     const gamePlatforms = [xboxWhite, windowsWhite, psWhite]
 
     return (
-        <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+        <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={index}>
             <div className="cloudinary">
                 <AdvancedImage
                     className="img"
-                    cldImg={cld.image(img)}
+                    cldImg={cld.image(image)}
                 />
 
                 <AdvancedVideo
@@ -59,7 +59,7 @@ export default function Card() {
                     <div className="cloudinarydiv1">
                         {
                             gamePlatforms.map((item, index) => {
-                                return (<div>
+                                return (<div key={index}>
                                     <Image src={item} width={20} height={20} alt='svg-image' className='gamePlatform-image' />
                                 </div>)
                             })

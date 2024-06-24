@@ -6,17 +6,38 @@ import { tick } from "../../../public/images";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Card from "../components/cloudinaryCard";
+import { cardArray } from "../../../public/images";
 
 
 export default function Home() {
 
     const [sortBy, setSortBy] = useState("Relevance");
     const [platforms, setPlatforms] = useState("Platforms");
+    const [addCards, setAddCards] = useState(24);
 
     const [sortVisible, setSortVisible] = useState(false);
     const [platformVisible, setPlatformVisible] = useState(false);
-    const [showTick, setShowTick] = useState(0);
-    const [showTicks, setShowTicks] = useState(false)
+    const [showTick, setShowTick] = useState({
+        ticks: false,
+        showticks0: false,
+        showticks1: false,
+        showticks2: false,
+        showticks3: false,
+        showticks4: false,
+        showticks5: false,
+    });
+
+    const [showPlatformTick, setShowPlatformTick] = useState({
+        showPlatformTick0: false,
+        showPlatformTick1: false,
+        showPlatformTick2: false,
+        showPlatformTick3: false,
+        showPlatformTick4: false,
+        showPlatformTick5: false,
+    });
+
+    const [previousIndex, setPreviousIndex] = useState(null);
+    const [previousPlatformTick, setPreviousPlatformTick] = useState(null);
 
     const [header, setHeader] = useState("Highest rated games");
 
@@ -43,8 +64,30 @@ export default function Home() {
         }
     };
 
-    const handleShowTick = () => {
-        setShowTick(true)
+    const handleShowTick = (index) => {
+        const currentIndexKey = `showticks${index}`;
+        const previousIndexKey = previousIndex !== null ? `showticks${previousIndex}` : null;
+
+        setShowTick(prevState => ({
+            ...prevState,
+            [currentIndexKey]: true,
+            ...(previousIndexKey && { [previousIndexKey]: false }),
+        }));
+
+        setPreviousIndex(index);
+    }
+
+    const handlePlatformTick = (index) => {
+        const currentIndexKey = `showPlatformTick${index}`;
+        const previousPlatformTickKey = previousPlatformTick !== null ? `showPlatformTick${previousPlatformTick}` : null;
+
+        setShowPlatformTick(prevState => ({
+            ...prevState,
+            [currentIndexKey]: true,
+            ...(previousPlatformTickKey && { [previousPlatformTickKey]: false }),
+        }));
+
+        setPreviousPlatformTick(index);
     }
 
     useEffect(() => {
@@ -75,11 +118,12 @@ export default function Home() {
                             {spanOne.map((item, index) => {
                                 return <div className="spanOne" key={index} onClick={() => {
                                     setSortBy(item)
-                                    setShowTick(index)
-                                    setShowTicks(true)
+                                    handleShowTick(index)
                                 }}>
                                     {item}
-                                    <Image src={tick} width={12} height={12} alt="tick-svg" className={showTicks ? `showtick${index}` : "tick-svg"} />
+                                    {
+                                        showTick[`showticks${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
+                                    }
                                 </div>
                             })}
                         </div>)
@@ -93,9 +137,15 @@ export default function Home() {
                 <div className="options-box-child1" onClick={() => handlePlatform()}>
                     {platformVisible && (<div className="options-box-absolute1" ref={popup2Ref}>
                         {spanTwo.map((item, index) => {
-                            return <div className="spanTwo" key={index} onClick={() => setPlatforms(item)}>
+                            return <div className="spanTwo" key={index} onClick={() => {
+                                setPlatforms(item)
+                                handlePlatformTick(index)
+                            }}>
                                 {item}
-                                <Image src={tick} width={12} height={12} alt="tick-svg" className="tick-svg" />
+                                {
+                                    showPlatformTick[`showPlatformTick${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
+                                }
+
                             </div>
                         })}
                     </div>)}
@@ -109,20 +159,17 @@ export default function Home() {
             {/* END OF OPTIONS BOX */}
 
             <div className="row cards">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-
+                {
+                    cardArray.slice(0, addCards).map((item, index) => {
+                       return  <Card image={item} key={index}/>
+                    })
+                }
             </div>
+            <div className="load-more"><span onClick={() => {
+                if(cardArray.length>=addCards+24) {
+                    setAddCards(addCards+24)
+                } else {return}
+            }}>Load more</span></div>
         </main>
     );
 }

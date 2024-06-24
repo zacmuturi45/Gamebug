@@ -19,6 +19,7 @@ export { default as windowsWhite } from './windowsWhite.svg';
 export { default as ellipsisWhite } from './ellipsisWhite.svg';
 export { default as plusWhite } from './plusWhite.svg';
 export { default as giftBox } from './giftBox.svg';
+export { default as riot } from './riot.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';
@@ -31,31 +32,107 @@ import puzzle from './puzzle.png';
 
 
 export const newReleases = [
-    { image: star, text: "Last 30 days" },
-    { image: flame, text: "This week" },
-    { image: next, text: "Next week" },
-    { image: calendar, text: "Latest releases" }
-  ]
+  { image: star, text: "Last 30 days" },
+  { image: flame, text: "This week" },
+  { image: next, text: "Next week" },
+  { image: calendar, text: "Latest releases" }
+]
 
 
 export const platforms = [
-    { image: windows, text: "PC" },
-    { image: ps, text: "PlayStation 5" },
-    { image: xbox, text: "Xbox One" },
-    { image: nintendo, text: "Nintendo Switch" },
-    { image: ios, text: "iOS" },
-    { image: android, text: "Android" },
-  ]
+  { image: windows, text: "PC" },
+  { image: ps, text: "PlayStation 5" },
+  { image: xbox, text: "Xbox One" },
+  { image: nintendo, text: "Nintendo Switch" },
+  { image: ios, text: "iOS" },
+  { image: android, text: "Android" },
+]
 
 export const genres = [
-    { image: action, text: "Action" },
-    { image: guns, text: "Guns" },
-    { image: shooter, text: "Shooter" },
-    { image: rpg, text: "RPG" },
-    {image: racing, text: "Racing"},
-    { image: adventure, text: "Adventure" },
-    { image: sports, text: "Sports" },
-    { image: strategy, text: "Strategy" },
-    { image: puzzle, text: "Puzzle"}
-  ]
+  { image: action, text: "Action" },
+  { image: guns, text: "Guns" },
+  { image: shooter, text: "Shooter" },
+  { image: rpg, text: "RPG" },
+  { image: racing, text: "Racing" },
+  { image: adventure, text: "Adventure" },
+  { image: sports, text: "Sports" },
+  { image: strategy, text: "Strategy" },
+  { image: puzzle, text: "Puzzle" }
+]
+
+
+export const cardArray = [
+  "my-videos/boat_tyrkf7",
+  "my-videos/kill_qhzkbt",
+  "my-videos/switch_muf00v", 
+  "my-videos/tekken8_fwdock",
+  "my-videos/tekken_t2s1md",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/metalgearsolid_lspadg",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/cod_znvbzr",
+  "my-videos/cod_ttbwyz",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/switch_muf00v",
+  "my-videos/boat_tyrkf7",
+  "my-videos/kill_qhzkbt",
+  "my-videos/switch_muf00v", 
+  "my-videos/tekken8_fwdock",
+  "my-videos/tekken_t2s1md",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/metalgearsolid_lspadg",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/cod_znvbzr",
+  "my-videos/cod_ttbwyz",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/switch_muf00v",
+  "my-videos/boat_tyrkf7",
+  "my-videos/kill_qhzkbt",
+  "my-videos/switch_muf00v", 
+  "my-videos/tekken8_fwdock",
+  "my-videos/tekken_t2s1md",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/metalgearsolid_lspadg",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/cod_znvbzr",
+  "my-videos/cod_ttbwyz",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/switch_muf00v",
+  "my-videos/boat_tyrkf7",
+  "my-videos/kill_qhzkbt",
+  "my-videos/switch_muf00v", 
+  "my-videos/tekken8_fwdock",
+  "my-videos/tekken_t2s1md",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/metalgearsolid_lspadg",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/cod_znvbzr",
+  "my-videos/cod_ttbwyz",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/switch_muf00v",
+  "my-videos/boat_tyrkf7",
+  "my-videos/kill_qhzkbt",
+  "my-videos/switch_muf00v", 
+  "my-videos/tekken8_fwdock",
+  "my-videos/tekken_t2s1md",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/metalgearsolid_lspadg",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/cod_znvbzr",
+  "my-videos/cod_ttbwyz",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/switch_muf00v",
+  "my-videos/boat_tyrkf7",
+  "my-videos/kill_qhzkbt",
+  "my-videos/switch_muf00v", 
+  "my-videos/tekken8_fwdock",
+  "my-videos/tekken_t2s1md",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/metalgearsolid_lspadg",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/cod_znvbzr",
+  "my-videos/cod_ttbwyz",
+  "my-videos/lastepoch_bepih3",
+  "my-videos/switch_muf00v",
+]
 
