@@ -15,6 +15,10 @@ ul {
   list-style-type: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 img {
   max-width: 100%;
 }
@@ -506,7 +510,7 @@ body {
   background-color: rgb(40, 40, 40);
 }
 .sidenavlayout .main-pagejsx .options-box .options-box-child .options-box-absolute {
-  z-index: 3;
+  z-index: 1000;
   position: absolute;
   top: 0;
   right: 0;
@@ -559,7 +563,7 @@ body {
   background-color: rgb(40, 40, 40);
 }
 .sidenavlayout .main-pagejsx .options-box .options-box-child1 .options-box-absolute1 {
-  z-index: 3;
+  z-index: 1000;
   position: absolute;
   top: 0;
   right: 0;
@@ -666,7 +670,6 @@ body {
   }
   .sidenavlayout .main-pagejsx {
     display: flex;
-    border: 1px solid red;
     flex-direction: column;
     justify-content: center;
   }
@@ -755,7 +758,7 @@ body {
   left: 0;
   opacity: 0;
   z-index: 0;
-  height: auto;
+  height: max-content;
 }
 .sidenavlayout .cloudinary:hover .cloudinary_video {
   z-index: 2;
@@ -769,6 +772,8 @@ body {
 .sidenavlayout .cloudinary-container {
   padding: 0.8rem 0.8rem 0.8rem 1rem;
   position: absolute;
+  top: 0;
+  left: 0;
   background-color: hsl(200, 3%, 11%);
   height: auto;
   border-bottom-left-radius: 15px;
@@ -780,13 +785,30 @@ body {
 .sidenavlayout .cloudinarydiv1 > * {
   margin: 0.5rem 0.5rem 0.5rem 0;
 }
+.sidenavlayout .cloudinarydiv1 > *:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
 .sidenavlayout .cloudinarydiv2 {
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
 }
 .sidenavlayout .cloudinarydiv2 h2 {
+  position: relative;
   font-size: 2rem;
+  align-items: center;
   letter-spacing: -1px;
+}
+.sidenavlayout .cloudinarydiv2 h2 span:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+  transition: all 0.2s ease-in-out;
+}
+.sidenavlayout .cloudinarydiv2 h2 > * {
+  margin: 0 1rem 0 0;
+}
+.sidenavlayout .cloudinarydiv2 h2 :nth-child(2) {
+  position: absolute;
 }
 .sidenavlayout .cloudinarydiv3 {
   width: 100%;
@@ -804,7 +826,11 @@ body {
   justify-content: center;
   align-items: center;
 }
-.sidenavlayout .cloudinarydiv3 > *:hover {
+.sidenavlayout .cloudinarydiv3 .plusWhite:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
+.sidenavlayout .cloudinarydiv3 .giftbox:hover {
   opacity: 0.7;
   transform: scale(0.99);
 }
@@ -817,10 +843,9 @@ body {
   top: 0;
   left: 0;
   width: 300px;
-  height: 350px;
+  height: 400px;
   background-color: white;
-  z-index: 3;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 .sidenavlayout .cloudinarydiv3 .ellips {
   font-size: 20px;
@@ -869,6 +894,88 @@ body {
 .sidenavlayout .hidecard {
   display: none;
 }
+.sidenavlayout .showpanel {
+  transform: scale(1.05);
+  display: flex;
+  flex-direction: column;
+  color: rgb(26, 26, 26);
+}
+.sidenavlayout .showpanel > span {
+  padding: 0.5rem 0 0.5rem 1.2rem;
+  color: rgb(141, 141, 141);
+}
+.sidenavlayout .showpanel .grid-box {
+  height: 100%;
+  margin: 0 1rem 1rem 1rem;
+  display: grid;
+  border-radius: 10px;
+  border: 1px solid rgb(222, 222, 222);
+  grid-template-columns: repeat(2, 1fr);
+}
+.sidenavlayout .showpanel .grid-box :nth-child(1) {
+  border-top-left-radius: 10px;
+}
+.sidenavlayout .showpanel .grid-box :nth-child(1):hover {
+  background-color: rgb(219, 219, 219);
+}
+.sidenavlayout .showpanel .grid-box :nth-child(2) {
+  border-top-right-radius: 10px;
+}
+.sidenavlayout .showpanel .grid-box :nth-child(2):hover {
+  background-color: rgb(219, 219, 219);
+}
+.sidenavlayout .showpanel .grid-box :nth-child(3) {
+  border-bottom-left-radius: 10px;
+}
+.sidenavlayout .showpanel .grid-box :nth-child(3):hover {
+  background-color: rgb(219, 219, 219);
+}
+.sidenavlayout .showpanel .grid-box :nth-child(4) {
+  border-bottom-right-radius: 10px;
+}
+.sidenavlayout .showpanel .grid-box :nth-child(4):hover {
+  background-color: rgb(219, 219, 219);
+}
+.sidenavlayout .showpanel .grid-box > div {
+  display: flex;
+  border: 1px solid rgb(222, 222, 222);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.sidenavlayout .showpanel .grid-box > div span {
+  margin-top: 0.2rem;
+}
+.sidenavlayout .showpanel .review-box {
+  border: 1px solid rgb(222, 222, 222);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  margin: 0 1rem 1rem 1rem;
+  border-radius: 5px;
+}
+.sidenavlayout .showpanel .review-box:hover {
+  background-color: rgb(219, 219, 219);
+}
+.sidenavlayout .showpanel .addTo-box {
+  border: 1px solid rgb(222, 222, 222);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  height: 25%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgb(225, 225, 225);
+}
+.sidenavlayout .showpanel .addTo-box:hover {
+  color: rgb(75, 75, 75);
+  font-size: 15px;
+}
+.sidenavlayout .hidepanel {
+  display: none;
+}
 
 .view_more {
   display: none;
@@ -903,5 +1010,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1.7rem;
+  }
+  .main_card {
+    margin-bottom: 2.5rem;
+    width: 350px;
   }
 }

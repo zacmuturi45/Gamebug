@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
@@ -13,11 +13,28 @@ export default function Card({ image, index }) {
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
     const [showPanel, setShowPanel] = useState(false);
+    const panelRef = useRef(null);
     const [showGiftBox, setShowGiftBox] = useState(false);
 
     const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } })
     const vid = "my-videos/new.mp4"
     const img = "my-videos/boat_tyrkf7"
+    const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
+
+    useEffect(() => {
+        document.addEventListener('click', hideReviewPanel);
+
+        return () => {
+            document.removeEventListener('click', hideReviewPanel)
+        }
+    }, [])
+
+    const hideReviewPanel = (e) => {
+        if(!panelRef.current.contains(e.target)) {
+            setShowPanel(false)
+            return
+        }
+    }
 
     const onMouseOver = () => {
         playerRef.current.videoRef.current.play()
@@ -29,8 +46,13 @@ export default function Card({ image, index }) {
         setShowCard(false)
         setShowGiftBox(false)
     }
-    const showReviewPanel = () => {
-        setShowPanel(true)
+    const showReviewPanel = (e) => {
+        if(panelRef.current.contains(e.target)) {
+            setShowPanel(true)
+            return;
+        }
+
+        setShowPanel(false);
     }
 
     const gamePlatforms = [xboxWhite, windowsWhite, psWhite]
@@ -67,21 +89,32 @@ export default function Card({ image, index }) {
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2>Vampire: The Masquerade - Bloodlines 2</h2>
+                        <h2><span>Vampire: The Masquerade - Bloodlines 2</span> <Image src={thumbsUp} width={35} height={35} alt='review-svg' className='review-svg'/>
+                        </h2>
                     </div>
 
                     <div className="cloudinarydiv3">
-                        <div>
+                        <div className='plusWhite'>
                             <Image src={plusWhite} alt='plus-sign' width={20} height={20} />
                             <strong style={{ marginLeft: 10 }}>847</strong>
                         </div>
 
-                        <div className={showGiftBox ? "showcard" : "hidecard mobileview"}>
+                        <div className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}>
                             <Image src={giftBox} alt='gift-box' width={30} height={20} />
                         </div>
 
-                        <div className={showGiftBox ? "showcard ellipsis-review" : "hidecard mobileview"} onClick={() => showReviewPanel()}>
-                            <div className={showPanel ? "showCard" : "hidecard"}></div>
+                        <div className={showGiftBox ? "showcard ellipsis-review" : "hidecard mobileview"} onClick={(e) => showReviewPanel(e)} ref={panelRef}>
+                            <div className={showPanel ? "showpanel" : "hidepanel"}>
+                                <span>Quick Review</span>
+                                <div className='grid-box'>
+                                    <div><Image src={bomb} width={55} height={55} alt='review-svg'/><span>Exceptional</span></div>
+                                    <div><Image src={thumbsUp} width={55} height={55} alt='review-svg'/><span>Recommend</span></div>
+                                    <div><Image src={pumpkinmeh} width={55} height={55} alt='review-svg'/><span>Meh</span></div>
+                                    <div><Image src={pumpkincry} width={55} height={55} alt='review-svg'/><span>Skip</span></div>
+                                </div>
+                                <div className='review-box'>Write a review</div>
+                                <div className='addTo-box'>Add to my games</div>
+                            </div>
                             <FontAwesomeIcon icon={faEllipsis} className='ellips' />
                         </div>
                     </div>
@@ -110,7 +143,7 @@ export default function Card({ image, index }) {
                     </div>
                     {
                         showCard ? <div className='view_more'><strong onClick={() => setShowCard(!showCard)}>View less</strong></div> :
-                        <div className='view_more'><strong onClick={() => setShowCard(!showCard)}>View more</strong></div>
+                            <div className='view_more'><strong onClick={() => setShowCard(!showCard)}>View more</strong></div>
                     }
                 </div>
             </div>

@@ -45,7 +45,7 @@ export default function Navbar() {
     }
 
 
-    const mouseEnter = () => {
+    const mouseEnter = (e) => {
         gsap.to(".ul-child-div1b", {
             left: "105%",
             duration: .5,
@@ -59,7 +59,7 @@ export default function Navbar() {
         })
     }
 
-    const mouseEnter1 = () => {
+    const mouseEnter1 = (e) => {
         gsap.to(".ul-child-div1c", {
             left: "105%",
             duration: .5,
@@ -73,7 +73,7 @@ export default function Navbar() {
         })
     }
 
-    const mouseLeave = () => {
+    const mouseLeave = (e) => {
         gsap.to(".ul-child-div1b", {
             left: "-100%",
             duration: .5,
@@ -86,7 +86,7 @@ export default function Navbar() {
         })
     }
 
-    const mouseLeave1 = () => {
+    const mouseLeave1 = (e) => {
         gsap.to(".ul-child-div1c", {
             left: "-100%",
             duration: .5,
@@ -122,7 +122,7 @@ export default function Navbar() {
             <div className="dsp-f toggle">
                 <ul className='nav-ul'>
                     <div className='ul-divp'>
-                        <div className='ul-div1' onMouseEnter={(e) => mouseEnter(e)} onMouseLeave={(e) => mouseLeave(e)}>
+                        <div className='ul-div1' onMouseOver={(e) => mouseEnter(e)} onMouseOut={(e) => mouseLeave(e)}>
                             <span>LOG IN</span>
                             <div className='ul-child-div1'></div>
                             <div className='ul-child-div1b'></div>
@@ -130,7 +130,7 @@ export default function Navbar() {
                     </div>
 
                     <div className="ul-divp">
-                        <div className='ul-div2' onMouseEnter={(e) => mouseEnter1(e)} onMouseLeave={(e) => mouseLeave1(e)}>
+                        <div className='ul-div2' onMouseOver={(e) => mouseEnter1(e)} onMouseOut={(e) => mouseLeave1(e)}>
                             <span>SIGN UP</span>
                             <div className='ul-child-div2'></div>
                             <div className='ul-child-div1c'></div>

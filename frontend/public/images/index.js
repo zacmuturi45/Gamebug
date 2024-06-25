@@ -20,6 +20,10 @@ export { default as ellipsisWhite } from './ellipsisWhite.svg';
 export { default as plusWhite } from './plusWhite.svg';
 export { default as giftBox } from './giftBox.svg';
 export { default as riot } from './riot.svg';
+export { default as pumpkincry } from './pumpkincry.svg';
+export { default as pumpkinmeh } from './pumpkinmeh.svg'
+export { default as thumbsUp } from './thumbsUp.svg';
+export { default as bomb } from './bomb.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';

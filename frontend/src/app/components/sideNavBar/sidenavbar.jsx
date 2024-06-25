@@ -14,48 +14,11 @@ export default function SideNavBar({ main }) {
   gsap.registerPlugin(ScrollTrigger);
   const [toSlice, setToSlice] = useState(3);
   const [toSlice1, setToSlice1] = useState(3);
-  const [top, setTop] = useState(0);
-  const [bottom, setBottom] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [offset, setOffset] = useState(0);
 
   const [visible, setVisible] = useState(true);
   const [visible1, setVisible1] = useState(true);
 
   const sidenavRef = useRef(null);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const top = sidenavRef.current.getBoundingClientRect().top
-  //     const bottom = sidenavRef.current.getBoundingClientRect().bottom
-  //     const height = sidenavRef.current.getBoundingClientRect().height
-  //     setOffset(window.innerHeight - height)
-  //     setTop(top)
-  //     setBottom(bottom)
-  //     setHeight(height)
-  //     if (bottom === window.innerHeight) {
-  //       gsap.set(sidenavRef.current, {
-  //         top: 0,
-  //         duration: 1,
-  //         ease: "power3.inOut"
-  //       })}
-  //     // } else if(bottom > window.innerHeight) {
-  //     //   gsap.set(sidenavRef.current, {
-  //     //     position: "relative",
-  //     //     duration: 0,
-  //     //     ease: "none"
-  //     //   })
-  //     // }
-  //   }
-
-  //   window.addEventListener('scroll', handleScroll)
-
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll)
-  //   }
-  // }, [bottom])
-
-
 
   const handlePlatforms = () => {
     setToSlice(platforms.length)
@@ -69,7 +32,7 @@ export default function SideNavBar({ main }) {
 
 
   return (
-    <div className='sidenavbar dsp-f fd-c col-12-xs' style={{ top: offset }} ref={sidenavRef}>
+    <div className='sidenavbar dsp-f fd-c col-12-xs' ref={sidenavRef}>
       <div className='sidenavbar-content'>
         <Link href="/" className='links linksh2'><h2>Home</h2></Link>
         <Link href="/" className='links linksh2'><h2>Reviews</h2></Link>

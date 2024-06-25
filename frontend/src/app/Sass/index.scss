@@ -396,7 +396,7 @@ body {
                 min-width: 48%;
                 background-color: rgb(40, 40, 40);
                 .options-box-absolute {
-                    z-index: 3;
+                    z-index: 1000;
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -449,7 +449,7 @@ body {
                 width: 33%;
                 background-color: rgb(40, 40, 40);
                 .options-box-absolute1 {
-                    z-index: 3;
+                    z-index: 1000;
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -569,7 +569,6 @@ body {
 
     .main-pagejsx {
         display: flex;
-        border: 1px solid red;
         flex-direction: column;
         justify-content: center;
         .main-pagejsx-h1 {
@@ -631,6 +630,7 @@ body {
 
     //CARDS
     .main_card {
+        // border: 1px solid red;
         display: flex;
         cursor: pointer;
         position: relative;
@@ -670,7 +670,7 @@ body {
             left: 0;
             opacity: 0;
             z-index: 0;
-            height: auto;
+            height: max-content;
         }
         &:hover {
             .cloudinary_video {
@@ -683,10 +683,13 @@ body {
     .theCloud {
         position: relative;
         height: 165px;
+        // border: 2px solid blue;
     }
     .cloudinary-container {
         padding: .8rem .8rem .8rem 1rem;
         position: absolute;
+        top: 0;
+        left: 0;
         background-color: hsl(200, 3%, 11%);
         height: auto;
         border-bottom-left-radius: 15px;
@@ -696,6 +699,10 @@ body {
         display: flex;
         > * {
             margin: .5rem .5rem .5rem 0;
+            &:hover {
+                opacity: 0.7;
+                transform: scale(0.99);
+            }
         }
     }
 
@@ -703,8 +710,21 @@ body {
         margin: 0 0 .5rem 0;
         line-height: 1.2;
         h2 {
+            position: relative;
             font-size: 2rem;
+            align-items: center;
             letter-spacing: -1px;
+            span:hover {
+                opacity: 0.7;
+                transform: scale(0.99);
+                transition: all .2s ease-in-out;
+            }
+            > * {
+                margin: 0 1rem 0 0;
+            }
+            :nth-child(2) {
+                position: absolute;
+            }
         }
     }
 
@@ -722,10 +742,14 @@ body {
             display: flex;
             justify-content: center;
             align-items: center;
-            &:hover {
-                opacity: 0.7;
-                transform: scale(0.99);
-            }
+        }
+        .plusWhite:hover {
+            opacity: 0.7;
+            transform: scale(0.99);
+        }
+        .giftbox:hover {
+            opacity: 0.7;
+            transform: scale(0.99);
         }
         .ellipsis-review {
             position: relative;
@@ -735,10 +759,9 @@ body {
                 top: 0;
                 left: 0;
                 width: 300px;
-                height: 350px;
+                height: 400px;
                 background-color: white;
-                z-index: 3;
-                border-radius: 5px;
+                border-radius: 10px;
             }
         }
         .ellips {
@@ -793,6 +816,88 @@ body {
     .hidecard {
         display: none;
     }
+    .showpanel {
+        transform: scale(1.05);
+        display: flex;
+        flex-direction: column;
+        color: rgb(26, 26, 26);
+        > span {
+            padding: .5rem 0 .5rem 1.2rem;
+            color: rgb(141, 141, 141);
+        }
+        .grid-box {
+            height: 100%;
+            margin: 0 1rem 1rem 1rem;
+            display: grid;
+            border-radius: 10px;
+            border: 1px solid rgb(222, 222, 222);
+            grid-template-columns: repeat(2, 1fr);
+            :nth-child(1) {
+                border-top-left-radius: 10px;
+                &:hover {
+                    background-color: rgb(219, 219, 219);
+                }
+            }
+            :nth-child(2) {
+                border-top-right-radius: 10px;
+                &:hover {
+                    background-color: rgb(219, 219, 219);
+                }
+            }
+            :nth-child(3) {
+                border-bottom-left-radius: 10px;
+                &:hover {
+                    background-color: rgb(219, 219, 219);
+                }
+            }
+            :nth-child(4) {
+                border-bottom-right-radius: 10px;
+                &:hover {
+                    background-color: rgb(219, 219, 219);
+                }
+            }
+            > div {
+                display: flex;
+                border: 1px solid rgb(222, 222, 222);
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                span {
+                    margin-top: .2rem;
+                }
+            }
+        }
+        .review-box {
+            border: 1px solid rgb(222, 222, 222);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: .5rem;
+            margin: 0 1rem 1rem 1rem;
+            border-radius: 5px;
+            &:hover {
+                background-color: rgb(219, 219, 219);
+            }
+        }
+        .addTo-box {
+            border: 1px solid rgb(222, 222, 222);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: .5rem;
+            height: 25%;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: rgb(225, 225, 225);
+            &:hover {
+                color: rgb(75, 75, 75);
+                font-size: 15px;
+            }
+        }
+    }
+    .hidepanel {
+        display: none;
+    }
 }
 .view_more {
     display: none;
@@ -829,8 +934,6 @@ body {
             }
         }
     }
-    .cloudinary-container {
-    }
     .view_more {
         display: block;
         text-align: center;
@@ -850,5 +953,10 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 1.7rem;
+    }
+    .main_card {
+        margin-bottom: 2.5rem;
+        width: 350px;
     }
 }
