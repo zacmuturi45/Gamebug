@@ -154,12 +154,12 @@ export default function game() {
         <div className='cols-4-xl cols-3-xxl cols-7-md cols-11-sm game-container-div2'>
           <div className='game-container-div2-video'>
             <AdvancedVideo
+              className='game-container-video'
               muted
               loop
-              width="100%"
-              height="auto"
               cldVid={cld.video(vid)}
               plugins={[lazyload]}
+              controls
             />
           </div>
 
