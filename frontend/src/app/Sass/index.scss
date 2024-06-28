@@ -1144,9 +1144,80 @@ body {
 // SINGLE GAME PAGE
 // ........................................
 
+// COMPONENTS
+.main-game-users {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(53, 53, 53);
+    width: 100%;
+    .main-game-users-div1 {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.7;
+            transition: .3s ease-in-out;
+        }
+        .image-div {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            .profile-image {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .text-div {
+            margin-left: 1rem;
+            :nth-child(1) {
+                font-size: .9rem;
+                font-weight: 500;
+            }
+            :nth-child(2) {
+                color: rgb(110, 110, 110);
+                font-size: .8rem;
+            }
+        }
+    }
+
+    .main-game-users-div2 {
+        border: 1px solid rgb(110, 110, 110);
+        border-radius: 5px;
+        position: relative;
+        padding: .3rem .9rem;
+        height: fit-content;
+        align-self: center;
+        &:hover {
+            background-color: white;
+            color: black;
+            transition: all .3s ease-in-out;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        .span {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+        }
+        :nth-child(2) {
+            font-size: .8rem;
+        }
+        .followercount {
+            position: absolute;
+            top: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: .6rem;
+            color: rgb(110, 110, 110);
+        }
+    }
+}
+// COMPONENTS
+
 
 .game_main {
-    border: 1px solid red;
+    // border: 1px solid red;
     height: auto;
     width: 100%;
     display: flex;
@@ -1523,6 +1594,51 @@ body {
                     }
                 }
             }
+            .game-info {
+                display: flex;
+                gap: 10%;
+                .game-info-div1 {
+                    display: flex;
+                    flex-direction: column;
+                    > div {
+                        margin-bottom: 1rem;
+                        h4 {
+                            color: rgb(76, 76, 76);
+                            letter-spacing: .5px;
+                            font-size: .85rem;
+                            font-weight: 500;
+                            margin-bottom: .3rem;
+                        }
+                        span {
+                            font-weight: 500;
+                            font-size: 0.9rem;
+                            border-bottom: .5px solid rgb(110, 110, 110);
+                            width: fit-content;
+                            margin-right: .2rem;
+                        }
+                    }
+                }
+                .game-info-div2 {
+                    display: flex;
+                    flex-direction: column;
+                    > div {
+                        margin-bottom: 1rem;
+                        h4 {
+                            color: rgb(76, 76, 76);
+                            letter-spacing: .5px;
+                            font-size: .85rem;
+                            font-weight: 500;
+                            margin-bottom: .3rem;
+                        }
+                        span {
+                            font-weight: 500;
+                            font-size: .9rem;
+                            border-bottom: .5px solid rgb(110, 110, 110);
+                            margin-right: .2rem;
+                        }
+                    }
+                }
+            }
         }
         .game-container-div2 {
             display: flex;
@@ -1575,6 +1691,17 @@ body {
                     font-weight: 500;
                     color: rgb(62, 62, 62);
                     letter-spacing: .5px;
+                }
+            }
+            .game-users {
+                width: 100%;
+                .game-users-title {
+                    color: rgb(110, 110, 110);
+                    font-weight: 500;
+                    letter-spacing: 1px;
+                }
+                > * {
+                    padding: .8rem 0;
                 }
             }
         }
@@ -1637,63 +1764,63 @@ body {
                     }
                 }
 
-                .game-container-div1-ratings-div {
-                    flex-direction: column;
+                // .game-container-div1-ratings-div {
+                //     flex-direction: column;
 
-                    .ratings-div1 {
-                        transform: scale(.8);
-                        width: 100%;
-                        border: none;
-                        display: flex;
-                        align-items: center;
-                        flex-direction: column;
-                        padding: 0;
+                //     .ratings-div1 {
+                //         transform: scale(.8);
+                //         width: 100%;
+                //         border: none;
+                //         display: flex;
+                //         align-items: center;
+                //         flex-direction: column;
+                //         padding: 0;
 
-                        h2 {
-                            font-size: 1.5rem;
-                        }
-                    }
+                //         h2 {
+                //             font-size: 1.5rem;
+                //         }
+                //     }
 
-                    .ratings-div-container {
-                        > div {
-                            margin: 0;
-                        }
+                //     .ratings-div-container {
+                //         > div {
+                //             margin: 0;
+                //         }
 
-                        .ratings-div2 {
-                            transform: scale(.8);
-                            width: fit-content;
-                            border: none;
-                            display: flex;
-                            align-items: center;
-                            padding: 0;
+                //         .ratings-div2 {
+                //             transform: scale(.8);
+                //             width: fit-content;
+                //             border: none;
+                //             display: flex;
+                //             align-items: center;
+                //             padding: 0;
 
-                            h2 {
-                                font-size: 1rem;
-                            }
+                //             h2 {
+                //                 font-size: 1rem;
+                //             }
 
-                            p {
-                                margin: 0 .5rem;
-                            }
-                        }
+                //             p {
+                //                 margin: 0 .5rem;
+                //             }
+                //         }
 
-                        .ratings-div3 {
-                            transform: scale(.8);
-                            width: fit-content;
-                            border: none;
-                            display: flex;
-                            align-items: center;
-                            padding: 0;
+                //         .ratings-div3 {
+                //             transform: scale(.8);
+                //             width: fit-content;
+                //             border: none;
+                //             display: flex;
+                //             align-items: center;
+                //             padding: 0;
 
-                            h2 {
-                                font-size: 1rem;
-                            }
+                //             h2 {
+                //                 font-size: 1rem;
+                //             }
 
-                            p {
-                                margin: 0 .5rem;
-                            }
-                        }
-                    }
-                }
+                //             p {
+                //                 margin: 0 .5rem;
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
     }
@@ -2029,6 +2156,29 @@ body {
                         font-size: .8rem;
                         span {
                             font-size: .5rem;
+                        }
+                    }
+                }
+                .game-info {
+                    width: 295px;
+                    .game-info-div1 {
+                        > div {
+                            h4 {
+                                font-size: .7rem;
+                            }
+                            span {
+                                font-size: .7rem;
+                            }
+                        }
+                    }
+                    .game-info-div2 {
+                        > div {
+                            h4 {
+                                font-size: .7rem;
+                            }
+                            span {
+                                font-size: .7rem;
+                            }
                         }
                     }
                 }

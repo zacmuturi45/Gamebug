@@ -1,10 +1,11 @@
 "use client"
 
 import React, { useState } from 'react'
-import { windowsWhite, psWhite, xboxWhite, bomb, giftBox, thumbsUp } from '../../../../public/images'
+import { windowsWhite, psWhite, xboxWhite, bomb, giftBox, thumbsUp, isaac, grateful } from '../../../../public/images'
 import Image from 'next/image'
 import { cld } from '../../../../public/images'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
+import GameUsers from '@/app/components/gameUsers'
 
 export default function game() {
 
@@ -14,6 +15,14 @@ export default function game() {
   const vid = "my-videos/new.mp4"
 
   const about = "Sired in an act of vampire insurrection, your existence ignites the war for Seattle&apos;s blood trade. Enter uneasy alliances with the creatures who control the city and uncover the sprawling conspiracy which plunged Seattle into a bloody civil war between powerful vampire factions. ♞Become the Ultimate Vampire. Immerse yourself in the World of Darkness and live out your vampire fantasy in a city filled with intriguing characters that react to your choices.You and your unique disciplines are a weapon in our forward - driving, fast - moving, melee - focussed combat system.Your power will grow as you advance, but remember to uphold the Masquerade and guard your humanity... or face the consequences. ♝Descend into Seattle&apos;s Dark Heart and Survive the Vampire Elite. Seattle has always been run by vampires.Hunt your prey across Seattle locations faithfully reimagined in the World of Darkness.Meet the old blood founders present since the city&apos;s birth and the new blood steering the tech money redefining the city.Everyone has hidden agendas - so choose your allies wisely. ♚Enter into Uneasy Alliances. Choose a side among competing factions, each with their own unique traits and stories, in the war for Seattle&apos;s blood trade.The world will judge you by the company you keep, but remember no one&apos;s hands stay clean forever. ♛Experience the Story. Written by the creative mind behind the original Bloodlines, Vampire: The Masquerade® - Bloodlines™ 2 brings the ambitions of the first game to life and sees the return of a few fan favorite characters."
+
+  const gameUserData = [
+    {name: "iBarin", image: isaac, edits: 16, followerCount: 147 },
+    {name: "Rakesh", image: grateful, edits: 16, followerCount: 147 },
+    {name: "Dmello", image: isaac, edits: 16, followerCount: 147 },
+    {name: "Deadmau5", image: grateful, edits: 16, followerCount: 147 },
+    {name: "Sergei", image: isaac, edits: 16, followerCount: 147 }
+  ]
 
   const handleReadMore = () => {
     if (!buttonText) {
@@ -122,6 +131,22 @@ export default function game() {
             </div>
           </div>
 
+          <div className="game-info">
+
+            <div className='game-info-div1'>
+              <div><h4>Platforms</h4><span>Playstation,</span><span>Xbox,</span><span>Windows</span></div>
+              <div><h4>Release date</h4><span>TBA</span></div>
+              <div><h4>Publisher</h4><span>Paradox Interactive</span></div>
+            </div>
+
+            <div className='game-info-div2'>
+              <div><h4>Genre</h4><span>Action,</span><span>RPG</span></div>
+              <div><h4>Developer</h4><span>Hardsuit Labs</span></div>
+              <div><h4>Age Rating</h4><span>Not rated</span></div>
+            </div>
+
+          </div>
+
         </div>
 
         {/* Game Div2 */}
@@ -152,6 +177,15 @@ export default function game() {
           <div className='game-container-div2-buyGame'>
             <Image src={xboxWhite} width={30} height={30} alt='plus-sign' className='buysvg' />
             <p>Purchase Game</p>
+          </div>
+
+          <div className="game-users">
+            <div className="game-users-title">Top users</div>
+            {
+              gameUserData.map((data, index) => {
+                return <GameUsers image={data.image} name={data.name} edits={data.edits} followerCount={data.followerCount} />
+              })
+            }
           </div>
 
         </div>
