@@ -60,7 +60,7 @@ export default function SideNavBar({ main }) {
             ))
           }
           <div className='sidenavbox mt-1' onClick={() => handlePlatforms()}>
-            <Image src={arrowDown} alt="svg-image" width={35} height={35} className={visible ? "visible" : "invisible"} />
+            <Image src={arrowDown} alt="svg-image" width={30} height={30} className={visible ? "visible" : "invisible"} />
             <p style={{ color: "lightgray" }} className={visible ? "visible" : "invisible"}>Show all</p>
           </div>
 
@@ -71,7 +71,7 @@ export default function SideNavBar({ main }) {
               setVisible(true)
             }}
           >
-            <Image src={arrowDown} alt="svg-image" width={35} height={35} className={visible ? "invisible img" : "visible img"} />
+            <Image src={arrowDown} alt="svg-image" width={30} height={30} className={visible ? "invisible img" : "visible img"} />
             <p style={{ color: "lightgray" }} className={visible ? "invisible" : "visible"}>Hide</p>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function SideNavBar({ main }) {
             className='sidenavbox mt-1'
             onClick={() => handlePlatforms1()}
           >
-            <Image src={arrowDown} alt="svg-image" width={35} height={35} className={visible1 ? "visible" : "invisible"} />
+            <Image src={arrowDown} alt="svg-image" width={30} height={30} className={visible1 ? "visible" : "invisible"} />
             <p style={{ color: "lightgray" }} className={visible1 ? "visible" : "invisible"}>Show all</p>
           </div>
 
@@ -100,7 +100,7 @@ export default function SideNavBar({ main }) {
               setVisible1(true)
             }}
           >
-            <Image src={arrowDown} alt="svg-image" width={35} height={35} className={visible1 ? "invisible img" : "visible img"} />
+            <Image src={arrowDown} alt="svg-image" width={30} height={30} className={visible1 ? "invisible img" : "visible img"} />
             <p style={{ color: "lightgray" }} className={visible1 ? "invisible" : "visible"}>Hide</p>
           </div>
         </div>

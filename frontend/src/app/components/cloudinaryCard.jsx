@@ -7,6 +7,8 @@ import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, ps
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
+import Link from 'next/link'
+import { cld } from '../../../public/images'
 
 export default function Card({ image, index }) {
 
@@ -16,7 +18,6 @@ export default function Card({ image, index }) {
     const panelRef = useRef(null);
     const [showGiftBox, setShowGiftBox] = useState(false);
 
-    const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } })
     const vid = "my-videos/new.mp4"
     const img = "my-videos/boat_tyrkf7"
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
@@ -82,25 +83,25 @@ export default function Card({ image, index }) {
                         {
                             gamePlatforms.map((item, index) => {
                                 return (<div key={index}>
-                                    <Image src={item} width={20} height={20} alt='svg-image' className='gamePlatform-image' />
+                                    <Image src={item} width={17} height={17} alt='svg-image' className='gamePlatform-image' />
                                 </div>)
                             })
                         }
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><span>Vampire: The Masquerade - Bloodlines 2</span> <Image src={thumbsUp} width={35} height={35} alt='review-svg' className='review-svg'/>
+                        <h2><Link href="/games"><span>Vampire: The Masquerade - Bloodlines 2</span></Link> <Image src={thumbsUp} width={35} height={35} alt='review-svg' className='review-svg'/>
                         </h2>
                     </div>
 
                     <div className="cloudinarydiv3">
                         <div className='plusWhite'>
-                            <Image src={plusWhite} alt='plus-sign' width={20} height={20} />
+                            <Image src={plusWhite} alt='plus-sign' width={17} height={17} />
                             <strong style={{ marginLeft: 10 }}>847</strong>
                         </div>
 
                         <div className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}>
-                            <Image src={giftBox} alt='gift-box' width={30} height={20} />
+                            <Image src={giftBox} alt='gift-box' width={25} height={15} />
                         </div>
 
                         <div className={showGiftBox ? "showcard ellipsis-review" : "hidecard mobileview"} onClick={(e) => showReviewPanel(e)} ref={panelRef}>

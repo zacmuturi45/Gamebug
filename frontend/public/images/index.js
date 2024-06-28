@@ -7,6 +7,7 @@ import ios from './ios.svg';
 import ps from './ps.svg';
 import nintendo from './nintendo.svg';
 import xbox from './xbox.svg';
+import { Cloudinary } from '@cloudinary/url-gen';
 import windows from './windows.svg';
 export { default as arrowDown } from './arrow-down.svg';
 export { default as arrowdown } from './arrowDown.svg';
@@ -34,6 +35,7 @@ import strategy from './strategy.png';
 import adventure from './adventure.png';
 import puzzle from './puzzle.png';
 
+export const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } });
 
 export const newReleases = [
   { image: star, text: "Last 30 days" },
@@ -139,4 +141,18 @@ export const cardArray = [
   "my-videos/lastepoch_bepih3",
   "my-videos/switch_muf00v",
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

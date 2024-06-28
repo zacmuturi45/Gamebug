@@ -1,11 +1,12 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faEllipsis, faRemove, faNavicon, faSpaceShuttle, faSignIn, faPencilSquare } from '@fortawesome/free-solid-svg-icons'
 import MenuBar from './menuBar'
 import UseScroll from './navScroll'
 import gsap from 'gsap'
+import Link from 'next/link'
 
 export default function Navbar() {
     const [isTyping, setIsTyping] = useState(false);
@@ -14,7 +15,16 @@ export default function Navbar() {
     const [formInput, setFormInput] = useState("");
     const scrollDirection = UseScroll();
     const [visible, setVisible] = useState(false);
+    const inputRef = useRef(null);
 
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeydown)
+
+        return () => {
+            document.removeEventListener('keydown', handleKeydown)
+        }
+    }, [])
 
     useEffect(() => {
         if (scrollDirection === 'down') {
@@ -38,11 +48,24 @@ export default function Navbar() {
                 visibility: "hidden"
             })
         }
-    })
+    }, [])
 
     const handleTyping = () => {
         setIsTyping(true)
     }
+
+    const focusSearchBar = () => {
+        if(inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
+
+    const handleKeydown = (event) => {
+        if(event.ctrlKey && event.key === 'Enter') {
+            event.preventDefault();
+            focusSearchBar();
+        } 
+    };
 
 
     const mouseEnter = (e) => {
@@ -101,7 +124,7 @@ export default function Navbar() {
 
     return (
         <main className={visible ? 'main__navbar dsp-f ai-c justify-space-between' : 'main__navbar nav-hidden dsp-f ai-c justify-space-between'}>
-            <h1>GameBug</h1>
+            <Link href="/"><h1>GameBug</h1></Link>
             <form>
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' />
@@ -116,6 +139,7 @@ export default function Navbar() {
                         id='search'
                         value={formInput}
                         placeholder='Search Games'
+                        ref={inputRef}
                     />
                 </div>
             </form>

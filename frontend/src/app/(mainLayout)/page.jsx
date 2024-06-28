@@ -103,7 +103,7 @@ export default function Home() {
     }, [sortVisible, platformVisible]);
 
     return (
-        <main className="col-10-lg main-pagejsx">
+        <main className="col-10-lg cols-12-sm main-pagejsx">
             <div className="main-pagejsx-h1">
                 <h1>{header}</h1>
                 <p className="mt-2">Based on player reviews and most played</p>
