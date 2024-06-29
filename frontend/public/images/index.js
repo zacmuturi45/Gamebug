@@ -72,7 +72,7 @@ export const genres = [
 export const cardArray = [
   "my-videos/boat_tyrkf7",
   "my-videos/kill_qhzkbt",
-  "my-videos/switch_muf00v", 
+  "my-videos/switch_muf00v",
   "my-videos/tekken8_fwdock",
   "my-videos/tekken_t2s1md",
   "my-videos/lastepoch_bepih3",
@@ -84,7 +84,7 @@ export const cardArray = [
   "my-videos/switch_muf00v",
   "my-videos/boat_tyrkf7",
   "my-videos/kill_qhzkbt",
-  "my-videos/switch_muf00v", 
+  "my-videos/switch_muf00v",
   "my-videos/tekken8_fwdock",
   "my-videos/tekken_t2s1md",
   "my-videos/lastepoch_bepih3",
@@ -96,7 +96,7 @@ export const cardArray = [
   "my-videos/switch_muf00v",
   "my-videos/boat_tyrkf7",
   "my-videos/kill_qhzkbt",
-  "my-videos/switch_muf00v", 
+  "my-videos/switch_muf00v",
   "my-videos/tekken8_fwdock",
   "my-videos/tekken_t2s1md",
   "my-videos/lastepoch_bepih3",
@@ -108,7 +108,7 @@ export const cardArray = [
   "my-videos/switch_muf00v",
   "my-videos/boat_tyrkf7",
   "my-videos/kill_qhzkbt",
-  "my-videos/switch_muf00v", 
+  "my-videos/switch_muf00v",
   "my-videos/tekken8_fwdock",
   "my-videos/tekken_t2s1md",
   "my-videos/lastepoch_bepih3",
@@ -120,7 +120,7 @@ export const cardArray = [
   "my-videos/switch_muf00v",
   "my-videos/boat_tyrkf7",
   "my-videos/kill_qhzkbt",
-  "my-videos/switch_muf00v", 
+  "my-videos/switch_muf00v",
   "my-videos/tekken8_fwdock",
   "my-videos/tekken_t2s1md",
   "my-videos/lastepoch_bepih3",
@@ -132,7 +132,7 @@ export const cardArray = [
   "my-videos/switch_muf00v",
   "my-videos/boat_tyrkf7",
   "my-videos/kill_qhzkbt",
-  "my-videos/switch_muf00v", 
+  "my-videos/switch_muf00v",
   "my-videos/tekken8_fwdock",
   "my-videos/tekken_t2s1md",
   "my-videos/lastepoch_bepih3",
@@ -143,13 +143,6 @@ export const cardArray = [
   "my-videos/lastepoch_bepih3",
   "my-videos/switch_muf00v",
 ]
-
-
-
-
-
-
-
 
 
 

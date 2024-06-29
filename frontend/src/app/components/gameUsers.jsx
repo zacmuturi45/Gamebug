@@ -2,9 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 import { plusWhite } from '../../../public/images'
 
-export default function GameUsers({ image, name, edits, followerCount }) {
+export default function GameUsers({ image, name, edits, followerCount, index }) {
     return (
-        <main className='main-game-users'>
+        <main key={index} className='main-game-users'>
             <div className='main-game-users-div1'>
                 <div className="image-div">
                     <Image src={image} alt='profile-image' className='profile-image' />

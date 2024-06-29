@@ -14,7 +14,7 @@ body {
     height: auto;
     position: relative;
     color: white;
-    padding-top: 125px;
+    padding-top: 100px;
 
     main-h1-font {
         h1 {
@@ -34,6 +34,14 @@ body {
         opacity: 0.7;
         transform: scale(0.99);
     }
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
 }
 
 // ........................................
@@ -1145,6 +1153,24 @@ body {
 // ........................................
 
 // COMPONENTS
+
+.utility-button {
+    align-self: center;
+    background-color: rgb(40, 40, 40);
+    color: rgb(110, 110, 110);
+    width: fit-content;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 1px;
+    &:hover {
+        opacity: 0.9;
+        transform: scale(0.99);
+    }
+}
+
 .main-game-users {
     display: flex;
     justify-content: space-between;
@@ -1213,6 +1239,114 @@ body {
         }
     }
 }
+
+.reviewbox-main {
+    // border: 1px solid red;
+    background-color: hsl(10, 3%, 10%);
+    margin-bottom: 1rem;
+    border-radius: 3px;
+    backdrop-filter: blur(20px);
+    padding-top: .5rem;
+    .reviewbox-div1 {
+        display: flex;
+        align-items: center;
+        margin: .2rem  0 .5rem .5rem;
+        span {
+            margin-left: .3rem;
+        }
+        h2 {
+            border-bottom: 1px solid rgb(77, 77, 77);
+            width: fit-content;
+            font-size: 1.5rem;
+        }
+    }
+    .reviewbox-review {
+        margin: .2rem  0 1.7rem .5rem;
+        p {
+            font-size: .9rem;
+            letter-spacing: .5px;
+            color: rgb(177, 177, 177);
+        }
+    }
+    .reviewbox-div2 {
+        margin: .2rem  0 1rem .5rem;
+        display: flex;
+        justify-content: space-between;
+        .reviewbox-div2-div1 {
+            display: flex;
+            align-items: center;
+            .reviewboxsvg {
+                border-radius: 50%;
+            }
+            .bio {
+                display: flex;
+                flex-direction: column;
+                :nth-child(1) {
+                    font-size: .9rem;
+                    letter-spacing: .5px;
+                }
+                :nth-child(2) {
+                    font-size: .8rem;
+                    color: rgb(110, 110, 110);
+                }
+            }
+            &:hover {
+                opacity: 0.8;
+                transition: all .2s ease-in-out;
+                cursor: pointer;
+            }
+        }
+        .reviewbox-div2-div2 {
+            margin-right: .5rem;
+            display: flex;
+            .like {
+                :nth-child(2) {
+                    font-size: .8rem;
+                    color: green;
+                    margin: 0 .5rem 0 .2rem;
+                }
+            }
+            .dislike {
+                :nth-child(2) {
+                    font-size: .8rem;
+                    color: red;
+                    margin: 0 .5rem 0 .2rem;
+                }
+            }
+        }
+    }
+    .reviewbox-div3 {
+        border-top: 1px solid rgb(52, 52, 52);
+        padding: 1rem 0;
+        position: relative;
+        form {
+            position: relative;
+            .blueball {
+                position: absolute;
+                height: 25px;
+                width: 25px;
+                border-radius: 50%;
+                background-color: rgb(56, 86, 122);
+                top: 50%;
+                left: 2.5%;
+                transform: translateY(-50%);
+            }
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            input {
+                width: 90%;
+                background-color: rgb(46, 46, 46);
+                outline: none;
+                border: none;
+                border-radius: 2px;
+                padding: .5rem 0 .5rem 2.2rem;
+                letter-spacing: .5px;
+                color: rgb(158, 158, 158);
+            }
+        }
+    }
+}
 // COMPONENTS
 
 
@@ -1222,28 +1356,28 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     .game_container {
-        border: 1px solid blue;
+        // border: 1px solid blue;
         display: flex;
         justify-content: center;
         height: auto;
-        padding: 2rem 0;
-
         > div {
-            border: 2px solid yellow;
+            // border: 2px solid yellow;
             height: auto;
         }
 
         .game-container-div1 {
-            border: 2px solid yellow;
+            // border: 2px solid yellow;
 
             > div {
-                margin: 2rem 0;
-                border: 1px solid red;
+                margin: 1.65rem 0;
+                // border: 1px solid red;
             }
 
             .game-container-div1-gray-title {
+                margin: 0 0 2rem 0;
                 h4 {
                     font-size: 10px;
                     opacity: 0.7;
@@ -1552,24 +1686,6 @@ body {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
-                div {
-                    transform: scale(0.8);
-                    align-self: center;
-                    background-color: rgb(40, 40, 40);
-                    color: rgb(110, 110, 110);
-                    width: fit-content;
-                    padding: 1rem 3rem;
-                    border-radius: 5px;
-                    font-size: 1.2rem;
-                    font-weight: 500;
-                    letter-spacing: 1px;
-
-                    &:hover {
-                        transform: scale(0.95);
-                        cursor: pointer;
-                    }
-                }
             }
             .about-div {
                 max-width: 700px;
@@ -1658,7 +1774,7 @@ body {
                 }
             }
             .game-container-div2-images {
-                border: 1px solid yellow;
+                // border: 1px solid yellow;
                 width: 100%;
                 height: auto;
                 display: grid;
@@ -1710,11 +1826,113 @@ body {
         }
     }
 
+    .similar-games {
+        // border: 2px solid yellow;
+        margin: 2rem 0;
+        padding: .5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h1 {
+            text-align: center;
+            border-bottom: .5px solid rgb(110, 110, 110);
+            width: fit-content;
+        }
+        .similar-games-cards {
+            > * {
+                margin-bottom: 2rem;
+                transform: scale(0.99);
+                &:hover {
+                    transform: scale(1.05, 1.02);
+                    transition: all .2s ease-in-out;
+                }
+            }
+        }
+    }
+
     .reviews-div {
-        border: 2px solid yellow;
-        align-self: center;
+        // border: 2px solid yellow;
         height: auto;
         margin: 2rem 0;
+        .review-title {
+            padding: .5rem 0;
+            h2 {
+                position: relative;
+                letter-spacing: .5px;
+                font-size: 1.5rem;
+                border-bottom: 1px solid white;
+                width: fit-content;
+                span {
+                    position: absolute;
+                    font-size: .65rem;
+                    top: -3px;
+                }
+            }
+        }
+        .review-options {
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            .clickoptions {
+                display: flex;
+                cursor: pointer;
+                align-items: center;
+                &:hover {
+                    opacity: 0.8;
+                    transform: scale(0.99);
+                    transition: all .2s ease-in-out;
+                }
+                span {
+                    margin: .3rem .2rem;
+                    color: rgb(160, 160, 160);
+                    font-size: .95rem;
+                }
+                .review-arrow-down {
+                    transform: rotate(0);
+                    transition: all .2s ease-in-out;
+                }
+                .review-arrow-up {
+                    transform: rotate(180deg);
+                    transition: all .2s ease-in-out;
+                }
+            }
+            .showoptions {
+                display: flex;
+                flex-direction: column;
+            }
+            .hideoptions {
+                display: none;
+            }
+            .review-options-options {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                z-index: 999;
+                top: 25px;
+                font-size: .9rem;
+                right: 0;
+                padding: .3rem .5rem;
+                color: rgb(159, 159, 159);
+                border-radius: 3px;
+                background-color: rgb(65, 65, 65);
+                span {
+                    margin: 2px 0;
+                    border-radius: 3px;
+                    padding: 2px;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: rgb(49, 49, 49);
+                        transition: all .05s ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+    #similar-games-add {
+        // border: 2px solid red;
+        width: fit-content;
+        height: fit-content;
+        padding: 0;
     }
 }
 
@@ -1766,64 +1984,6 @@ body {
                         margin-left: 1rem;
                     }
                 }
-
-                // .game-container-div1-ratings-div {
-                //     flex-direction: column;
-
-                //     .ratings-div1 {
-                //         transform: scale(.8);
-                //         width: 100%;
-                //         border: none;
-                //         display: flex;
-                //         align-items: center;
-                //         flex-direction: column;
-                //         padding: 0;
-
-                //         h2 {
-                //             font-size: 1.5rem;
-                //         }
-                //     }
-
-                //     .ratings-div-container {
-                //         > div {
-                //             margin: 0;
-                //         }
-
-                //         .ratings-div2 {
-                //             transform: scale(.8);
-                //             width: fit-content;
-                //             border: none;
-                //             display: flex;
-                //             align-items: center;
-                //             padding: 0;
-
-                //             h2 {
-                //                 font-size: 1rem;
-                //             }
-
-                //             p {
-                //                 margin: 0 .5rem;
-                //             }
-                //         }
-
-                //         .ratings-div3 {
-                //             transform: scale(.8);
-                //             width: fit-content;
-                //             border: none;
-                //             display: flex;
-                //             align-items: center;
-                //             padding: 0;
-
-                //             h2 {
-                //                 font-size: 1rem;
-                //             }
-
-                //             p {
-                //                 margin: 0 .5rem;
-                //             }
-                //         }
-                //     }
-                // }
             }
         }
     }

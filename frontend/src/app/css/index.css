@@ -108,15 +108,20 @@ img {
     flex-grow: 0;
     width: 30.7692307692%;
   }
-  .cols-6-xl {
+  .cols-5-xl {
     box-sizing: border-box;
     flex-grow: 0;
-    width: 46.1538461538%;
+    width: 38.4615384615%;
   }
   .cols-7-xl {
     box-sizing: border-box;
     flex-grow: 0;
     width: 53.8461538462%;
+  }
+  .cols-8-xl {
+    box-sizing: border-box;
+    flex-grow: 0;
+    width: 61.5384615385%;
   }
 }
 @media (min-width: 1500px) {
@@ -144,6 +149,10 @@ img {
   background-color: white;
 }
 
+.card {
+  box-shadow: 2px 1px 10px rgb(0, 0, 1);
+}
+
 .navbar .container, .navbar {
   width: 100%;
   display: flex;
@@ -167,6 +176,10 @@ img {
 
 .mt-3 {
   margin-top: 2rem;
+}
+
+.mt-4 {
+  margin-top: 3rem;
 }
 
 .m-l-1 {
@@ -227,7 +240,7 @@ body {
   height: auto;
   position: relative;
   color: white;
-  padding-top: 125px;
+  padding-top: 100px;
 }
 
 .links {
@@ -1096,6 +1109,23 @@ body {
     left: -100px;
   }
 }
+.utility-button {
+  align-self: center;
+  background-color: rgb(40, 40, 40);
+  color: rgb(110, 110, 110);
+  width: fit-content;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+.utility-button:hover {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
 .main-game-users {
   display: flex;
   justify-content: space-between;
@@ -1164,29 +1194,129 @@ body {
   color: rgb(110, 110, 110);
 }
 
+.reviewbox-main {
+  background-color: hsl(10, 3%, 10%);
+  margin-bottom: 1rem;
+  border-radius: 3px;
+  backdrop-filter: blur(20px);
+  padding-top: 0.5rem;
+}
+.reviewbox-main .reviewbox-div1 {
+  display: flex;
+  align-items: center;
+  margin: 0.2rem 0 0.5rem 0.5rem;
+}
+.reviewbox-main .reviewbox-div1 span {
+  margin-left: 0.3rem;
+}
+.reviewbox-main .reviewbox-div1 h2 {
+  border-bottom: 1px solid rgb(77, 77, 77);
+  width: fit-content;
+  font-size: 1.5rem;
+}
+.reviewbox-main .reviewbox-review {
+  margin: 0.2rem 0 1.7rem 0.5rem;
+}
+.reviewbox-main .reviewbox-review p {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: rgb(177, 177, 177);
+}
+.reviewbox-main .reviewbox-div2 {
+  margin: 0.2rem 0 1rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 {
+  display: flex;
+  align-items: center;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 .reviewboxsvg {
+  border-radius: 50%;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 .bio {
+  display: flex;
+  flex-direction: column;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 .bio :nth-child(1) {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 .bio :nth-child(2) {
+  font-size: 0.8rem;
+  color: rgb(110, 110, 110);
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div1:hover {
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 {
+  margin-right: 0.5rem;
+  display: flex;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 .like :nth-child(2) {
+  font-size: 0.8rem;
+  color: green;
+  margin: 0 0.5rem 0 0.2rem;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 .dislike :nth-child(2) {
+  font-size: 0.8rem;
+  color: red;
+  margin: 0 0.5rem 0 0.2rem;
+}
+.reviewbox-main .reviewbox-div3 {
+  border-top: 1px solid rgb(52, 52, 52);
+  padding: 1rem 0;
+  position: relative;
+}
+.reviewbox-main .reviewbox-div3 form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.reviewbox-main .reviewbox-div3 form .blueball {
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: rgb(56, 86, 122);
+  top: 50%;
+  left: 2.5%;
+  transform: translateY(-50%);
+}
+.reviewbox-main .reviewbox-div3 form input {
+  width: 90%;
+  background-color: rgb(46, 46, 46);
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  padding: 0.5rem 0 0.5rem 2.2rem;
+  letter-spacing: 0.5px;
+  color: rgb(158, 158, 158);
+}
+
 .game_main {
   height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .game_main .game_container {
-  border: 1px solid blue;
   display: flex;
   justify-content: center;
   height: auto;
-  padding: 2rem 0;
 }
 .game_main .game_container > div {
-  border: 2px solid yellow;
   height: auto;
 }
-.game_main .game_container .game-container-div1 {
-  border: 2px solid yellow;
-}
 .game_main .game_container .game-container-div1 > div {
-  margin: 2rem 0;
-  border: 1px solid red;
+  margin: 1.65rem 0;
+}
+.game_main .game_container .game-container-div1 .game-container-div1-gray-title {
+  margin: 0 0 2rem 0;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-gray-title h4 {
   font-size: 10px;
@@ -1446,22 +1576,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-.game_main .game_container .game-container-div1 .write-review div {
-  transform: scale(0.8);
-  align-self: center;
-  background-color: rgb(40, 40, 40);
-  color: rgb(110, 110, 110);
-  width: fit-content;
-  padding: 1rem 3rem;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
-.game_main .game_container .game-container-div1 .write-review div:hover {
-  transform: scale(0.95);
-  cursor: pointer;
-}
 .game_main .game_container .game-container-div1 .about-div {
   max-width: 700px;
   height: auto;
@@ -1549,7 +1663,6 @@ body {
   width: auto;
 }
 .game_main .game_container .game-container-div2 .game-container-div2-images {
-  border: 1px solid yellow;
   width: 100%;
   height: auto;
   display: grid;
@@ -1598,11 +1711,102 @@ body {
 .game_main .game_container .game-container-div2 .game-users > * {
   padding: 0.8rem 0;
 }
+.game_main .similar-games {
+  margin: 2rem 0;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.game_main .similar-games h1 {
+  text-align: center;
+  border-bottom: 0.5px solid rgb(110, 110, 110);
+  width: fit-content;
+}
+.game_main .similar-games .similar-games-cards > * {
+  margin-bottom: 2rem;
+  transform: scale(0.99);
+}
+.game_main .similar-games .similar-games-cards > *:hover {
+  transform: scale(1.05, 1.02);
+  transition: all 0.2s ease-in-out;
+}
 .game_main .reviews-div {
-  border: 2px solid yellow;
-  align-self: center;
   height: auto;
   margin: 2rem 0;
+}
+.game_main .reviews-div .review-title {
+  padding: 0.5rem 0;
+}
+.game_main .reviews-div .review-title h2 {
+  position: relative;
+  letter-spacing: 0.5px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid white;
+  width: fit-content;
+}
+.game_main .reviews-div .review-title h2 span {
+  position: absolute;
+  font-size: 0.65rem;
+  top: -3px;
+}
+.game_main .reviews-div .review-options {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+.game_main .reviews-div .review-options .clickoptions {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+}
+.game_main .reviews-div .review-options .clickoptions:hover {
+  opacity: 0.8;
+  transform: scale(0.99);
+  transition: all 0.2s ease-in-out;
+}
+.game_main .reviews-div .review-options .clickoptions span {
+  margin: 0.3rem 0.2rem;
+  color: rgb(160, 160, 160);
+  font-size: 0.95rem;
+}
+.game_main .reviews-div .review-options .clickoptions .review-arrow-down {
+  transform: rotate(0);
+  transition: all 0.2s ease-in-out;
+}
+.game_main .reviews-div .review-options .clickoptions .review-arrow-up {
+  transform: rotate(180deg);
+  transition: all 0.2s ease-in-out;
+}
+.game_main .reviews-div .review-options .showoptions {
+  display: flex;
+  flex-direction: column;
+}
+.game_main .reviews-div .review-options .hideoptions {
+  display: none;
+}
+.game_main .reviews-div .review-options .review-options-options {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  top: 25px;
+  font-size: 0.9rem;
+  right: 0;
+  padding: 0.3rem 0.5rem;
+  color: rgb(159, 159, 159);
+  border-radius: 3px;
+  background-color: rgb(65, 65, 65);
+}
+.game_main .reviews-div .review-options .review-options-options span {
+  margin: 2px 0;
+  border-radius: 3px;
+  padding: 2px;
+  cursor: pointer;
+}
+.game_main .reviews-div .review-options .review-options-options span:hover {
+  background-color: rgb(49, 49, 49);
+  transition: all 0.05s ease-in-out;
 }
 
 @media screen and (min-width: 2000px) {
