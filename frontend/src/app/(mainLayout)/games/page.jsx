@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { windowsWhite, psWhite, xboxWhite, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown } from '../../../../public/images'
+import { windowsWhite, psWhite, xboxWhite, greenplus, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart } from '../../../../public/images'
 import Image from 'next/image'
 import { cld } from '../../../../public/images'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
@@ -28,11 +28,11 @@ export default function game() {
     { svg: tick, review: "Meh is weh ei ken see", ratingsvg: thumbsUp, profilePic: grateful, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lucy Bierschoff" },
     { svg: tick, review: "Fuck mother Russia", ratingsvg: pumpkincry, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Skip", name: "Alberto Moreira" }
   ]
-  
+
 
   useEffect(() => {
     const handleClick = (event) => {
-      if(clickRef.current && !clickRef.current.contains(event.target)) {
+      if (clickRef.current && !clickRef.current.contains(event.target)) {
         setShowOptions(false)
         return
       }
@@ -123,7 +123,7 @@ export default function game() {
                 <p>Add to</p>
                 <h4>My games<span className='m-l-1'>847</span></h4>
               </div>
-              <Image src={xboxWhite} width={40} height={40} alt='plus-sign' className='addTo-svg' id='addtosvg' />
+              <Image src={greenplus} width={35} height={35} alt='plus-sign' className='addTo-svg' id='addtosvg' />
             </div>
 
             <div className='addTo2'>
@@ -131,7 +131,7 @@ export default function game() {
                 <p>Add to</p>
                 <h4>Wishlist</h4>
               </div>
-              <Image src={giftBox} width={40} height={40} alt='plus-sign' className='addTo-svg' id='addtosvg2' />
+              <Image src={giftBox} width={35} height={35} alt='plus-sign' className='addTo-svg' id='addtosvg2' />
             </div>
 
             <div className='addTo3'>
@@ -139,7 +139,7 @@ export default function game() {
                 <p>Save to</p>
                 <h4>Collection</h4>
               </div>
-              <Image src={giftBox} width={40} height={40} alt='plus-sign' className='addTo-svg' id='addtosvg3' />
+              <Image src={giftBox} width={35} height={35} alt='plus-sign' className='addTo-svg' id='addtosvg3' />
             </div>
           </div>
 
@@ -166,17 +166,28 @@ export default function game() {
           <div className='ratings-bar'>
             <p>Click to rate</p>
             <div className='ratings-bar-bar'>
-              <div className='bar1'><Image src={bomb} width={45} height={45} alt='rating-svg' className='rating-bar-svg' /></div>
-              <div className='bar2'><Image src={thumbsUp} width={50} height={50} alt='rating-svg' className='rating-bar-svg' /></div>
-              <div className='bar3'></div>
-              <div className='bar4'></div>
+
+              <div className='bar1'>
+                <Image src={bomb} width={45} height={45} alt='rating-svg' className='rating-bar-svg' />
+                <div className='bar1-child'><div style={{ backgroundColor: "green" }}></div><p>Exceptional<strong>115</strong></p></div>
+              </div>
+
+              <div className='bar2'>
+                <Image src={thumbsUp} width={50} height={50} alt='rating-svg' className='rating-bar-svg' />
+                <div className='bar2-child'><div style={{ backgroundColor: "blue" }}></div><p>Recommended<strong>75</strong></p></div>
+                </div>
+
+              <div className='bar3'>
+              <div className='dsp-f justify-center bar3-child'><div style={{ backgroundColor: "orange" }}></div><p>Meh<strong>25</strong></p></div>
+              </div>
+
+              <div className='bar4'>
+              <div className='bar4-child'><div style={{ backgroundColor: "red" }}></div><p>Skip<strong>37</strong></p></div>
+              </div>
+
             </div>
-            <div className="ratings-bar-info">
-              <div><div style={{ backgroundColor: "green" }}></div><p>Exceptional<strong>115</strong></p></div>
-              <div><div style={{ backgroundColor: "blue" }}></div><p>Recommended<strong>75</strong></p></div>
-              <div className='dsp-f justify-center'><div style={{ backgroundColor: "orange" }}></div><p>Meh<strong>25</strong></p></div>
-              <div><div style={{ backgroundColor: "red" }}></div><p>Skip<strong>37</strong></p></div>
-            </div>
+            {/* <div className="ratings-bar-info">
+            </div> */}
           </div>
 
           <div className='write-review'>
@@ -233,7 +244,7 @@ export default function game() {
           </div>
 
           <div className='game-container-div2-buyGame'>
-            <Image src={xboxWhite} width={30} height={30} alt='plus-sign' className='buysvg' />
+            <Image src={cart} width={30} height={30} alt='plus-sign' className='buysvg' />
             <p>Purchase Game</p>
           </div>
 
@@ -266,35 +277,44 @@ export default function game() {
 
         <div className='mt-4'>
           <div>
-            <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount>=cardArray.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
+            <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount >= cardArray.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
           </div>
         </div>
 
       </div>
 
       <div className="reviews-div cols-5-xl cols-8-md cols-12-sm">
-        <div className='review-title'>
-          <h2>Reviews<span>5</span></h2>
+
+        <div className='reviews-div-container'>
+
+          <div className='reviews-div-title'>
+            <h1>Vampire: The Masquerade - Bloodlines 2 Reviews</h1>
+          </div>
+
+          <div className='review-title'>
+            <h2>Reviews<span>5</span></h2>
+          </div>
+
+          <div className='review-options'>
+            <div className='clickoptions' onClick={() => setShowOptions(!showOptions)} ref={clickRef}>
+              <span>{reviewOptions}</span>
+              <Image src={arrowdown} width={12} height={12} alt='arrowdown' className={showOptions ? "review-arrow-up" : "review-arrow-down"} />
+            </div>
+            <div className={showOptions ? "showoptions review-options-options" : "hideoptions"}>
+              {
+                reviewViews.map((view, index) => {
+                  return <span key={index} onClick={() => setReviewOptions(view)} >{view}</span>
+                })
+              }
+            </div>
+          </div>
+          {
+            reviewArray.map((review, index) => {
+              return <ReviewBox svg={review.svg} rating={review.rating} ratingsvg={review.ratingsvg} profilePic={review.profilePic} name={review.name} index={index} review={review.review} date={review.date} likes={review.likes} dislikes={review.dislikes} />
+            })
+          }
         </div>
 
-        <div className='review-options'>
-          <div className='clickoptions' onClick={() => setShowOptions(!showOptions)} ref={clickRef}>
-            <span>{reviewOptions}</span>
-            <Image src={arrowdown} width={12} height={12} alt='arrowdown' className={showOptions ? "review-arrow-up" : "review-arrow-down"} />
-          </div>
-          <div className={showOptions ? "showoptions review-options-options" : "hideoptions"}>
-            {
-              reviewViews.map((view, index) => {
-                return <span key={index} onClick={() => setReviewOptions(view)} >{view}</span>
-              })
-            }
-          </div>
-        </div>
-        {
-          reviewArray.map((review, index) => {
-            return <ReviewBox svg={review.svg} rating={review.rating} ratingsvg={review.ratingsvg} profilePic={review.profilePic} name={review.name} index={index} review={review.review} date={review.date} likes={review.likes} dislikes={review.dislikes} />
-          })
-        }
       </div>
     </main>
   )

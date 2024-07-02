@@ -5,6 +5,7 @@ import "../css/index.css"
 import SideNavBar from "../components/sideNavBar/sidenavbar";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePathname } from "next/navigation";
 
 export default function SideNavLayout({ children }) {
 
@@ -13,6 +14,7 @@ export default function SideNavLayout({ children }) {
     const mainRef = useRef(null);
     const sidenav = sideRef.current
     const main = mainRef.current
+    const pathname = usePathname()
 
     // useEffect(() => {
     //     if (sidenav) {
@@ -24,7 +26,7 @@ export default function SideNavLayout({ children }) {
 
     return (
         <div className="sidenavlayout dsp-f" ref={mainRef}>
-            <div ref={sideRef} className="sidenavbar-media">
+            <div ref={sideRef} className={pathname === "/login" || pathname === "/signup" ? "hide sidenavbar-media" : "sidenavbar-media"}>
                 <SideNavBar main={main}/>
             </div>
             <main className="sidenavlayout-children">

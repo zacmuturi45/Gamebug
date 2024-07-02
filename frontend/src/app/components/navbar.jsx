@@ -147,7 +147,7 @@ export default function Navbar() {
                 <ul className='nav-ul'>
                     <div className='ul-divp'>
                         <div className='ul-div1' onMouseOver={(e) => mouseEnter(e)} onMouseOut={(e) => mouseLeave(e)}>
-                            <span>LOG IN</span>
+                            <Link href="/login"><span>LOG IN</span></Link>
                             <div className='ul-child-div1'></div>
                             <div className='ul-child-div1b'></div>
                         </div>
@@ -155,7 +155,7 @@ export default function Navbar() {
 
                     <div className="ul-divp">
                         <div className='ul-div2' onMouseOver={(e) => mouseEnter1(e)} onMouseOut={(e) => mouseLeave1(e)}>
-                            <span>SIGN UP</span>
+                            <Link href="/signup"><span>SIGN UP</span></Link>
                             <div className='ul-child-div2'></div>
                             <div className='ul-child-div1c'></div>
                         </div>

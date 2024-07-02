@@ -232,8 +232,44 @@ img {
 
 body {
   background: hsl(10, 3%, 8%);
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Inter", sans-serif;
   box-sizing: border-box;
+}
+
+.layouts {
+  background: url("/images/vamp.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100vh;
+  opacity: 1;
+  position: relative;
+}
+.layouts .before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120vh;
+  background: linear-gradient(to top, hsl(10, 3%, 8%), hsl(10, 3%, 8%), hsl(10, 3%, 8%), hsla(10, 3%, 8%, 0.6));
+  opacity: 1;
+}
+
+.layout {
+  background: url("/images/blood.jpg");
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  opacity: 1;
+  position: relative;
+}
+.layout .after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, hsl(10, 3%, 8%), hsl(10, 3%, 8%), hsla(10, 3%, 8%, 0.7), hsla(10, 3%, 8%, 0.6));
+  opacity: 1;
 }
 
 .wrapper {
@@ -251,6 +287,10 @@ body {
   transform: scale(0.99);
 }
 
+.hide {
+  display: none;
+}
+
 .main__navbar {
   width: 100%;
   position: fixed;
@@ -259,7 +299,7 @@ body {
   left: 0;
   padding: 15px 32px;
   backdrop-filter: blur(15px);
-  z-index: 2;
+  z-index: 2000;
   transition: all 0.3s ease-in-out;
 }
 .main__navbar h1 {
@@ -455,7 +495,7 @@ body {
     left: 55px;
   }
 }
-@media screen and (max-width: 1295px) {
+@media screen and (max-width: 1350px) {
   .main__navbar {
     display: flex;
     justify-content: space-between;
@@ -544,12 +584,12 @@ body {
 }
 .sidenavlayout .sidenavbar .sidenavbar-content h2 {
   margin-bottom: 2rem;
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 .sidenavlayout .sidenavbar .sidenavbar-children h2 {
-  font-size: 25px;
+  font-size: 23px;
   margin-bottom: 1rem;
 }
 .sidenavlayout .main-pagejsx {
@@ -720,7 +760,7 @@ body {
 }
 .sidenavlayout .sidenavbox p {
   margin-left: 0.5rem;
-  font-size: 17px;
+  font-size: 1rem;
 }
 .sidenavlayout .sidenavbox:hover {
   opacity: 0.7;
@@ -745,7 +785,7 @@ body {
 .sidenavlayout .tick-svg {
   display: none;
 }
-@media screen and (max-width: 1295px) {
+@media screen and (max-width: 1350px) {
   .sidenavlayout .sidenavbar-media {
     display: none;
   }
@@ -792,6 +832,7 @@ body {
   }
   .sidenavlayout .main-pagejsx .options-box {
     transform: scale(0.7);
+    z-index: 2000;
   }
   .sidenavlayout .cards {
     display: flex;
@@ -799,6 +840,9 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1;
+  }
+  .sidenavlayout .cards > * {
+    width: 100%;
   }
 }
 .sidenavlayout .main_card {
@@ -808,7 +852,7 @@ body {
   flex-direction: column;
   margin: 1rem 0;
   padding-bottom: 1rem;
-  max-width: 540px;
+  max-width: 500px;
   height: auto;
   background: hsl(200, 3%, 11%);
   border-radius: 15px;
@@ -986,7 +1030,9 @@ body {
 }
 .sidenavlayout .showpanel > span {
   padding: 0.5rem 0 0.5rem 1.2rem;
-  color: rgb(141, 141, 141);
+  color: rgb(56, 56, 56);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 .sidenavlayout .showpanel .grid-box {
   height: 100%;
@@ -1109,6 +1155,7 @@ body {
     left: -100px;
   }
 }
+
 .utility-button {
   align-self: center;
   background-color: rgb(40, 40, 40);
@@ -1194,6 +1241,11 @@ body {
   color: rgb(110, 110, 110);
 }
 
+@media screen and (max-width: 580px) {
+  .main-game-users {
+    width: 350px;
+  }
+}
 .reviewbox-main {
   background-color: hsl(10, 3%, 10%);
   margin-bottom: 1rem;
@@ -1312,6 +1364,9 @@ body {
 .game_main .game_container > div {
   height: auto;
 }
+.game_main .game_container .game-container-div1 {
+  padding-right: 3rem;
+}
 .game_main .game_container .game-container-div1 > div {
   margin: 1.65rem 0;
 }
@@ -1328,16 +1383,20 @@ body {
 .game_main .game_container .game-container-div1 .game-container-div1-svgs {
   display: flex;
   align-items: center;
-  margin-top: -1rem;
+  margin-bottom: 0.5rem;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-svgs > span {
   letter-spacing: 3px;
   font-weight: 500;
   font-size: 12px;
 }
+.game_main .game_container .game-container-div1 .game-container-div1-title {
+  margin-top: 0;
+}
 .game_main .game_container .game-container-div1 .game-container-div1-title h1 {
-  font-size: 65px;
+  font-size: 70px;
   line-height: 1.05;
+  font-weight: 800;
   letter-spacing: 1.2px;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo {
@@ -1348,10 +1407,10 @@ body {
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 {
   background-color: white;
   overflow: hidden;
-  max-height: 50px;
+  max-height: 40px;
   display: flex;
   margin-right: 1rem;
-  padding: 0.4rem 2.5rem 0.4rem 0.5rem;
+  padding: 0.25rem 2.5rem 0.25rem 0.5rem;
   border-radius: 8px;
   gap: 1rem;
   align-items: center;
@@ -1364,15 +1423,16 @@ body {
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 .addTo-svg {
   position: absolute;
-  right: -12px;
+  right: -5px;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 p {
   color: rgb(131, 131, 131);
+  font-size: 0.9rem;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 h4 {
   letter-spacing: 1px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgb(29, 29, 29);
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 h4 span {
@@ -1386,7 +1446,7 @@ body {
   cursor: pointer;
   display: flex;
   margin-right: 1rem;
-  padding: 0.4rem 3.5rem 0.4rem 1rem;
+  padding: 0.25rem 3rem 0.25rem 0.5rem;
   border: 1.5px solid white;
   border-radius: 8px;
   gap: 1rem;
@@ -1403,11 +1463,12 @@ body {
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo2 p {
   color: rgb(131, 131, 131);
+  font-size: 0.9rem;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo2 h4 {
   letter-spacing: 1px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: white;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo3 {
@@ -1416,7 +1477,7 @@ body {
   max-height: 60px;
   display: flex;
   margin-right: 1rem;
-  padding: 0.4rem 3.5rem 0.4rem 1rem;
+  padding: 0.25rem 3rem 0.25rem 0.5rem;
   border-radius: 5px;
   gap: 1rem;
   align-items: center;
@@ -1433,12 +1494,14 @@ body {
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo3 p {
   color: rgb(131, 131, 131);
+  font-size: 0.9rem;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo3 h4 {
   letter-spacing: 1px;
   font-weight: 500;
   font-size: 1rem;
   color: white;
+  font-size: 0.9rem;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-ratings-div {
   display: flex;
@@ -1503,6 +1566,9 @@ body {
   margin-top: 0.3rem;
   letter-spacing: 2px;
 }
+.game_main .game_container .game-container-div1 .ratings-bar {
+  margin-bottom: 4rem;
+}
 .game_main .game_container .game-container-div1 .ratings-bar p {
   color: rgb(110, 110, 110);
   margin: 0.3rem 0;
@@ -1514,40 +1580,185 @@ body {
   border-radius: 5px;
   display: flex;
   height: 45px;
+  margin-bottom: 1rem;
+  overflow: visible;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar > div {
+  cursor: pointer;
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 {
-  background-color: rgb(86, 194, 111);
+  background: linear-gradient(180deg, #84c757, #9ec13e);
+  position: relative;
   height: 100%;
   width: 30%;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  box-sizing: border-box;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1-child {
+  position: absolute;
+  border: 2px solid transparent;
+  top: 130%;
+  left: -10px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin: 0 0.5rem 0 0;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 0.1rem 0.7rem;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1-child p {
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1-child div {
+  width: 10px;
+  margin-right: 0.5rem;
+  height: 10px;
+  border-radius: 50%;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1-child strong {
+  margin-left: 0.2rem;
+  font-weight: 400;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1:hover {
+  box-shadow: 0 0 5px 3px rgba(117, 204, 139, 0.6), 0 0 5px 3px rgba(44, 175, 101, 0.5), 0 0 10px 3px rgba(30, 122, 69, 0.4);
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1:hover .bar1-child {
+  border: 2px solid rgb(58, 58, 58);
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .rating-bar-svg {
   position: absolute;
-  bottom: -5px;
-  left: -5px;
+  bottom: 0;
+  left: 0px;
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 {
-  background-color: rgb(89, 89, 169);
+  background: linear-gradient(180deg, #7364e8, #4338d6);
   height: 100%;
   width: 25%;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2-child {
+  position: absolute;
+  top: 130%;
+  left: -30px;
+  border: 2px solid transparent;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin: 0 0.5rem 0 0;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 0.1rem 0.7rem;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2-child p {
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2-child div {
+  width: 10px;
+  margin-right: 0.5rem;
+  height: 10px;
+  border-radius: 50%;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2-child strong {
+  margin-left: 0.2rem;
+  font-weight: 400;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2:hover {
+  box-shadow: 0 0 5px 3px rgba(117, 204, 139, 0.6), 0 0 5px 3px rgba(94, 157, 216, 0.5), 0 0 10px 3px rgba(30, 71, 122, 0.4);
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2:hover .bar2-child {
+  border: 2px solid rgb(58, 58, 58);
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .rating-bar-svg {
   position: absolute;
-  bottom: -10px;
-  left: -10px;
+  bottom: 0px;
+  left: 0px;
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 {
-  background-color: rgb(195, 173, 63);
+  background: linear-gradient(180deg, #e8be64, #f79626);
   height: 100%;
+  position: relative;
   width: 15%;
 }
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 .bar3-child {
+  position: absolute;
+  top: 130%;
+  left: 0;
+  border: 2px solid transparent;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin: 0 0.5rem 0 0;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 0.1rem 0.7rem;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 .bar3-child p {
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 .bar3-child div {
+  width: 10px;
+  margin-right: 0.5rem;
+  height: 10px;
+  border-radius: 50%;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 .bar3-child strong {
+  margin-left: 0.2rem;
+  font-weight: 400;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3:hover {
+  box-shadow: 0 0 5px 3px rgba(204, 191, 117, 0.6), 0 0 5px 3px rgba(216, 208, 94, 0.5), 0 0 10px 3px rgba(122, 84, 30, 0.4);
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3:hover .bar3-child {
+  border: 2px solid rgb(58, 58, 58);
+}
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4 {
-  background-color: rgb(183, 79, 42);
+  background: linear-gradient(180deg, #e86464, #f72626);
   height: 100%;
   width: 30%;
+  position: relative;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4 .bar4-child {
+  position: absolute;
+  top: 130%;
+  left: 20px;
+  display: flex;
+  border: 2px solid transparent;
+  width: 100%;
+  align-items: center;
+  margin: 0 0.5rem 0 0;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 0.1rem 0.7rem;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4 .bar4-child p {
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4 .bar4-child div {
+  width: 10px;
+  margin-right: 0.5rem;
+  height: 10px;
+  border-radius: 50%;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4 .bar4-child strong {
+  margin-left: 0.2rem;
+  font-weight: 400;
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4:hover {
+  box-shadow: 0 0 5px 3px rgba(204, 117, 117, 0.6), 0 0 5px 3px rgba(216, 94, 94, 0.5), 0 0 10px 3px rgba(122, 30, 30, 0.4);
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4:hover .bar4-child {
+  border: 2px solid rgb(58, 58, 58);
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info {
   display: flex;
@@ -1556,6 +1767,10 @@ body {
   display: flex;
   width: 100%;
   align-items: center;
+  margin: 0 0.5rem 0 0;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 0.1rem 1rem;
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div p {
   color: white;
@@ -1649,7 +1864,7 @@ body {
   flex-direction: column;
   gap: 1rem;
   height: auto;
-  padding: 4rem 1.5rem 0 1.5rem;
+  padding: 1rem 1rem 0 1rem;
   align-items: center;
 }
 .game_main .game_container .game-container-div2 .game-container-div2-video {
@@ -1670,7 +1885,6 @@ body {
   grid-gap: 1rem;
 }
 .game_main .game_container .game-container-div2 .game-container-div2-images > div {
-  border: 1px solid red;
   border-radius: 8px;
   width: 100%;
   height: 120px;
@@ -1722,6 +1936,8 @@ body {
   text-align: center;
   border-bottom: 0.5px solid rgb(110, 110, 110);
   width: fit-content;
+  letter-spacing: 1px;
+  font-weight: 500;
 }
 .game_main .similar-games .similar-games-cards > * {
   margin-bottom: 2rem;
@@ -1733,59 +1949,68 @@ body {
 }
 .game_main .reviews-div {
   height: auto;
-  margin: 2rem 0;
 }
-.game_main .reviews-div .review-title {
+.game_main .reviews-div .reviews-div-container {
+  width: 100%;
+}
+.game_main .reviews-div .reviews-div-container .reviews-div-title h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.game_main .reviews-div .reviews-div-container .review-title {
   padding: 0.5rem 0;
 }
-.game_main .reviews-div .review-title h2 {
+.game_main .reviews-div .reviews-div-container .review-title h2 {
   position: relative;
   letter-spacing: 0.5px;
   font-size: 1.5rem;
   border-bottom: 1px solid white;
   width: fit-content;
 }
-.game_main .reviews-div .review-title h2 span {
+.game_main .reviews-div .reviews-div-container .review-title h2 span {
   position: absolute;
   font-size: 0.65rem;
   top: -3px;
 }
-.game_main .reviews-div .review-options {
+.game_main .reviews-div .reviews-div-container .review-options {
   display: flex;
   justify-content: flex-end;
   position: relative;
 }
-.game_main .reviews-div .review-options .clickoptions {
+.game_main .reviews-div .reviews-div-container .review-options .clickoptions {
   display: flex;
   cursor: pointer;
   align-items: center;
 }
-.game_main .reviews-div .review-options .clickoptions:hover {
+.game_main .reviews-div .reviews-div-container .review-options .clickoptions:hover {
   opacity: 0.8;
   transform: scale(0.99);
   transition: all 0.2s ease-in-out;
 }
-.game_main .reviews-div .review-options .clickoptions span {
+.game_main .reviews-div .reviews-div-container .review-options .clickoptions span {
   margin: 0.3rem 0.2rem;
   color: rgb(160, 160, 160);
   font-size: 0.95rem;
 }
-.game_main .reviews-div .review-options .clickoptions .review-arrow-down {
+.game_main .reviews-div .reviews-div-container .review-options .clickoptions .review-arrow-down {
   transform: rotate(0);
   transition: all 0.2s ease-in-out;
 }
-.game_main .reviews-div .review-options .clickoptions .review-arrow-up {
+.game_main .reviews-div .reviews-div-container .review-options .clickoptions .review-arrow-up {
   transform: rotate(180deg);
   transition: all 0.2s ease-in-out;
 }
-.game_main .reviews-div .review-options .showoptions {
+.game_main .reviews-div .reviews-div-container .review-options .showoptions {
   display: flex;
   flex-direction: column;
 }
-.game_main .reviews-div .review-options .hideoptions {
+.game_main .reviews-div .reviews-div-container .review-options .hideoptions {
   display: none;
 }
-.game_main .reviews-div .review-options .review-options-options {
+.game_main .reviews-div .reviews-div-container .review-options .review-options-options {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -1798,13 +2023,13 @@ body {
   border-radius: 3px;
   background-color: rgb(65, 65, 65);
 }
-.game_main .reviews-div .review-options .review-options-options span {
+.game_main .reviews-div .reviews-div-container .review-options .review-options-options span {
   margin: 2px 0;
   border-radius: 3px;
   padding: 2px;
   cursor: pointer;
 }
-.game_main .reviews-div .review-options .review-options-options span:hover {
+.game_main .reviews-div .reviews-div-container .review-options .review-options-options span:hover {
   background-color: rgb(49, 49, 49);
   transition: all 0.05s ease-in-out;
 }
@@ -1945,11 +2170,10 @@ body {
     height: 30px;
   }
   .game_main .game_container {
-    flex-direction: column;
-    align-items: center;
-    width: inherit;
+    align-content: center;
   }
   .game_main .game_container .game-container-div1 {
+    width: inherit;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1961,11 +2185,8 @@ body {
   .game_main .game_container .game-container-div1 .game-container-div1-title h1 {
     text-align: center;
   }
-  .game_main .game_container .game-container-div1 .game-container-div1-gray-title {
-    width: 295px;
-  }
   .game_main .game_container .game-container-div1 .game-container-div1-svgs {
-    width: 295px;
+    width: 350px;
     text-align: center;
     flex-direction: column;
     justify-content: center;
@@ -1981,7 +2202,7 @@ body {
     font-size: 40px;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-addTo {
-    width: 295px;
+    width: 350px;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
@@ -2046,7 +2267,7 @@ body {
     font-size: 0.8rem;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-ratings-div {
-    width: 295px;
+    width: 350px;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-ratings-div .ratings-div1 h2 {
     font-size: 1rem;
@@ -2067,7 +2288,7 @@ body {
     font-size: 0.8rem;
   }
   .game_main .game_container .game-container-div1 .ratings-bar {
-    width: 295px;
+    width: 350px;
   }
   .game_main .game_container .game-container-div1 .ratings-bar p {
     color: rgb(110, 110, 110);
@@ -2076,14 +2297,38 @@ body {
   }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar {
     height: 40px;
+    margin-bottom: 0;
+  }
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1-child {
+    transform: scale(0.8);
+    left: -25px;
+    top: 110%;
   }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .rating-bar-svg {
     height: 40px;
     width: 40px;
   }
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2-child {
+    transform: scale(0.8);
+    top: 110%;
+    padding: 0.2rem;
+    left: -20px;
+  }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .rating-bar-svg {
     height: 40px;
     width: 40px;
+  }
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 .bar3-child {
+    transform: scale(0.8);
+    top: 110%;
+    padding: 0.2rem;
+    left: 10px;
+  }
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4 .bar4-child {
+    transform: scale(0.8);
+    top: 110%;
+    padding: 0.2rem;
+    left: 20px;
   }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info {
     flex-wrap: wrap;
@@ -2099,7 +2344,7 @@ body {
     transform: scale(0.8);
   }
   .game_main .game_container .game-container-div1 .about-div {
-    width: 295px;
+    width: 350px;
   }
   .game_main .game_container .game-container-div1 .about-div h4 {
     font-size: 1.2rem;
@@ -2111,7 +2356,7 @@ body {
     font-size: 0.5rem;
   }
   .game_main .game_container .game-container-div1 .game-info {
-    width: 295px;
+    width: 350px;
   }
   .game_main .game_container .game-container-div1 .game-info .game-info-div1 > div h4 {
     font-size: 0.7rem;
@@ -2125,6 +2370,9 @@ body {
   .game_main .game_container .game-container-div1 .game-info .game-info-div2 > div span {
     font-size: 0.7rem;
   }
+  .game_main .game_container .game-container-div2 .game-container-div2-video {
+    width: 350px;
+  }
   .game_main .game_container .game-container-div2 .game-container-div2-images {
     display: flex;
     flex-direction: column;
@@ -2132,4 +2380,141 @@ body {
   .game_main .game_container .game-container-div2 .game-container-div2-buyGame {
     transform: scale(0.9);
   }
+  .game_main .reviews-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .game_main .reviews-div .reviews-div-container {
+    width: 100%;
+  }
+  .game_main .similar-games {
+    width: 300;
+  }
+  .game_main .similar-games h1 {
+    font-size: 1.5rem;
+    border: none;
+    text-decoration: underline;
+  }
+}
+.authcard-main {
+  display: flex;
+  justify-content: center;
+  padding-top: 150px;
+  gap: 12%;
+}
+.authcard-main > div {
+  height: fit-content;
+  max-width: 400px;
+  padding: 0.5rem;
+}
+.authcard-main .authcard-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding-top: 2rem;
+}
+.authcard-main .authcard-container h2 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+.authcard-main .authcard-container > div {
+  padding: 0.4rem 1rem 0.4rem 0.5rem;
+  margin: 0.8rem 0;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.authcard-main .authcard-container > div p {
+  margin-right: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.signup-main {
+  display: flex;
+  flex-direction: column;
+}
+.signup-main h1 {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+.signup-main input {
+  margin: 0.8rem 0;
+  min-width: 300px;
+  min-height: 40px;
+  border-radius: 2px;
+  background: black;
+  opacity: 0.7;
+  outline: none;
+  border: none;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  padding: 0.4rem 0 0.4rem 1rem;
+}
+.signup-main .signup-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  font-size: 17px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 2px;
+  font-size: 1.2rem;
+}
+
+.login-main {
+  display: flex;
+  flex-direction: column;
+}
+.login-main h1 {
+  font-weight: 500;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.login-main input {
+  margin: 0.8rem 0;
+  min-width: 300px;
+  min-height: 40px;
+  border-radius: 2px;
+  background: black;
+  opacity: 0.5;
+  outline: none;
+  border: none;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  padding: 0.4rem 0 0.4rem 1rem;
+}
+.login-main .login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  font-size: 17px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 2px;
+  font-size: 1.2rem;
+}
+.login-main .login-text {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 0;
+}
+.login-main .login-text p {
+  font-weight: 400;
+  border-bottom: 1px solid rgb(91, 91, 91);
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
 }

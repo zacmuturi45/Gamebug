@@ -6,8 +6,56 @@
 
 body {
     background: hsl(10, 3%, 8%);
-    font-family: "Ubuntu", sans-serif;
+    font-family: "Inter", sans-serif;
     box-sizing: border-box;
+}
+
+.layouts {
+    background: url('/images/vamp.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100vh;
+    opacity: 1;
+    position: relative;
+    .before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120vh;
+        background: linear-gradient(
+            to top,
+            hsl(10, 3%, 8%),
+            hsl(10, 3%, 8%),
+            hsl(10, 3%, 8%),
+            hsl(10, 3%, 8%, 0.6)
+          );
+        opacity: 1;
+    }
+}
+
+.layout {
+    background: url('/images/blood.jpg');
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    opacity: 1;
+    position: relative;
+    .after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to right,
+            hsl(10, 3%, 8%),
+            hsl(10, 3%, 8%),
+            hsl(10, 3%, 8%, 0.7),
+            hsl(10, 3%, 8%, 0.6)
+          );
+        opacity: 1;
+    }
 }
 
 .wrapper {
@@ -56,7 +104,7 @@ body {
     left: 0;
     padding: 15px 32px;
     backdrop-filter: blur(15px);
-    z-index: 2;
+    z-index: 2000;
     transition: all .3s ease-in-out;
 
     h1 {
@@ -300,7 +348,7 @@ body {
     }
 }
 
-@media screen and (max-width: 1295px) {
+@media screen and (max-width: 1350px) {
     .main__navbar {
         display: flex;
         justify-content: space-between;
@@ -420,7 +468,7 @@ body {
 
             h2 {
                 margin-bottom: 2rem;
-                font-size: 25px;
+                font-size: 23px;
                 font-weight: 700;
                 letter-spacing: -0.5px;
             }
@@ -428,7 +476,7 @@ body {
 
         .sidenavbar-children {
             h2 {
-                font-size: 25px;
+                font-size: 23px;
                 margin-bottom: 1rem;
             }
         }
@@ -628,7 +676,7 @@ body {
 
         p {
             margin-left: .5rem;
-            font-size: 17px;
+            font-size: 1rem;
         }
     }
 
@@ -674,7 +722,7 @@ body {
     // .....................................
     // SIDENAVLAYOUT MEDIA QUERIES
     // .....................................
-    @media screen and (max-width: 1295px) {
+    @media screen and (max-width: 1350px) {
         .sidenavbar-media {
             display: none;
         }
@@ -737,6 +785,7 @@ body {
 
             .options-box {
                 transform: scale(0.7);
+                z-index: 2000;
             }
         }
 
@@ -745,6 +794,9 @@ body {
             flex-direction: column;
             justify-content: center;
             align-items: center;z-index: 1;
+            > * {
+                width: 100%;
+            }
         }
     }
 
@@ -760,7 +812,7 @@ body {
         flex-direction: column;
         margin: 1rem 0;
         padding-bottom: 1rem;
-        max-width: 540px;
+        max-width: 500px;
         height: auto;
         background: hsl(200, 3%, 11%);
         border-radius: 15px;
@@ -977,7 +1029,9 @@ body {
 
         >span {
             padding: .5rem 0 .5rem 1.2rem;
-            color: rgb(141, 141, 141);
+            color: rgb(56, 56, 56);
+            font-weight: 600;
+            letter-spacing: .5px;
         }
 
         .grid-box {
@@ -1154,6 +1208,10 @@ body {
 
 // COMPONENTS
 
+.info {
+    border: 2px solid rgb(46, 46, 46);
+}
+
 .utility-button {
     align-self: center;
     background-color: rgb(40, 40, 40);
@@ -1170,6 +1228,8 @@ body {
         transform: scale(0.99);
     }
 }
+
+
 
 .main-game-users {
     display: flex;
@@ -1237,6 +1297,12 @@ body {
             font-size: .6rem;
             color: rgb(110, 110, 110);
         }
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .main-game-users {
+        width: 350px;
     }
 }
 
@@ -1370,7 +1436,7 @@ body {
 
         .game-container-div1 {
             // border: 2px solid yellow;
-
+            padding-right: 3rem;
             > div {
                 margin: 1.65rem 0;
                 // border: 1px solid red;
@@ -1390,7 +1456,7 @@ body {
             .game-container-div1-svgs {
                 display: flex;
                 align-items: center;
-                margin-top: -1rem;
+                margin-bottom: .5rem;
                 >span {
                     letter-spacing: 3px;
                     font-weight: 500;
@@ -1399,9 +1465,11 @@ body {
             }
 
             .game-container-div1-title {
+                margin-top: 0;
                 h1 {
-                    font-size: 65px;
+                    font-size: 70px;
                     line-height: 1.05;
+                    font-weight: 800;
                     letter-spacing: 1.2px;
                 }
             }
@@ -1414,10 +1482,10 @@ body {
                 .addTo1 {
                     background-color: white;
                     overflow: hidden;
-                    max-height: 50px;
+                    max-height: 40px;
                     display: flex;
                     margin-right: 1rem;
-                    padding: .4rem 2.5rem .4rem .5rem;
+                    padding: .25rem 2.5rem .25rem .5rem;
                     border-radius: 8px;
                     gap: 1rem;
                     align-items: center;
@@ -1431,17 +1499,18 @@ body {
 
                     .addTo-svg {
                         position: absolute;
-                        right: -12px;
+                        right: -5px;
                     }
 
                     p {
                         color: rgb(131, 131, 131);
+                        font-size: .9rem;
                     }
 
                     h4 {
                         letter-spacing: 1px;
                         font-weight: 500;
-                        font-size: 1rem;
+                        font-size: .9rem;
                         color: rgb(29, 29, 29);
 
                         span {
@@ -1458,7 +1527,7 @@ body {
                     cursor: pointer;
                     display: flex;
                     margin-right: 1rem;
-                    padding: .4rem 3.5rem .4rem 1rem;
+                    padding: .25rem 3rem .25rem .5rem;
                     border: 1.5px solid white;
                     border-radius: 8px;
                     gap: 1rem;
@@ -1477,12 +1546,13 @@ body {
 
                     p {
                         color: rgb(131, 131, 131);
+                        font-size: .9rem;
                     }
 
                     h4 {
                         letter-spacing: 1px;
                         font-weight: 500;
-                        font-size: 1rem;
+                        font-size: .9rem;
                         color: white;
                     }
                 }
@@ -1493,7 +1563,7 @@ body {
                     max-height: 60px;
                     display: flex;
                     margin-right: 1rem;
-                    padding: .4rem 3.5rem .4rem 1rem;
+                    padding: .25rem 3rem .25rem .5rem;
                     border-radius: 5px;
                     gap: 1rem;
                     align-items: center;
@@ -1512,6 +1582,7 @@ body {
 
                     p {
                         color: rgb(131, 131, 131);
+                        font-size: .9rem;
                     }
 
                     h4 {
@@ -1519,6 +1590,7 @@ body {
                         font-weight: 500;
                         font-size: 1rem;
                         color: white;
+                        font-size: .9rem;
                     }
                 }
             }
@@ -1601,6 +1673,7 @@ body {
             }
 
             .ratings-bar {
+                margin-bottom: 4rem;
                 p {
                     color: rgb(110, 110, 110);
                     margin: .3rem 0;
@@ -1613,45 +1686,206 @@ body {
                     border-radius: 5px;
                     display: flex;
                     height: 45px;
-
+                    margin-bottom: 1rem;
+                    overflow: visible;
+                    >div {
+                        cursor: pointer;
+                    }
                     .bar1 {
-                        background-color: rgb(86, 194, 111);
+                        background: linear-gradient(180deg, #84c757, #9ec13e);
+                        position: relative;
                         height: 100%;
                         width: 30%;
                         position: relative;
-                        overflow: hidden;
-
+                        overflow: visible;
+                        border-top-left-radius: 4px;
+                        border-bottom-left-radius: 4px;
+                        box-sizing: border-box;
+                        .bar1-child {
+                            position: absolute;
+                            border: 2px solid transparent;
+                            top: 130%;
+                            left: -10px;
+                            display: flex;
+                            width: 100%;
+                            align-items: center;
+                            margin: 0 .5rem 0 0;
+                            border-radius: 15px;
+                            width: fit-content;
+                            padding: .1rem .7rem;
+                            p {
+                                color: rgb(255, 255, 255);
+                                font-weight: 600;
+                            }
+    
+                            div {
+                                width: 10px;
+                                margin-right: .5rem;
+                                height: 10px;
+                                border-radius: 50%;
+                            }
+    
+                            strong {
+                                margin-left: .2rem;
+                                font-weight: 400;
+                            }
+                        }
+                        &:hover {
+                            box-shadow: 0 0 5px 3px rgba(117, 204, 139, 0.6), 
+                            0 0 5px 3px rgba(44, 175, 101, 0.5), 
+                            0 0 10px 3px rgba(30, 122, 69, 0.4);
+                            .bar1-child {
+                                border: 2px solid rgb(58, 58, 58);
+                            }
+                        }
                         .rating-bar-svg {
                             position: absolute;
-                            bottom: -5px;
-                            left: -5px;
+                            bottom: 0;
+                            left: 0px;
                         }
                     }
 
                     .bar2 {
-                        background-color: rgb(89, 89, 169);
+                        background: linear-gradient(180deg, #7364e8, #4338d6);
                         height: 100%;
                         width: 25%;
                         position: relative;
-                        overflow: hidden;
-
+                        overflow: visible;
+                        .bar2-child {
+                            position: absolute;
+                            top: 130%;
+                            left: -30px;
+                            border: 2px solid transparent;
+                            display: flex;
+                            width: 100%;
+                            align-items: center;
+                            margin: 0 .5rem 0 0;
+                            border-radius: 15px;
+                            width: fit-content;
+                            padding: .1rem .7rem;
+    
+                            p {
+                                color: rgb(255, 255, 255);
+                                font-weight: 600;
+                            }
+    
+                            div {
+                                width: 10px;
+                                margin-right: .5rem;
+                                height: 10px;
+                                border-radius: 50%;
+                            }
+    
+                            strong {
+                                margin-left: .2rem;
+                                font-weight: 400;
+                            }
+                        }
+                        &:hover {
+                            box-shadow: 0 0 5px 3px rgba(117, 204, 139, 0.6), 
+                            0 0 5px 3px rgba(94, 157, 216, 0.5), 
+                            0 0 10px 3px rgba(30, 71, 122, 0.4);
+                            .bar2-child {
+                                border: 2px solid rgb(58, 58, 58);
+                            }
+                        }
                         .rating-bar-svg {
                             position: absolute;
-                            bottom: -10px;
-                            left: -10px;
+                            bottom: 0px;
+                            left: 0px;
                         }
                     }
 
                     .bar3 {
-                        background-color: rgb(195, 173, 63);
+                        background: linear-gradient(180deg, #e8be64, #f79626);
                         height: 100%;
+                        position: relative;
                         width: 15%;
+                        .bar3-child {
+                            position: absolute;
+                            top: 130%;
+                            left: 0;
+                            border: 2px solid transparent;
+                            display: flex;
+                            width: 100%;
+                            align-items: center;
+                            margin: 0 .5rem 0 0;
+                            border-radius: 15px;
+                            width: fit-content;
+                            padding: .1rem .7rem;
+    
+                            p {
+                                color: rgb(255, 255, 255);
+                                font-weight: 600;
+                            }
+    
+                            div {
+                                width: 10px;
+                                margin-right: .5rem;
+                                height: 10px;
+                                border-radius: 50%;
+                            }
+    
+                            strong {
+                                margin-left: .2rem;
+                                font-weight: 400;
+                            }
+                        }
+                        &:hover {
+                            box-shadow: 0 0 5px 3px rgba(204, 191, 117, 0.6), 
+                            0 0 5px 3px rgba(216, 208, 94, 0.5), 
+                            0 0 10px 3px rgba(122, 84, 30, 0.4);
+                            .bar3-child {
+                                border: 2px solid rgb(58, 58, 58);
+                            }
+                        }
                     }
 
                     .bar4 {
-                        background-color: rgb(183, 79, 42);
+                        background: linear-gradient(180deg, #e86464, #f72626);
                         height: 100%;
                         width: 30%;
+                        position: relative;
+                        border-top-right-radius: 4px;
+                        border-bottom-right-radius: 4px;
+                        .bar4-child {
+                            position: absolute;
+                            top: 130%;
+                            left: 20px;
+                            display: flex;
+                            border: 2px solid transparent;
+                            width: 100%;
+                            align-items: center;
+                            margin: 0 .5rem 0 0;
+                            border-radius: 15px;
+                            width: fit-content;
+                            padding: .1rem .7rem;
+    
+                            p {
+                                color: rgb(255, 255, 255);
+                                font-weight: 600;
+                            }
+    
+                            div {
+                                width: 10px;
+                                margin-right: .5rem;
+                                height: 10px;
+                                border-radius: 50%;
+                            }
+    
+                            strong {
+                                margin-left: .2rem;
+                                font-weight: 400;
+                            }
+                        }
+                        &:hover {
+                            box-shadow: 0 0 5px 3px rgba(204, 117, 117, 0.6), 
+                            0 0 5px 3px rgba(216, 94, 94, 0.5), 
+                            0 0 10px 3px rgba(122, 30, 30, 0.4);
+                            .bar4-child {
+                                border: 2px solid rgb(58, 58, 58);
+                            }
+                        }
                     }
                 }
 
@@ -1661,6 +1895,10 @@ body {
                         display: flex;
                         width: 100%;
                         align-items: center;
+                        margin: 0 .5rem 0 0;
+                        border-radius: 15px;
+                        width: fit-content;
+                        padding: .1rem 1rem;
 
                         p {
                             color: white;
@@ -1761,7 +1999,7 @@ body {
             flex-direction: column;
             gap: 1rem;
             height: auto;
-            padding: 4rem 1.5rem 0 1.5rem;
+            padding: 1rem 1rem 0 1rem;
             align-items: center;
             .game-container-div2-video {
                 width: 100%;
@@ -1781,7 +2019,7 @@ body {
                 grid-template-columns: repeat(2, 1fr);
                 grid-gap: 1rem;
                 > div {
-                    border: 1px solid red;
+                    // border: 1px solid red;
                     border-radius: 8px;
                     width: 100%;
                     height: 120px;
@@ -1837,6 +2075,8 @@ body {
             text-align: center;
             border-bottom: .5px solid rgb(110, 110, 110);
             width: fit-content;
+            letter-spacing: 1px;
+            font-weight: 500;
         }
         .similar-games-cards {
             > * {
@@ -1851,85 +2091,95 @@ body {
     }
 
     .reviews-div {
-        // border: 2px solid yellow;
         height: auto;
-        margin: 2rem 0;
-        .review-title {
-            padding: .5rem 0;
-            h2 {
+        .reviews-div-container {
+            width: 100%;
+            .reviews-div-title {
+                h1 {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                    font-size: 1.7rem;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                }
+            }
+            .review-title {
+                padding: .5rem 0;
+                h2 {
+                    position: relative;
+                    letter-spacing: .5px;
+                    font-size: 1.5rem;
+                    border-bottom: 1px solid white;
+                    width: fit-content;
+                    span {
+                        position: absolute;
+                        font-size: .65rem;
+                        top: -3px;
+                    }
+                }
+            }
+            .review-options {
+                display: flex;
+                justify-content: flex-end;
                 position: relative;
-                letter-spacing: .5px;
-                font-size: 1.5rem;
-                border-bottom: 1px solid white;
-                width: fit-content;
-                span {
-                    position: absolute;
-                    font-size: .65rem;
-                    top: -3px;
-                }
-            }
-        }
-        .review-options {
-            display: flex;
-            justify-content: flex-end;
-            position: relative;
-            .clickoptions {
-                display: flex;
-                cursor: pointer;
-                align-items: center;
-                &:hover {
-                    opacity: 0.8;
-                    transform: scale(0.99);
-                    transition: all .2s ease-in-out;
-                }
-                span {
-                    margin: .3rem .2rem;
-                    color: rgb(160, 160, 160);
-                    font-size: .95rem;
-                }
-                .review-arrow-down {
-                    transform: rotate(0);
-                    transition: all .2s ease-in-out;
-                }
-                .review-arrow-up {
-                    transform: rotate(180deg);
-                    transition: all .2s ease-in-out;
-                }
-            }
-            .showoptions {
-                display: flex;
-                flex-direction: column;
-            }
-            .hideoptions {
-                display: none;
-            }
-            .review-options-options {
-                position: absolute;
-                display: flex;
-                flex-direction: column;
-                z-index: 999;
-                top: 25px;
-                font-size: .9rem;
-                right: 0;
-                padding: .3rem .5rem;
-                color: rgb(159, 159, 159);
-                border-radius: 3px;
-                background-color: rgb(65, 65, 65);
-                span {
-                    margin: 2px 0;
-                    border-radius: 3px;
-                    padding: 2px;
+                .clickoptions {
+                    display: flex;
                     cursor: pointer;
+                    align-items: center;
                     &:hover {
-                        background-color: rgb(49, 49, 49);
-                        transition: all .05s ease-in-out;
+                        opacity: 0.8;
+                        transform: scale(0.99);
+                        transition: all .2s ease-in-out;
+                    }
+                    span {
+                        margin: .3rem .2rem;
+                        color: rgb(160, 160, 160);
+                        font-size: .95rem;
+                    }
+                    .review-arrow-down {
+                        transform: rotate(0);
+                        transition: all .2s ease-in-out;
+                    }
+                    .review-arrow-up {
+                        transform: rotate(180deg);
+                        transition: all .2s ease-in-out;
+                    }
+                }
+                .showoptions {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .hideoptions {
+                    display: none;
+                }
+                .review-options-options {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    z-index: 999;
+                    top: 25px;
+                    font-size: .9rem;
+                    right: 0;
+                    padding: .3rem .5rem;
+                    color: rgb(159, 159, 159);
+                    border-radius: 3px;
+                    background-color: rgb(65, 65, 65);
+                    span {
+                        margin: 2px 0;
+                        border-radius: 3px;
+                        padding: 2px;
+                        cursor: pointer;
+                        &:hover {
+                            background-color: rgb(49, 49, 49);
+                            transition: all .05s ease-in-out;
+                        }
                     }
                 }
             }
         }
     }
     #similar-games-add {
-        // border: 2px solid red;
+        border: 2px solid red;
         width: fit-content;
         height: fit-content;
         padding: 0;
@@ -1984,6 +2234,64 @@ body {
                         margin-left: 1rem;
                     }
                 }
+
+                // .game-container-div1-ratings-div {
+                //     flex-direction: column;
+
+                //     .ratings-div1 {
+                //         transform: scale(.8);
+                //         width: 100%;
+                //         border: none;
+                //         display: flex;
+                //         align-items: center;
+                //         flex-direction: column;
+                //         padding: 0;
+
+                //         h2 {
+                //             font-size: 1.5rem;
+                //         }
+                //     }
+
+                //     .ratings-div-container {
+                //         > div {
+                //             margin: 0;
+                //         }
+
+                //         .ratings-div2 {
+                //             transform: scale(.8);
+                //             width: fit-content;
+                //             border: none;
+                //             display: flex;
+                //             align-items: center;
+                //             padding: 0;
+
+                //             h2 {
+                //                 font-size: 1rem;
+                //             }
+
+                //             p {
+                //                 margin: 0 .5rem;
+                //             }
+                //         }
+
+                //         .ratings-div3 {
+                //             transform: scale(.8);
+                //             width: fit-content;
+                //             border: none;
+                //             display: flex;
+                //             align-items: center;
+                //             padding: 0;
+
+                //             h2 {
+                //                 font-size: 1rem;
+                //             }
+
+                //             p {
+                //                 margin: 0 .5rem;
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
     }
@@ -2136,10 +2444,9 @@ body {
             height: 30px;
         }
         .game_container {
-            flex-direction: column;
-            align-items: center;
-            width: inherit;
+            align-content: center;
             .game-container-div1 {
+                width: inherit;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -2152,11 +2459,8 @@ body {
                         text-align: center;
                     }
                 }
-                .game-container-div1-gray-title {
-                    width: 295px;
-                }
                 .game-container-div1-svgs {
-                    width: 295px;
+                    width: 350px;
                     text-align: center;
                     flex-direction: column;
                     justify-content: center;
@@ -2175,7 +2479,7 @@ body {
                     }
                 }
                 .game-container-div1-addTo {
-                    width: 295px;
+                    width: 350px;
                     flex-direction: column;
                     justify-content: space-between;
                     position: relative;
@@ -2243,7 +2547,7 @@ body {
                     }
                 }
                 .game-container-div1-ratings-div {
-                    width: 295px;
+                    width: 350px;
                     .ratings-div1 {
                         h2 {
                             font-size: 1rem;
@@ -2272,7 +2576,7 @@ body {
                     }
                 }
                 .ratings-bar {
-                    width: 295px;
+                    width: 350px;
                     p {
                         color: rgb(110, 110, 110);
                         margin: .3rem 0;
@@ -2281,8 +2585,13 @@ body {
     
                     .ratings-bar-bar {
                         height: 40px;
-    
+                        margin-bottom: 0;
                         .bar1 {
+                            .bar1-child {
+                                transform: scale(0.8);
+                                left: -25px;
+                                top: 110%;
+                            }
                             .rating-bar-svg {
                                 height: 40px;
                                 width: 40px;
@@ -2290,9 +2599,30 @@ body {
                         }
     
                         .bar2 {
+                            .bar2-child {
+                                transform: scale(0.8);
+                                top: 110%;
+                                padding: .2rem;
+                                left: -20px;
+                            }
                             .rating-bar-svg {
                                 height: 40px;
                                 width: 40px;
+                            }
+                        }
+                        .bar3 {
+                            .bar3-child {
+                                transform: scale(0.8);
+                                top: 110%;
+                                padding: .2rem;
+                                left: 10px;                            }
+                        }
+                        .bar4 {
+                            .bar4-child {
+                                transform: scale(0.8);
+                                top: 110%;
+                                padding: .2rem;
+                                left: 20px;
                             }
                         }
                     }
@@ -2311,7 +2641,7 @@ body {
                     transform: scale(0.8);
                 }
                 .about-div {
-                    width: 295px;
+                    width: 350px;
                     h4 {
                         font-size: 1.2rem;
                     }
@@ -2323,7 +2653,7 @@ body {
                     }
                 }
                 .game-info {
-                    width: 295px;
+                    width: 350px;
                     .game-info-div1 {
                         > div {
                             h4 {
@@ -2347,6 +2677,9 @@ body {
                 }
             }
             .game-container-div2 {
+                .game-container-div2-video {
+                    width: 350px;
+                }
                 .game-container-div2-images {
                     display: flex;
                     flex-direction: column;
@@ -2355,6 +2688,157 @@ body {
                     transform: scale(0.9);
                 }
             }
+
+        }
+        .reviews-div {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .reviews-div-container {
+                width: 100%;
+            }
+        }
+        .similar-games {
+            width: 300;
+            h1 {
+                font-size: 1.5rem;
+                border: none;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// ........................................
+// LOGIN & SIGN UP
+// ........................................
+
+// Authcard
+.authcard-main {
+    // border: 2px solid blue;
+    display: flex;
+    // align-items: center;
+    justify-content: center;
+    padding-top: 150px;
+    gap: 12%;
+    > div {
+        // border: 2px solid red;
+        height: fit-content;
+        max-width: 400px;
+        padding: .5rem;
+    }
+    .authcard-container {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        padding-top: 2rem;
+        h2 {
+            font-weight: 500;
+            letter-spacing: .5px;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        > div {
+            padding: .4rem 1rem .4rem .5rem;
+            // border: 1px solid blue;
+            margin: .8rem 0;
+            border-radius: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            p {
+                margin-right: 1rem;
+                font-weight: 600;
+                color: white;
+            }
+        }
+    }
+}
+
+//Signup
+
+.signup-main {
+    // border: 2px solid blue;
+    display: flex;
+    flex-direction: column;
+    h1 {
+        font-weight: 500;
+        margin-bottom: .5rem;
+        font-size: 2.5rem;
+    }
+    input {
+        margin: .8rem 0;
+        min-width: 300px;
+        min-height: 40px;
+        border-radius: 2px;
+        background: black;
+        opacity: 0.7;
+        outline: none;
+        border: none;
+        font-size: 1.2rem;
+        letter-spacing: .5px;
+        padding: .4rem 0 .4rem 1rem;
+    }
+    .signup-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        color: black;
+        font-size: 17px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        border-radius: 2px;
+        font-size: 1.2rem;
+    }
+}
+
+.login-main {
+    display: flex;
+    flex-direction: column;
+    h1 {
+        font-weight: 500;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    input {
+        margin: .8rem 0;
+        min-width: 300px;
+        min-height: 40px;
+        border-radius: 2px;
+        background: black;
+        opacity: 0.5;
+        outline: none;
+        border: none;
+        font-size: 1.2rem;
+        letter-spacing: .5px;
+        padding: .4rem 0 .4rem 1rem;
+    }
+    .login-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        color: black;
+        font-size: 17px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        border-radius: 2px;
+        font-size: 1.2rem;
+    }
+    .login-text {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.2rem 0;
+        p {
+            font-weight: 400;
+            border-bottom: 1px solid rgb(91, 91, 91);
+            font-size: .9rem;
+            letter-spacing: .5px;
+            margin-bottom: .2rem;
         }
     }
 }
