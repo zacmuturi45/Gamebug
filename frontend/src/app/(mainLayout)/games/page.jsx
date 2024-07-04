@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { windowsWhite, psWhite, xboxWhite, greenplus, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart } from '../../../../public/images'
+import { windowsWhite, psWhite, xboxWhite, greenplus, vamp, alpha, blood, action, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart } from '../../../../public/images'
 import Image from 'next/image'
 import { cld } from '../../../../public/images'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
@@ -20,6 +20,7 @@ export default function game() {
   const [showOptions, setShowOptions] = useState(false);
   const [reviewOptions, setReviewOptions] = useState("Newest first")
   const clickRef = useRef(null);
+  const [viewSlice, setViewSlice] = useState(3);
 
   const reviewArray = [
     { svg: tick, review: "Super nice game", ratingsvg: bomb, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lukasz Milescu" },
@@ -27,6 +28,17 @@ export default function game() {
     { svg: tick, review: "A good starter for the wannabe vampire fanatic", ratingsvg: pumpkinmeh, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Meh", name: "Aileen Sanchez" },
     { svg: tick, review: "Meh is weh ei ken see", ratingsvg: thumbsUp, profilePic: grateful, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lucy Bierschoff" },
     { svg: tick, review: "Fuck mother Russia", ratingsvg: pumpkincry, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Skip", name: "Alberto Moreira" }
+  ]
+
+  const gameCollections = [
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Kill hour", games: 14},
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Less gooo", games: 21 },
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Vampire fanatic", games: 12},
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Meh", games: 11},
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Kill hour", games: 14},
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Less gooo", games: 21 },
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Vampire fanatic", games: 12},
+    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Meh", games: 11},
   ]
 
 
@@ -99,7 +111,7 @@ export default function game() {
     <main className='game_main'>
 
       <div className='game_container row'>
-        <div className='cols-7-xl cols-5-xxl cols-10-md cols-12-sm game-container-div1'>
+        <div className='game-container-div1'>
           <div className='game-container-div1-gray-title'><h4>HOME / GAMES / VAMPIRE: THE MASQUERADE - BLOODLINES 2</h4></div>
 
           <div className='game-container-div1-svgs'>
@@ -168,12 +180,16 @@ export default function game() {
             <div className='ratings-bar-bar'>
 
               <div className='bar1'>
-                <Image src={bomb} width={45} height={45} alt='rating-svg' className='rating-bar-svg' />
+                <div className="bar1div">
+                <Image src={bomb} width={40} height={40} alt='rating-svg' className='rating-bar-svg' />
+                </div>
                 <div className='bar1-child'><div style={{ backgroundColor: "green" }}></div><p>Exceptional<strong>115</strong></p></div>
               </div>
 
               <div className='bar2'>
+              <div className="bar2div">
                 <Image src={thumbsUp} width={50} height={50} alt='rating-svg' className='rating-bar-svg' />
+                </div>
                 <div className='bar2-child'><div style={{ backgroundColor: "blue" }}></div><p>Recommended<strong>75</strong></p></div>
                 </div>
 
@@ -216,11 +232,33 @@ export default function game() {
 
           </div>
 
+          <div className="game-info2">
+          <div className='game-info2-div0'>
+            <h4>Other games in the series</h4>
+            <div>
+            <span>Vampire: The Masquerade-Swansong,</span><span>Vampire: The Masquerade-Bloodhunt</span><span>Vampire: The Masquerade-Shadows of New York,</span><span>Vampire: The Masquerade-Coteries of New York</span><span>Vampire: The Masquerade-Redemption,</span>
+            </div>
+
+          </div>
+
+          <div className='game-info2-div1'>
+            <h4>Tags</h4>
+            <div>
+            <span>Action,</span><span>Story</span><span>Action,</span><span>Great Soundtrack</span><span>Open world,</span><span>First-person</span><span>Horror,</span><span>Gore</span><span>Violent,</span><span>Vampire</span><span>Single-player,</span><span>RPG</span><span>Atmospheric,</span><span>RPG</span>
+            </div>
+
+          </div>
+          <div className="game-info2-div2">
+          <h4>Website</h4>
+          <p>https://www.bloodlines2.com</p>
+          </div>
+          </div>
+
         </div>
 
         {/* Game Div2 */}
 
-        <div className='cols-4-xl cols-3-xxl cols-7-md cols-11-sm game-container-div2'>
+        <div className='game-container-div2'>
           <div className='game-container-div2-video'>
             <AdvancedVideo
               className='game-container-video'
@@ -255,6 +293,35 @@ export default function game() {
                 return <GameUsers image={data.image} name={data.name} edits={data.edits} followerCount={data.followerCount} index={index} />
               })
             }
+          </div>
+
+          <div className="game-collections">
+
+            <div className='game-collections-div1'>
+              <h1>Collections with Vampire: The Masquerade - Bloodlines 2</h1>
+              <p>4 Collections</p>
+            </div>
+
+            <div className='game-collections-div2'>
+              {
+                gameCollections.slice(0, viewSlice).map((game, index) => {
+                  return <div key={index} className='collection-grid'>
+                      <div className='collection-grid-grid'>
+                      <Image src={game.image.image1} width={35} height={35} alt='image' />
+                      <Image src={game.image.image2} width={35} height={35} alt='image'/>
+                      <Image src={game.image.image3} width={35} height={35} alt='image' />
+                      <Image src={game.image.image4} width={35} height={35} alt='image' />
+                      </div>
+
+                      <div className='collection-grid-text'>
+                        <h2>{game.title}</h2>
+                        <p>{game.games} GAMES</p>
+                    </div>
+                  </div>
+                })
+              }
+            </div>
+
           </div>
 
         </div>

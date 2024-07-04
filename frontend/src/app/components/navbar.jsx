@@ -11,7 +11,6 @@ import Link from 'next/link'
 export default function Navbar() {
     const [isTyping, setIsTyping] = useState(false);
     const [toggleMenu, setToggleMenu] = useState(false);
-    const [toggleSearchTab, setToggleSearchTab] = useState(false);
     const [formInput, setFormInput] = useState("");
     const scrollDirection = UseScroll();
     const [visible, setVisible] = useState(false);
@@ -67,67 +66,12 @@ export default function Navbar() {
         } 
     };
 
-
-    const mouseEnter = (e) => {
-        gsap.to(".ul-child-div1b", {
-            left: "105%",
-            duration: .5,
-            ease: [0.85, 0, 0.15, 1]
-        })
-        gsap.to(".ul-child-div1", {
-            width: "97%",
-            ease: [0.85, 0, 0.15, 1],
-            duration: .5,
-            delay: .2
-        })
-    }
-
-    const mouseEnter1 = (e) => {
-        gsap.to(".ul-child-div1c", {
-            left: "105%",
-            duration: .5,
-            ease: [0.85, 0, 0.15, 1]
-        })
-        gsap.to(".ul-child-div2", {
-            width: "97%",
-            ease: [0.85, 0, 0.15, 1],
-            duration: .5,
-            delay: .2
-        })
-    }
-
-    const mouseLeave = (e) => {
-        gsap.to(".ul-child-div1b", {
-            left: "-100%",
-            duration: .5,
-            delay: .2
-        })
-        gsap.to(".ul-child-div1", {
-            width: 0,
-            ease: [0.85, 0, 0.15, 1],
-            duration: .3
-        })
-    }
-
-    const mouseLeave1 = (e) => {
-        gsap.to(".ul-child-div1c", {
-            left: "-100%",
-            duration: .5,
-            delay: .2
-        })
-        gsap.to(".ul-child-div2", {
-            width: 0,
-            ease: [0.85, 0, 0.15, 1],
-            duration: .3
-        })
-    }
-
     return (
         <main className={visible ? 'main__navbar dsp-f ai-c justify-space-between' : 'main__navbar nav-hidden dsp-f ai-c justify-space-between'}>
             <Link href="/"><h1>GameBug</h1></Link>
             <form>
                 <div className="form-div">
-                    <FontAwesomeIcon icon={faSearch} className='faSearch-icon' />
+                    <FontAwesomeIcon icon={faSearch} className='faSearch-icon' style={{fontSize: 15}} />
                     <div className="onSearchTab"></div>
                     <input
                         className={isTyping ? 'thickspans-white br-lg' : 'br-lg'}
@@ -146,7 +90,7 @@ export default function Navbar() {
             <div className="dsp-f toggle">
                 <ul className='nav-ul'>
                     <div className='ul-divp'>
-                        <div className='ul-div1' onMouseOver={(e) => mouseEnter(e)} onMouseOut={(e) => mouseLeave(e)}>
+                        <div className='ul-div1'>
                             <Link href="/login"><span>LOG IN</span></Link>
                             <div className='ul-child-div1'></div>
                             <div className='ul-child-div1b'></div>
@@ -154,7 +98,7 @@ export default function Navbar() {
                     </div>
 
                     <div className="ul-divp">
-                        <div className='ul-div2' onMouseOver={(e) => mouseEnter1(e)} onMouseOut={(e) => mouseLeave1(e)}>
+                        <div className='ul-div2'>
                             <Link href="/signup"><span>SIGN UP</span></Link>
                             <div className='ul-child-div2'></div>
                             <div className='ul-child-div1c'></div>
