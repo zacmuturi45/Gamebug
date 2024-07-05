@@ -2763,7 +2763,7 @@ body {
 
                     .addTo1 {
                         transform: scale(1);
-                        width: 100%;
+                        width: 300px;
                         margin-right: 0;
                         padding: .3rem 0 .3rem .5rem;
                         .addTo-svg {
@@ -2785,7 +2785,7 @@ body {
                     .addTo2 {
                         transform: scale(1);
                         margin-right: 0;
-                        width: 100%;
+                        width: 300px;
                         .addTo-svg {
                             width: 20;
                             height: 20;
@@ -2805,7 +2805,7 @@ body {
                     .addTo3 {
                         transform: scale(1);
                         margin: 0;
-                        width: 100%;
+                        width: 300px;
                         .addTo-svg {
                             width: 20;
                             height: 20;
@@ -2823,7 +2823,7 @@ body {
                     }
                 }
                 .game-container-div1-ratings-div {
-                    width: 350px;
+                    width: 300px;
                     .ratings-div1 {
                         h2 {
                             font-size: 1rem;
@@ -2852,7 +2852,7 @@ body {
                     }
                 }
                 .ratings-bar {
-                    width: 350px;
+                    width: 300px;
                     p {
                         color: rgb(110, 110, 110);
                         margin: .3rem 0;
@@ -2863,27 +2863,31 @@ body {
                         height: 40px;
                         margin-bottom: 0;
                         .bar1 {
+                            .bar1div {
+                                width: 35px;
+                                height: 35px;
+                            }
                             .bar1-child {
                                 transform: scale(0.8);
                                 left: -25px;
                                 top: 110%;
                             }
-                            .rating-bar-svg {
-                                height: 40px;
-                                width: 40px;
-                            }
                         }
     
                         .bar2 {
+                            .bar2div {
+                                width: 34px;
+                                height: 34px;
+                                .rating-bar-svg {
+                                    width: 36px;
+                                    height: 36px;
+                                }
+                            }
                             .bar2-child {
                                 transform: scale(0.8);
                                 top: 110%;
                                 padding: .2rem;
                                 left: -20px;
-                            }
-                            .rating-bar-svg {
-                                height: 40px;
-                                width: 40px;
                             }
                         }
                         .bar3 {
@@ -2917,7 +2921,7 @@ body {
                     transform: scale(0.8);
                 }
                 .about-div {
-                    width: 350px;
+                    width: 300px;
                     h4 {
                         font-size: 1.2rem;
                     }
@@ -2929,7 +2933,7 @@ body {
                     }
                 }
                 .game-info {
-                    width: 350px;
+                    width: 300px;
                     .game-info-div1 {
                         > div {
                             h4 {
@@ -2951,10 +2955,14 @@ body {
                         }
                     }
                 }
+                .game-info2 {
+                    width: 300px;
+                }
             }
             .game-container-div2 {
+                width: 300px;
                 .game-container-div2-video {
-                    width: 350px;
+                    width: 100%;
                 }
                 .game-container-div2-images {
                     display: flex;
@@ -2962,6 +2970,14 @@ body {
                 }
                 .game-container-div2-buyGame {
                     transform: scale(0.9);
+                }
+                .game-collections {
+                    .game-collections-div1 {
+                        p {
+                            width: 100%;
+                            margin-top: 12px;
+                        }
+                    }
                 }
             }
 
@@ -2975,14 +2991,20 @@ body {
                 width: 100%;
             }
         }
+        .game-users {
+            width: 300px;
+        }
         .similar-games {
-            width: 300;
+            width: 300px;
             h1 {
                 font-size: 1.5rem;
                 border: none;
                 text-decoration: underline;
             }
         }
+    }
+    .main-game-users {
+        width: 100%;
     }
 }
 

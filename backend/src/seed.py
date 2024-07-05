@@ -6,8 +6,91 @@ from src.models import User, Game, Review, Purchase, db, purchased_game, wishlis
 
 fake = Faker()
 platforms = ["PS5", "PC", "Xbox One", "Nintendo Switch", "iOS", "Android"]
-genres = ["Action", "Shooter", "RPG", "Adventure", "Strategy", "Racing", "Puzzle", "Sports"]
+genres = [
+    "Action",
+    "Shooter",
+    "RPG",
+    "Adventure",
+    "Strategy",
+    "Racing",
+    "Puzzle",
+    "Sports",
+]
 user_bought_games = []
+cardArray = [
+    "my-videos/boat_tyrkf7",
+    "my-videos/kill_qhzkbt",
+    "my-videos/switch_muf00v",
+    "my-videos/tekken8_fwdock",
+    "my-videos/tekken_t2s1md",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/metalgearsolid_lspadg",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/cod_znvbzr",
+    "my-videos/cod_ttbwyz",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/switch_muf00v",
+    "my-videos/boat_tyrkf7",
+    "my-videos/kill_qhzkbt",
+    "my-videos/switch_muf00v",
+    "my-videos/tekken8_fwdock",
+    "my-videos/tekken_t2s1md",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/metalgearsolid_lspadg",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/cod_znvbzr",
+    "my-videos/cod_ttbwyz",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/switch_muf00v",
+    "my-videos/boat_tyrkf7",
+    "my-videos/kill_qhzkbt",
+    "my-videos/switch_muf00v",
+    "my-videos/tekken8_fwdock",
+    "my-videos/tekken_t2s1md",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/metalgearsolid_lspadg",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/cod_znvbzr",
+    "my-videos/cod_ttbwyz",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/switch_muf00v",
+    "my-videos/boat_tyrkf7",
+    "my-videos/kill_qhzkbt",
+    "my-videos/switch_muf00v",
+    "my-videos/tekken8_fwdock",
+    "my-videos/tekken_t2s1md",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/metalgearsolid_lspadg",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/cod_znvbzr",
+    "my-videos/cod_ttbwyz",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/switch_muf00v",
+    "my-videos/boat_tyrkf7",
+    "my-videos/kill_qhzkbt",
+    "my-videos/switch_muf00v",
+    "my-videos/tekken8_fwdock",
+    "my-videos/tekken_t2s1md",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/metalgearsolid_lspadg",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/cod_znvbzr",
+    "my-videos/cod_ttbwyz",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/switch_muf00v",
+    "my-videos/boat_tyrkf7",
+    "my-videos/kill_qhzkbt",
+    "my-videos/switch_muf00v",
+    "my-videos/tekken8_fwdock",
+    "my-videos/tekken_t2s1md",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/metalgearsolid_lspadg",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/cod_znvbzr",
+    "my-videos/cod_ttbwyz",
+    "my-videos/lastepoch_bepih3",
+    "my-videos/switch_muf00v",
+]
 
 
 def create_fake_user():
@@ -19,11 +102,17 @@ def create_fake_user():
 
 
 def create_fake_game():
+    platArray = []
+    genreArray = []
+    for _ in range(random.randint(1, 3)):
+        platArray.append(random.choice(platforms))
+        genreArray.append(random.choice(genres))
     game = Game(
         title=fake.first_name(),
-        platform=random.choice(platforms),
-        genre=random.choice(genres),
+        platforms=platArray,
+        genres=genreArray,
         price=random.randint(25, 85),
+        chart=f"#{random.randint(1, 100)} {2024-(random.randint(0, 10))}",
         image_url=fake.image_url(),
         video_url=fake.image_url(),
     )
@@ -83,11 +172,9 @@ def seed():
 
             purchase = Purchase(game_id=game.id, user_id=user.id)
             db.session.add(purchase)
-            db.session.commit()
 
             review = create_fake_review(user.id, game.id)
             db.session.add(review)
-            db.session.commit()
 
         db.session.commit()
 

@@ -1,6 +1,9 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from sqlalchemy.ext.mutable import MutableList
+from sqlalchemy.dialects.sqlite import JSON
+
 
 metadata = MetaData(
     naming_convention={
@@ -47,10 +50,11 @@ class Game(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
-    platform = db.Column(db.String(255), nullable=False)
+    platforms = db.Column(MutableList.as_mutable(JSON), nullable=False, default=[])
     date_added = db.Column(db.DateTime, default=datetime.now())
-    genre = db.Column(db.String(255), nullable=False)
+    genres = db.Column(MutableList.as_mutable(JSON), nullable=False, default=[])
     price = db.Column(db.Integer, nullable=False)
+    chart = db.Column(db.String(100), default="Unranked")
     image_url = db.Column(db.String(255))
     video_url = db.Column(db.String(255))
 

@@ -2458,7 +2458,7 @@ body {
   }
   .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 {
     transform: scale(1);
-    width: 100%;
+    width: 300px;
     margin-right: 0;
     padding: 0.3rem 0 0.3rem 0.5rem;
   }
@@ -2479,7 +2479,7 @@ body {
   .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo2 {
     transform: scale(1);
     margin-right: 0;
-    width: 100%;
+    width: 300px;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo2 .addTo-svg {
     width: 20;
@@ -2498,7 +2498,7 @@ body {
   .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo3 {
     transform: scale(1);
     margin: 0;
-    width: 100%;
+    width: 300px;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo3 .addTo-svg {
     width: 20;
@@ -2515,7 +2515,7 @@ body {
     font-size: 0.8rem;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-ratings-div {
-    width: 350px;
+    width: 300px;
   }
   .game_main .game_container .game-container-div1 .game-container-div1-ratings-div .ratings-div1 h2 {
     font-size: 1rem;
@@ -2536,7 +2536,7 @@ body {
     font-size: 0.8rem;
   }
   .game_main .game_container .game-container-div1 .ratings-bar {
-    width: 350px;
+    width: 300px;
   }
   .game_main .game_container .game-container-div1 .ratings-bar p {
     color: rgb(110, 110, 110);
@@ -2547,24 +2547,28 @@ body {
     height: 40px;
     margin-bottom: 0;
   }
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1div {
+    width: 35px;
+    height: 35px;
+  }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .bar1-child {
     transform: scale(0.8);
     left: -25px;
     top: 110%;
   }
-  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1 .rating-bar-svg {
-    height: 40px;
-    width: 40px;
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2div {
+    width: 34px;
+    height: 34px;
+  }
+  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2div .rating-bar-svg {
+    width: 36px;
+    height: 36px;
   }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .bar2-child {
     transform: scale(0.8);
     top: 110%;
     padding: 0.2rem;
     left: -20px;
-  }
-  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 .rating-bar-svg {
-    height: 40px;
-    width: 40px;
   }
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar3 .bar3-child {
     transform: scale(0.8);
@@ -2592,7 +2596,7 @@ body {
     transform: scale(0.8);
   }
   .game_main .game_container .game-container-div1 .about-div {
-    width: 350px;
+    width: 300px;
   }
   .game_main .game_container .game-container-div1 .about-div h4 {
     font-size: 1.2rem;
@@ -2604,7 +2608,7 @@ body {
     font-size: 0.5rem;
   }
   .game_main .game_container .game-container-div1 .game-info {
-    width: 350px;
+    width: 300px;
   }
   .game_main .game_container .game-container-div1 .game-info .game-info-div1 > div h4 {
     font-size: 0.7rem;
@@ -2618,8 +2622,14 @@ body {
   .game_main .game_container .game-container-div1 .game-info .game-info-div2 > div span {
     font-size: 0.7rem;
   }
+  .game_main .game_container .game-container-div1 .game-info2 {
+    width: 300px;
+  }
+  .game_main .game_container .game-container-div2 {
+    width: 300px;
+  }
   .game_main .game_container .game-container-div2 .game-container-div2-video {
-    width: 350px;
+    width: 100%;
   }
   .game_main .game_container .game-container-div2 .game-container-div2-images {
     display: flex;
@@ -2627,6 +2637,10 @@ body {
   }
   .game_main .game_container .game-container-div2 .game-container-div2-buyGame {
     transform: scale(0.9);
+  }
+  .game_main .game_container .game-container-div2 .game-collections .game-collections-div1 p {
+    width: 100%;
+    margin-top: 12px;
   }
   .game_main .reviews-div {
     width: 100%;
@@ -2637,13 +2651,19 @@ body {
   .game_main .reviews-div .reviews-div-container {
     width: 100%;
   }
+  .game_main .game-users {
+    width: 300px;
+  }
   .game_main .similar-games {
-    width: 300;
+    width: 300px;
   }
   .game_main .similar-games h1 {
     font-size: 1.5rem;
     border: none;
     text-decoration: underline;
+  }
+  .main-game-users {
+    width: 100%;
   }
 }
 .authcard-main {
