@@ -877,9 +877,8 @@ body {
   cursor: pointer;
   position: relative;
   flex-direction: column;
-  margin: 1rem 0;
   padding-bottom: 1rem;
-  max-width: 500px;
+  max-width: 390px;
   height: auto;
   background: hsl(200, 3%, 11%);
   border-radius: 15px;
@@ -922,9 +921,12 @@ body {
 }
 .sidenavlayout .theCloud {
   position: relative;
+  width: 100%;
   height: 165px;
 }
 .sidenavlayout .cloudinary-container {
+  box-sizing: border-box;
+  width: inherit;
   padding: 0.8rem 0.8rem 0.8rem 1rem;
   position: absolute;
   top: 0;
@@ -935,6 +937,7 @@ body {
   border-bottom-right-radius: 15px;
 }
 .sidenavlayout .cloudinarydiv1 {
+  width: 100%;
   display: flex;
 }
 .sidenavlayout .cloudinarydiv1 > * {
@@ -945,6 +948,7 @@ body {
   transform: scale(0.99);
 }
 .sidenavlayout .cloudinarydiv2 {
+  width: 100%;
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
 }
@@ -958,6 +962,9 @@ body {
   opacity: 0.7;
   transform: scale(0.99);
   transition: all 0.2s ease-in-out;
+}
+.sidenavlayout .cloudinarydiv2 h2 > * {
+  margin: 0 1rem 0 0;
 }
 .sidenavlayout .cloudinarydiv2 h2 :nth-child(2) {
   position: absolute;
@@ -1138,6 +1145,12 @@ body {
   display: none;
 }
 
+@media screen and (min-width: 2500px) {
+  .main_card {
+    width: 540px;
+    border: 4px solid red;
+  }
+}
 @media screen and (max-width: 2000px) {
   .main-pagejsx .cards > * {
     margin: 2rem 0;

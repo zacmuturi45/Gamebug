@@ -71,7 +71,7 @@ export default function Navbar() {
             <Link href="/"><h1>GameBug</h1></Link>
             <form>
                 <div className="form-div">
-                    <FontAwesomeIcon icon={faSearch} className='faSearch-icon' style={{fontSize: 15}} />
+                    <FontAwesomeIcon icon={faSearch} className='faSearch-icon' width={15} height={15} style={{fontSize: 15}} />
                     <div className="onSearchTab"></div>
                     <input
                         className={isTyping ? 'thickspans-white br-lg' : 'br-lg'}

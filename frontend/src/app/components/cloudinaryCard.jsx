@@ -10,7 +10,7 @@ import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { cld } from '../../../public/images'
 
-export default function Card({ image, index }) {
+export default function Card({ image, platforms, title, releaseDate, genres, chart, index }) {
 
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
@@ -19,8 +19,19 @@ export default function Card({ image, index }) {
     const [showGiftBox, setShowGiftBox] = useState(false);
 
     const vid = "my-videos/new.mp4"
-    const img = "my-videos/boat_tyrkf7"
+    const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
+    const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+
+    const create_date_string = (dateString) => {
+        const day = dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1]+"st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1]+"nd" : dateString.slice(8, 10)[1]+"th")
+        const month = months[parseInt(dateString.slice(5, 7)) -1]
+        const year = dateString.slice(0, 4)
+        let full_date = month+" "+day+" "+year
+        return full_date
+    }
+
+    // const rd = create_date_string(releaseDate.slice(0, 10))
 
     useEffect(() => {
         document.addEventListener('click', hideReviewPanel);
@@ -31,7 +42,7 @@ export default function Card({ image, index }) {
     }, [])
 
     const hideReviewPanel = (e) => {
-        if(!panelRef.current.contains(e.target)) {
+        if (!panelRef.current.contains(e.target)) {
             setShowPanel(false)
             return
         }
@@ -48,7 +59,7 @@ export default function Card({ image, index }) {
         setShowGiftBox(false)
     }
     const showReviewPanel = (e) => {
-        if(panelRef.current.contains(e.target)) {
+        if (panelRef.current.contains(e.target)) {
             setShowPanel(true)
             return;
         }
@@ -90,7 +101,7 @@ export default function Card({ image, index }) {
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><Link href="/games"><span>Vampire: The Masquerade - Bloodlines 2</span></Link> <Image src={thumbsUp} width={35} height={35} alt='review-svg' className='review-svg'/>
+                        <h2><Link href="/games"><span>{title}</span></Link> <Image src={thumbsUp} width={35} height={35} alt='review-svg' className='review-svg' />
                         </h2>
                     </div>
 
@@ -108,10 +119,10 @@ export default function Card({ image, index }) {
                             <div className={showPanel ? "showpanel" : "hidepanel"}>
                                 <span>Quick Review</span>
                                 <div className='grid-box'>
-                                    <div><Image src={bomb} width={55} height={55} alt='review-svg'/><span>Exceptional</span></div>
-                                    <div><Image src={thumbsUp} width={55} height={55} alt='review-svg'/><span>Recommend</span></div>
-                                    <div><Image src={pumpkinmeh} width={55} height={55} alt='review-svg'/><span>Meh</span></div>
-                                    <div><Image src={pumpkincry} width={55} height={55} alt='review-svg'/><span>Skip</span></div>
+                                    <div><Image src={bomb} width={55} height={55} alt='review-svg' /><span>Exceptional</span></div>
+                                    <div><Image src={thumbsUp} width={55} height={55} alt='review-svg' /><span>Recommend</span></div>
+                                    <div><Image src={pumpkinmeh} width={55} height={55} alt='review-svg' /><span>Meh</span></div>
+                                    <div><Image src={pumpkincry} width={55} height={55} alt='review-svg' /><span>Skip</span></div>
                                 </div>
                                 <div className='review-box'>Write a review</div>
                                 <div className='addTo-box'>Add to my games</div>
@@ -124,17 +135,17 @@ export default function Card({ image, index }) {
 
                         <div className="cloudinarydiv4">
                             <span style={{ opacity: 0.5 }}>Release date:</span>
-                            <strong>Nov 30, 2024</strong>
+                            <strong>{create_date_string(releaseDate.slice(0, 10))}</strong>
                         </div>
 
                         <div className="cloudinarydiv5">
                             <span style={{ opacity: 0.5 }}>Genres:</span>
-                            <strong>Action, RPG</strong>
+                            <strong>{genres}</strong>
                         </div>
 
                         <div className="cloudinarydiv6">
                             <span style={{ opacity: 0.5 }}>Chart:</span>
-                            <strong>#1 Top 2024</strong>
+                            <strong>{chart}</strong>
                         </div>
 
                         <div className="cloudinarydiv7">

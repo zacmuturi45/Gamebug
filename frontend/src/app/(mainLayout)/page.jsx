@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Card from "../components/cloudinaryCard";
 import { cardArray } from "../../../public/images";
+import { useQuery } from "@apollo/client";
+import { CARD_DATA } from "../GraphQL/queries";
 
 
 export default function Home() {
@@ -14,6 +16,18 @@ export default function Home() {
     const [sortBy, setSortBy] = useState("Relevance");
     const [platforms, setPlatforms] = useState("Platforms");
     const [addCards, setAddCards] = useState(24);
+    const [cardData, setCardData] = useState([]);
+
+    const { loading: card_data_loading, error: card_data_errors, data: card_data_data } = useQuery(CARD_DATA);
+
+    // if (card_data_loading) {return <p>Loading..</p>;}
+
+    useEffect(() => {
+        if (card_data_data) {
+            setCardData(card_data_data.allGames.edges)
+            console.log(`Dataaa is ${card_data_data.allGames.edges}`)
+        }
+    }, [card_data_data])
 
     const [sortVisible, setSortVisible] = useState(false);
     const [platformVisible, setPlatformVisible] = useState(false);
@@ -160,15 +174,15 @@ export default function Home() {
 
             <div className="row cards">
                 {
-                    cardArray.slice(0, addCards).map((item, index) => {
-                       return  <Card image={item} key={index}/>
+                    cardData.map((item, index) => {
+                        return <Card image={item.node.imageUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} />
                     })
                 }
             </div>
             <div className="load-more"><span onClick={() => {
-                if(cardArray.length>=addCards+24) {
-                    setAddCards(addCards+24)
-                } else {return}
+                if (cardArray.length >= addCards + 24) {
+                    setAddCards(addCards + 24)
+                } else { return }
             }}>Load more</span></div>
         </main>
     );

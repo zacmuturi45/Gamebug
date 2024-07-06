@@ -1,3 +1,4 @@
+import json
 from graphene import (
     Field,
     Int,
@@ -32,6 +33,11 @@ class Game(SQLAlchemyObjectType):
     class Meta:
         model = GameModel
         interfaces = (relay.Node,)
+        
+        platforms = List(String)
+        
+        def resolve_platforms(self, info):
+            return json.loads(self.platforms())
 
 
 class Review(SQLAlchemyObjectType):
