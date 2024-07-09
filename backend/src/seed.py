@@ -21,6 +21,7 @@ cardArray = [
     "my-videos/boat_tyrkf7",
     "my-videos/kill_qhzkbt",
     "my-videos/switch_muf00v",
+    "my-videos/images_vvnxxn",
     "my-videos/tekken8_fwdock",
     "my-videos/tekken_t2s1md",
     "my-videos/lastepoch_bepih3",
@@ -98,7 +99,18 @@ cardArray = [
     "my-videos/switch_muf00v",
 ]
 
-titleArray = ["Vampire: the Masquerade: Bloodlines 2", "Stalker", "Stalker II: Heart of Chornorbyll", "Senhua's Saga", "V Rising", "Hollow Knight: Silksong", "Stellar Blade", "Synergy", "Indika", "The wolf among us 2"]
+titleArray = [
+    "Vampire: the Masquerade: Bloodlines 2",
+    "Metal Gear Solid",
+    "S.t.a.l.k.e.r II: Heart of Chernorbyl",
+    "Senhua's Saga",
+    "V Rising",
+    "Hollow Knight: Silksong",
+    "Stellar Blade",
+    "Synergy",
+    "Indika",
+    "The wolf among us 2",
+]
 
 
 def create_fake_user():
@@ -126,7 +138,7 @@ def create_fake_game():
     )
     game.set_platforms(platArray)
     game.set_genres(genreArray)
-    
+
     return game
 
 

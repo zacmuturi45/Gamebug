@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy.dialects.sqlite import JSON
+from sqlalchemy.dialects.postgresql import JSON, ARRAY
 import json
 
 
@@ -51,9 +51,9 @@ class Game(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
-    platforms = db.Column(db.String(1000), nullable=False)
+    platforms = db.Column(ARRAY(db.String), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.now())
-    genres = db.Column(db.String(1000), nullable=False)
+    genres = db.Column(ARRAY(db.String), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     chart = db.Column(db.String(100), default="Unranked")
     image_url = db.Column(db.String(255))
@@ -68,18 +68,6 @@ class Game(db.Model):
         "User", secondary=wishlist_game, back_populates="user_wishlist_games"
     )
     purchases = db.relationship("Purchase", backref="game", lazy=True)
-    
-    def get_platforms(self):
-        return json.loads(self.platforms)
-    
-    def set_platforms(self, platforms):
-        self.platforms = json.dumps(platforms)
-        
-    def get_genres(self):
-        return json.loads(self.genres)
-    
-    def set_genres(self, genres):
-        self.genres = json.dumps(genres)
 
 
 class Purchase(db.Model):

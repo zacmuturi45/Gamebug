@@ -3,11 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 
-
 body {
     background: hsl(10, 3%, 8%);
-    font-family: "Inter", sans-serif;
+    font-family: "Ubuntu", sans-serif;
     box-sizing: border-box;
+}
+
+* {
+    font-family: "Ubuntu";
 }
 
 .layouts {
@@ -881,6 +884,7 @@ body {
 
     .cards {
         justify-content: space-between;
+        gap: 0;
     }
 
     .cloudinary {
@@ -957,9 +961,8 @@ body {
 
         h2 {
             position: relative;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             align-items: center;
-            letter-spacing: -1px;
 
             span:hover {
                 opacity: 0.7;
@@ -985,12 +988,18 @@ body {
         >* {
             margin: 0 .5rem 0 0;
             width: auto;
-            padding: .3rem .5rem;
+            padding: .2rem .3rem;
             border-radius: 5px;
             background-color: rgb(52, 52, 52);
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        .plusWhite {
+            span {
+                font-size: 13px;
+                font-weight: 400;
+            }
         }
 
         .plusWhite:hover {

@@ -107,8 +107,8 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
 
                     <div className="cloudinarydiv3">
                         <div className='plusWhite'>
-                            <Image src={plusWhite} alt='plus-sign' width={17} height={17} />
-                            <strong style={{ marginLeft: 10 }}>847</strong>
+                            <Image src={plusWhite} alt='plus-sign' width={12} height={12} />
+                            <span style={{ marginLeft: 10 }}>847</span>
                         </div>
 
                         <div className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}>

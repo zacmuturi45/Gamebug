@@ -207,8 +207,12 @@ img {
 
 body {
   background: hsl(10, 3%, 8%);
-  font-family: "Inter", sans-serif;
+  font-family: "Ubuntu", sans-serif;
   box-sizing: border-box;
+}
+
+* {
+  font-family: "Ubuntu";
 }
 
 .layouts {
@@ -890,6 +894,7 @@ body {
 }
 .sidenavlayout .cards {
   justify-content: space-between;
+  gap: 0;
 }
 .sidenavlayout .cloudinary {
   position: relative;
@@ -954,9 +959,8 @@ body {
 }
 .sidenavlayout .cloudinarydiv2 h2 {
   position: relative;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   align-items: center;
-  letter-spacing: -1px;
 }
 .sidenavlayout .cloudinarydiv2 h2 span:hover {
   opacity: 0.7;
@@ -978,12 +982,16 @@ body {
 .sidenavlayout .cloudinarydiv3 > * {
   margin: 0 0.5rem 0 0;
   width: auto;
-  padding: 0.3rem 0.5rem;
+  padding: 0.2rem 0.3rem;
   border-radius: 5px;
   background-color: rgb(52, 52, 52);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite span {
+  font-size: 13px;
+  font-weight: 400;
 }
 .sidenavlayout .cloudinarydiv3 .plusWhite:hover {
   opacity: 0.7;

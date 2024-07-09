@@ -9,9 +9,27 @@ import Card from "../components/cloudinaryCard";
 import { cardArray } from "../../../public/images";
 import { useQuery } from "@apollo/client";
 import { CARD_DATA } from "../GraphQL/queries";
+import { AnimatePresence, motion } from "framer-motion";
 
 
 export default function Home() {
+
+    const tickVariant = {
+        initial: {
+            scale: 0,
+            opacity: 0
+        },
+        enter: {
+            scale: 1,
+            opacity: 1,
+            transition: { duration: 0.2, ease: [0.85, 0, 0.15, 1] }
+        },
+        exit: {
+            scale: 0,
+            opacity: 0,
+            transition: { duration: 0.2, ease: [0.85, 0, 0.15, 1] }
+        }
+    }
 
     const [sortBy, setSortBy] = useState("Relevance");
     const [platforms, setPlatforms] = useState("Platforms");
@@ -127,21 +145,30 @@ export default function Home() {
 
             <div className="options-box mt-2">
                 <div className="options-box-child" onClick={() => handleSort()}>
-                    {sortVisible &&
-                        (<div className="options-box-absolute" ref={popup1Ref}>
-                            {spanOne.map((item, index) => {
-                                return <div className="spanOne" key={index} onClick={() => {
-                                    setSortBy(item)
-                                    handleShowTick(index)
-                                }}>
-                                    {item}
-                                    {
-                                        showTick[`showticks${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
-                                    }
-                                </div>
-                            })}
-                        </div>)
-                    }
+                    <AnimatePresence>
+                        {sortVisible &&
+                            (
+                                <motion.div
+                                    variants={tickVariant}
+                                    animate={"enter"}
+                                    initial={"initial"}
+                                    exit={"exit"}
+                                    className="options-box-absolute" ref={popup1Ref}>
+                                    {spanOne.map((item, index) => {
+                                        return <div className="spanOne" key={index} onClick={() => {
+                                            setSortBy(item)
+                                            handleShowTick(index)
+                                        }}>
+                                            {item}
+                                            {
+                                                showTick[`showticks${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
+                                            }
+                                        </div>
+                                    })}
+                                </motion.div>
+                            )
+                        }
+                    </AnimatePresence>
                     <div className="options-box-pdiv">
                         Order by: <strong style={{ marginLeft: ".1rem" }}>{sortBy}</strong>
                     </div>
@@ -149,20 +176,27 @@ export default function Home() {
                 </div>
 
                 <div className="options-box-child1" onClick={() => handlePlatform()}>
-                    {platformVisible && (<div className="options-box-absolute1" ref={popup2Ref}>
-                        {spanTwo.map((item, index) => {
-                            return <div className="spanTwo" key={index} onClick={() => {
-                                setPlatforms(item)
-                                handlePlatformTick(index)
-                            }}>
-                                {item}
-                                {
-                                    showPlatformTick[`showPlatformTick${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
-                                }
+                    <AnimatePresence>
+                        {platformVisible && (<motion.div
+                            variants={tickVariant} 
+                            initial={"initial"}
+                            animate={"enter"}
+                            exit={"exit"}
+                            className="options-box-absolute1" ref={popup2Ref}>
+                            {spanTwo.map((item, index) => {
+                                return <div className="spanTwo" key={index} onClick={() => {
+                                    setPlatforms(item)
+                                    handlePlatformTick(index)
+                                }}>
+                                    {item}
+                                    {
+                                        showPlatformTick[`showPlatformTick${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
+                                    }
 
-                            </div>
-                        })}
-                    </div>)}
+                                </div>
+                            })}
+                        </motion.div>)}
+                    </AnimatePresence>
                     <div className="options-box-pdiv1">
                         <strong>{platforms}</strong>
                     </div>

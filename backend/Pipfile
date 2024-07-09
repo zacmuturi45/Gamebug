@@ -15,6 +15,7 @@ setuptools = "*"
 python-dotenv = "*"
 black = "*"
 graphene = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
