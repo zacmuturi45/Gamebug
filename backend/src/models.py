@@ -1,9 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy.dialects.postgresql import JSON, ARRAY
-import json
+from sqlalchemy.dialects.postgresql import ARRAY
 
 
 metadata = MetaData(

@@ -136,8 +136,6 @@ def create_fake_game():
         image_url=random.choice(cardArray),
         video_url=fake.image_url(),
     )
-    game.set_platforms(platArray)
-    game.set_genres(genreArray)
 
     return game
 
@@ -153,12 +151,12 @@ def create_fake_review(user_id, game_id):
 
 
 def seed():
+    db.session.query(Purchase).delete()
+    db.session.query(Review).delete()
+    db.session.query(purchased_game).delete()  
+    db.session.query(wishlist_game).delete()  
     db.session.query(User).delete()
     db.session.query(Game).delete()
-    db.session.query(Review).delete()
-    db.session.query(Purchase).delete()
-    db.session.query(purchased_game).delete()
-    db.session.query(wishlist_game).delete()
     db.session.commit()
 
     users = []
