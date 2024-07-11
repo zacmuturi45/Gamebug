@@ -899,7 +899,7 @@ body {
 .sidenavlayout .cloudinary {
   position: relative;
   width: 100%;
-  height: 60%;
+  height: 210px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   overflow: hidden;
@@ -908,7 +908,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 1;
-  transform: scale(1.02);
+  transform: scale(1);
 }
 .sidenavlayout .cloudinary .cloudinary_video {
   position: absolute;
@@ -917,12 +917,13 @@ body {
   left: 0;
   opacity: 0;
   z-index: 0;
-  height: max-content;
+  height: 100%;
 }
 .sidenavlayout .cloudinary:hover .cloudinary_video {
   z-index: 2;
   opacity: 1;
   transition: all 0.5s ease;
+  transform: scale(1.03);
 }
 .sidenavlayout .theCloud {
   position: relative;
@@ -956,6 +957,7 @@ body {
   width: 100%;
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
+  align-items: center;
 }
 .sidenavlayout .cloudinarydiv2 h2 {
   position: relative;
@@ -968,7 +970,7 @@ body {
   transition: all 0.2s ease-in-out;
 }
 .sidenavlayout .cloudinarydiv2 h2 > * {
-  margin: 0 1rem 0 0;
+  margin: 0 0.5rem 0 0;
 }
 .sidenavlayout .cloudinarydiv2 h2 :nth-child(2) {
   position: absolute;
@@ -1033,8 +1035,14 @@ body {
   justify-content: space-between;
   border-bottom: 1px solid rgb(52, 52, 52);
 }
-.sidenavlayout .cloudinarydiv5 > strong {
+.sidenavlayout .cloudinarydiv5 .genre-div > * {
   border-bottom: 1px solid rgb(92, 92, 92);
+  margin-left: 5px;
+}
+.sidenavlayout .cloudinarydiv5 .genre-div strong:hover {
+  opacity: 0.7;
+  transform: scale(0.9);
+  transition: all 0.2s ease-in-out;
 }
 .sidenavlayout .cloudinarydiv6 {
   font-size: 14px;

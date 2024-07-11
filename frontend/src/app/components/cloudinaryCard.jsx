@@ -3,20 +3,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { cld } from '../../../public/images'
 
-export default function Card({ image, platforms, title, releaseDate, genres, chart, index }) {
+export default function Card({ image, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
     const [showPanel, setShowPanel] = useState(false);
     const panelRef = useRef(null);
     const [showGiftBox, setShowGiftBox] = useState(false);
+    const [platArray, setPlatArray] = useState([]);
 
     const vid = "my-videos/new.mp4"
     const img = image
@@ -39,6 +40,11 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
         return () => {
             document.removeEventListener('click', hideReviewPanel)
         }
+    }, [])
+
+    useEffect(() => {
+        console.log(`Reviews iss ${reviews}`)
+        getPlatforms(platforms)
     }, [])
 
     const hideReviewPanel = (e) => {
@@ -67,7 +73,25 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
         setShowPanel(false);
     }
 
-    const gamePlatforms = [xboxWhite, windowsWhite, psWhite]
+    const getPlatforms = (plat) => {
+        let plats = [];
+        plat.map((item) => {
+            if(item === "PS5") {
+                plats.push(psWhite)
+            } else if(item === "PC") {
+                plats.push(windowsWhite)
+            } else if(item === "Xbox One") {
+                plats.push(xboxWhite)
+            } else if(item === "Nintendo Switch") {
+                plats.push(nintendoWhite)
+            } else if(item === "iOS") {
+                plats.push(iosWhite)
+            } else if(item === "Android") {
+                plats.push(androidWhite)
+            } else {return}
+        });
+        setPlatArray(plats)
+    };
 
     return (
         <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={index}>
@@ -81,7 +105,6 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
                     className='cloudinary_video'
                     muted
                     loop
-                    width="100%"
                     ref={playerRef}
                     cldVid={cld.video(vid)}
                     plugins={[lazyload()]}
@@ -92,7 +115,7 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
                 <div className="cloudinary-container">
                     <div className="cloudinarydiv1">
                         {
-                            gamePlatforms.map((item, index) => {
+                            platArray.map((item, index) => {
                                 return (<div key={index}>
                                     <Image src={item} width={17} height={17} alt='svg-image' className='gamePlatform-image' />
                                 </div>)
@@ -101,7 +124,7 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><Link href="/games"><span>{title}</span></Link> <Image src={thumbsUp} width={35} height={35} alt='review-svg' className='review-svg' />
+                        <h2><Link href="/games"><span>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
                         </h2>
                     </div>
 
@@ -140,7 +163,13 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
 
                         <div className="cloudinarydiv5">
                             <span style={{ opacity: 0.5 }}>Genres:</span>
-                            <strong>{genres}</strong>
+                            <div className='genre-div'>
+                            {
+                                genres.map((item, index) => (
+                                    <strong key={index}>{item}</strong>
+                                ))
+                            }
+                            </div>
                         </div>
 
                         <div className="cloudinarydiv6">

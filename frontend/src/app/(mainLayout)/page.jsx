@@ -35,6 +35,7 @@ export default function Home() {
     const [platforms, setPlatforms] = useState("Platforms");
     const [addCards, setAddCards] = useState(24);
     const [cardData, setCardData] = useState([]);
+    const [arr, setArr] = useState([]);
 
     const { loading: card_data_loading, error: card_data_errors, data: card_data_data } = useQuery(CARD_DATA);
 
@@ -43,9 +44,15 @@ export default function Home() {
     useEffect(() => {
         if (card_data_data) {
             setCardData(card_data_data.allGames.edges)
-            console.log(`Dataaa is ${card_data_data.allGames.edges}`)
         }
     }, [card_data_data])
+
+    if(card_data_data) {
+        card_data_data.allGames.edges.map((item) => {
+            item.node.platforms.map((card) => {
+            })
+        })
+    };
 
     const [sortVisible, setSortVisible] = useState(false);
     const [platformVisible, setPlatformVisible] = useState(false);
@@ -209,7 +216,7 @@ export default function Home() {
             <div className="row cards">
                 {
                     cardData.map((item, index) => {
-                        return <Card image={item.node.imageUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} />
+                        return <Card image={item.node.imageUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
                     })
                 }
             </div>

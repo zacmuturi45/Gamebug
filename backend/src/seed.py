@@ -125,8 +125,14 @@ def create_fake_game():
     platArray = []
     genreArray = []
     for _ in range(random.randint(1, 3)):
-        platArray.append(random.choice(platforms))
-        genreArray.append(random.choice(genres))
+        platItem = random.choice(platforms)
+        genreItem = random.choice(genres)
+        if platItem not in platArray:
+            platArray.append(platItem)
+        
+        if genreItem not in genreArray:
+            genreArray.append(genreItem)
+
     game = Game(
         title=random.choice(titleArray),
         platforms=platArray,

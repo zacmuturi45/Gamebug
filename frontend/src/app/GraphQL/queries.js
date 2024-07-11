@@ -13,6 +13,13 @@ query {
                 chart
                 imageUrl
                 videoUrl
+                reviews {
+                    edges {
+                        node {
+                            gameRating
+                        }
+                    }
+                }
             }
         }
     }

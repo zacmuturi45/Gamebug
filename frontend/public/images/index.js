@@ -37,6 +37,7 @@ export { default as vamp } from './vamp.jpg';
 export { default as blood } from './blood.jpg';
 export { default as alpha } from './alpha.jpg';
 export { default as action } from './action.png';
+export { default as nintendoWhite } from './nintendoWhite.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';
