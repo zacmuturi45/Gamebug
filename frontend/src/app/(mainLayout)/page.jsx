@@ -216,7 +216,7 @@ export default function Home() {
             <div className="row cards">
                 {
                     cardData.map((item, index) => {
-                        return <Card image={item.node.imageUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
+                        return <Card image={item.node.imageUrl} video={item.node.videoUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
                     })
                 }
             </div>

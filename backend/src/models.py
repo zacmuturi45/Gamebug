@@ -54,7 +54,7 @@ class Game(db.Model):
     genres = db.Column(ARRAY(db.String), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     chart = db.Column(db.String(100), default="Unranked")
-    image_url = db.Column(db.String(255))
+    image_url = db.Column(db.String(255), nullable=False)
     video_url = db.Column(db.String(255))
 
     reviews = db.relationship("Review", backref="game", lazy=True)

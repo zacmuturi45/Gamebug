@@ -10,7 +10,7 @@ import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { cld } from '../../../public/images'
 
-export default function Card({ image, platforms, title, releaseDate, genres, chart, reviews, index }) {
+export default function Card({ image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
@@ -19,7 +19,7 @@ export default function Card({ image, platforms, title, releaseDate, genres, cha
     const [showGiftBox, setShowGiftBox] = useState(false);
     const [platArray, setPlatArray] = useState([]);
 
-    const vid = "my-videos/new.mp4"
+    const vid = video
     const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
