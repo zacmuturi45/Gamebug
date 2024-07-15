@@ -6,6 +6,7 @@ import Navbar from "./components/navbar";
 import Layouts from "./components/layouts";
 import { usePathname } from "next/navigation";
 import Head from "next/head";
+import { FilterProvider } from "./contexts/sidenavContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +17,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
-      <title>GameBug</title>
-      <meta name="GameBug" description="The premier game database and game store" />
+        <title>GameBug</title>
+        <meta name="GameBug" description="The premier game database and game store" />
       </Head>
       <body className={inter.className}>
         <ApolloProviderWrapper>
@@ -25,7 +26,9 @@ export default function RootLayout({ children }) {
           <main className={pathname === '/games' ? "container wrapper layouts" : (pathname === '/signup' ? "container wrapper layout" : "container wrapper")}>
             <div className={pathname === '/games' ? "before" : (pathname === '/signup' ? "container wrapper after" : "")}></div>
             <Navbar />
-            {children}
+            <FilterProvider>
+              {children}
+            </FilterProvider>
           </main>
           {/* </Layouts> */}
         </ApolloProviderWrapper>

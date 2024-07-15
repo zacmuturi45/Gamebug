@@ -2191,7 +2191,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: fit-content;
 }
 .game_main .similar-games > * {
   width: 100%;

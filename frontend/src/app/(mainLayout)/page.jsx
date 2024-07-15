@@ -10,6 +10,7 @@ import { cardArray } from "../../../public/images";
 import { useQuery } from "@apollo/client";
 import { CARD_DATA } from "../GraphQL/queries";
 import { AnimatePresence, motion } from "framer-motion";
+import { useFilter } from "../contexts/sidenavContext";
 
 
 export default function Home() {
@@ -36,6 +37,8 @@ export default function Home() {
     const [addCards, setAddCards] = useState(24);
     const [cardData, setCardData] = useState([]);
     const [arr, setArr] = useState([]);
+    const [filteredCards, setFilteredCards] = useState([]);
+    const { filter } = useFilter();
 
     const { loading: card_data_loading, error: card_data_errors, data: card_data_data } = useQuery(CARD_DATA);
 
@@ -44,15 +47,33 @@ export default function Home() {
     useEffect(() => {
         if (card_data_data) {
             setCardData(card_data_data.allGames.edges)
+            setFilteredCards(card_data_data.allGames.edges)
         }
     }, [card_data_data])
 
-    if(card_data_data) {
-        card_data_data.allGames.edges.map((item) => {
-            item.node.platforms.map((card) => {
+    useEffect(() => {
+        applyFilter(filter);
+    }, [filter, cardData])
+
+    const applyFilter = (filter) => {
+        const now = new Date();
+        let filtered = cardData;
+
+        if(filter === "Last 30 days") {
+            filtered = cardData.filter(card => {
+                const dateAdded = new Date(card.node.dateAdded);
+                const daysDifference = (now - dateAdded) / (1000*60*60*24);
+                return daysDifference <= 30;
+            });
+        } else if (filter === "PC") {
+            filtered = cardData.filter(card => {
+                return card.node.platforms.includes("PC")
             })
-        })
-    };
+        }
+
+        setCardData(filtered)
+    }
+
 
     const [sortVisible, setSortVisible] = useState(false);
     const [platformVisible, setPlatformVisible] = useState(false);
@@ -216,7 +237,6 @@ export default function Home() {
             <div className="row cards">
                 {
                     cardData.map((item, index) => {
-                        console.log(`Rs date is ${item.node.dateAdded}`)
                         return <Card id={item.node.gameid} image={item.node.imageUrl} video={item.node.videoUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
                     })
                 }
