@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-export default function ReviewBox({ svg, rating, ratingsvg, profilePic, review, name, date, likes, dislikes, index }) {
+export default function ReviewBox({ thumbsop, thumbsdown, svg, rating, ratingsvg, profilePic, review, name, date, likes, dislikes, index }) {
     return (
         <main key={index} className='reviewbox-main'>
 
@@ -24,12 +24,12 @@ export default function ReviewBox({ svg, rating, ratingsvg, profilePic, review, 
 
                 <div className='reviewbox-div2-div2'>
                     <div className='like'>
-                        <Image src={svg} width={12} height={12} alt='svg-image' />
+                        <Image src={thumbsop} width={20} height={20} alt='svg-image' />
                         <span>{likes}</span>
                     </div>
 
                     <div className='dislike'>
-                        <Image src={svg} width={12} height={12} alt='svg-image' />
+                        <Image src={thumbsdown} width={17} height={17} alt='svg-image' />
                         <span>{dislikes}</span>
                     </div>
                 </div>

@@ -3,14 +3,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { cld } from '../../../public/images'
 
-export default function Card({ image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
+export default function Card({ id, image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
@@ -23,6 +23,7 @@ export default function Card({ image, video, platforms, title, releaseDate, genr
     const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+    console.log(`Releaseee is ${genres, title}`)
 
     const create_date_string = (dateString) => {
         const day = dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1]+"st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1]+"nd" : dateString.slice(8, 10)[1]+"th")
@@ -74,22 +75,7 @@ export default function Card({ image, video, platforms, title, releaseDate, genr
     }
 
     const getPlatforms = (plat) => {
-        let plats = [];
-        plat.map((item) => {
-            if(item === "PS5") {
-                plats.push(psWhite)
-            } else if(item === "PC") {
-                plats.push(windowsWhite)
-            } else if(item === "Xbox One") {
-                plats.push(xboxWhite)
-            } else if(item === "Nintendo Switch") {
-                plats.push(nintendoWhite)
-            } else if(item === "iOS") {
-                plats.push(iosWhite)
-            } else if(item === "Android") {
-                plats.push(androidWhite)
-            } else {return}
-        });
+        const plats = plat.map(item => platformIcons[item]).filter(icon => icon !== undefined);
         setPlatArray(plats)
     };
 
@@ -124,7 +110,7 @@ export default function Card({ image, video, platforms, title, releaseDate, genr
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><Link href="/games"><span>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
+                        <h2><Link href={`/${id}`}><span>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
                         </h2>
                     </div>
 

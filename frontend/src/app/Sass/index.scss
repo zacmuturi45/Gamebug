@@ -13,6 +13,15 @@ body {
     font-family: "Ubuntu";
 }
 
+.myid {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 69px;
+    border: 2px solid blue;
+    padding: 5rem;
+}
 .layouts {
     background: url('/images/vamp.jpg');
     background-size: contain;
@@ -870,6 +879,7 @@ body {
         position: relative;
         flex-direction: column;
         padding-bottom: 1rem;
+        min-width: 300px;
         max-width: 390px;
         height: auto;
         background: hsl(200, 3%, 11%);
@@ -1431,6 +1441,7 @@ body {
                 :nth-child(1) {
                     font-size: .9rem;
                     letter-spacing: .5px;
+                    cursor: pointer;
                 }
                 :nth-child(2) {
                     font-size: .8rem;
@@ -1445,8 +1456,12 @@ body {
         }
         .reviewbox-div2-div2 {
             margin-right: .5rem;
+            min-width: 100px;
             display: flex;
+            justify-content: space-between;
             .like {
+                display: flex;
+                align-items: center;
                 :nth-child(2) {
                     font-size: .8rem;
                     color: green;
@@ -1454,6 +1469,8 @@ body {
                 }
             }
             .dislike {
+                display: flex;
+                align-items: center;
                 :nth-child(2) {
                     font-size: .8rem;
                     color: red;
@@ -1495,6 +1512,27 @@ body {
     }
 }
 // COMPONENTS
+
+.similarGamesComponent {
+    border: 2px solid red;
+    position: relative;
+    top: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 300px));
+    gap: 2rem;
+    padding: .5rem;
+    justify-content: center;
+    transform: scale(0.85, 0.75);
+    transform-origin: top;
+    > * {
+        &:hover {
+            transform: scale(1.05, 1.02);
+            transition: all .3s ease-in-out;
+            z-index: 1000;
+        }
+    }
+}
 
 
 .game_main {
@@ -2316,28 +2354,25 @@ body {
     }
 
     .similar-games {
-        // border: 2px solid yellow;
+        border: 2px solid blue;
+        position: relative;
         margin: 2rem 0;
         padding: .5rem;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        height: fit-content;
+        > * {
+            width: 100%;
+        }
         h1 {
             text-align: center;
             border-bottom: .5px solid rgb(110, 110, 110);
             width: fit-content;
             letter-spacing: 1px;
             font-weight: 500;
-        }
-        .similar-games-cards {
-            > * {
-                margin-bottom: 2rem;
-                transform: scale(0.99);
-                &:hover {
-                    transform: scale(1.05, 1.02);
-                    transition: all .2s ease-in-out;
-                }
-            }
+            margin-bottom: 1rem;
         }
     }
 
@@ -2435,6 +2470,7 @@ body {
         padding: 0;
     }
 }
+
 
 @media screen and (min-width: 2000px) {
     .game_main {

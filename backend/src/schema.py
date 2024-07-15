@@ -13,7 +13,7 @@ from graphene import (
     ID,
 )
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from src.models import (
     User as UserModel,
     Game as GameModel,
@@ -24,15 +24,27 @@ from src.models import (
 
 
 class User(SQLAlchemyObjectType):
+    
+    userid = Field(Int)
+    
     class Meta:
         model = UserModel
         interfaces = (relay.Node,)
+        
+    def resolve_userid(self, info):
+        return self.id
 
 
 class Game(SQLAlchemyObjectType):
+    
+    gameid = Field(Int)
+    
     class Meta:
         model = GameModel
         interfaces = (relay.Node,)
+        
+    def resolve_gameid(self, info):
+        return self.id
 
 
 class Review(SQLAlchemyObjectType):
@@ -134,7 +146,7 @@ class Query(ObjectType):
 
     one_game = Field(Game, id=Int())
 
-    one_user = List(User, id=Int())
+    one_user = Field(User, id=Int())
 
     my_games = List(Game, id=Int())
 
@@ -148,6 +160,13 @@ class Query(ObjectType):
         if game is None:
             raise Exception("Game does not exist")
         return game
+    
+    def resolve_one_user(self, info, id=None):
+        user = UserModel.query.get(id)
+        
+        if user is None:
+            raise Exception("User with the provided id does not exist")
+        return user
 
     def resolve_my_games(self, info, id=None):
         user = UserModel.query.get(id)
@@ -168,7 +187,7 @@ class Query(ObjectType):
 
         if game is None:
             raise Exception("Game with the provided id does not exist")
-        game_genre = game.genre
+        game_genre = game.genres
         game_average_rating = (
             db.session.query(func.avg(ReviewModel.game_rating))
             .filter_by(game_id=game.id)
@@ -178,7 +197,7 @@ class Query(ObjectType):
             db.session.query(GameModel)
             .join(ReviewModel)
             .filter(
-                GameModel.genre == game_genre,
+                or_(*[GameModel.genres.any(genre) for genre in game_genre]),
                 ReviewModel.game_rating > game_average_rating,
             )
             .all()

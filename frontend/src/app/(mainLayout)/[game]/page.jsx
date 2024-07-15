@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { windowsWhite, psWhite, xboxWhite, greenplus, vamp, alpha, blood, action, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart } from '../../../../public/images'
+import { windowsWhite, psWhite, xboxWhite, greenplus, vamp, alpha, blood, action, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart, platformIcons, platforms, thumbsop, thumbsDown } from '../../../../public/images'
 import Image from 'next/image'
 import { cld } from '../../../../public/images'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
@@ -11,16 +11,33 @@ import { cardArray } from '../../../../public/images'
 import UtilityButton from '@/app/components/button'
 import Card from '@/app/components/cloudinaryCard'
 import ReviewBox from '@/app/components/reviewBox'
+import { useQuery } from '@apollo/client'
+import { ONEGAME, SIMILAR_GAMES } from '@/app/GraphQL/queries'
+import Link from 'next/link'
+import SimilarGames from '@/app/components/similarGames'
+import gsap from 'gsap'
 
-export default function game() {
+export default function game({ params }) {
 
   const [sliceNo, setSliceNo] = useState(450);
   const [buttonText, setButtonText] = useState(false)
-  const [cardCount, setCardCount] = useState(8);
+  const [cardCount, setCardCount] = useState(6);
   const [showOptions, setShowOptions] = useState(false);
   const [reviewOptions, setReviewOptions] = useState("Newest first")
   const clickRef = useRef(null);
   const [viewSlice, setViewSlice] = useState(3);
+  const similarRef = useRef(null);
+  const similarParentRef = useRef(null);
+
+  const gameId = parseInt(params.game, 10)
+
+  const { loading, error, data } = useQuery(ONEGAME, {
+    variables: { id: gameId },
+  });
+
+  const { loading: similarLoading, error: similarError, data: similarGamesData } = useQuery(SIMILAR_GAMES, {
+    variables: { id: gameId },
+  });
 
   const reviewArray = [
     { svg: tick, review: "Super nice game", ratingsvg: bomb, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lukasz Milescu" },
@@ -31,16 +48,23 @@ export default function game() {
   ]
 
   const gameCollections = [
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Kill hour", games: 14},
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Less gooo", games: 21 },
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Vampire fanatic", games: 12},
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Meh", games: 11},
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Kill hour", games: 14},
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Less gooo", games: 21 },
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Vampire fanatic", games: 12},
-    { image: {image1: vamp, image2: alpha, image3: blood, image4: action}, title: "Meh", games: 11},
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Kill hour", games: 14 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Less gooo", games: 21 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Vampire fanatic", games: 12 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Meh", games: 11 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Kill hour", games: 14 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Less gooo", games: 21 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Vampire fanatic", games: 12 },
+    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Meh", games: 11 },
   ]
 
+
+  // useEffect(() => {
+  //   const similarHeight = similarRef.current.getBoundingClientRect().height
+  //   gsap.to(similarParentRef.current, {
+  //     height: similarHeight + 50
+  //   })
+  // }, [cardCount])
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -90,7 +114,6 @@ export default function game() {
     setButtonText(!buttonText)
   }
 
-  const gamePlatforms = [windowsWhite, psWhite, xboxWhite]
   const images = [
     "my-videos/boat_tyrkf7",
     "my-videos/kill_qhzkbt",
@@ -107,12 +130,22 @@ export default function game() {
     "Skip"
   ]
 
+  if (loading || similarLoading) return <p>Loading.....</p>;
+
+  if (error || similarError) return <p>Error: {error ? error.message : similarError.message}</p>
+
+  console.log(`SimilarGames is ${similarGamesData.similarUserGames[0].title}`)
+
+
+  const gamePlatforms = data.oneGame.platforms.map(item => platformIcons[item]).filter(it => it !== undefined);
+
+
   return (
     <main className='game_main'>
 
       <div className='game_container row'>
         <div className='game-container-div1'>
-          <div className='game-container-div1-gray-title'><h4>HOME / GAMES / VAMPIRE: THE MASQUERADE - BLOODLINES 2</h4></div>
+          <div className='game-container-div1-gray-title'><h4>{`HOME / GAMES / ${data.oneGame.title}`}</h4></div>
 
           <div className='game-container-div1-svgs'>
             <div className='dsp-f'>
@@ -127,7 +160,7 @@ export default function game() {
             <span className='m-l-2'>AVERAGE PLAYTIME: 329 HOURS</span>
           </div>
 
-          <div className='game-container-div1-title'><h1>Vampire: The Masquerade - Bloodlines 2</h1></div>
+          <div className='game-container-div1-title'><h1>{data.oneGame.title}</h1></div>
 
           <div className='game-container-div1-addTo'>
             <div className='addTo1'>
@@ -181,24 +214,24 @@ export default function game() {
 
               <div className='bar1'>
                 <div className="bar1div">
-                <Image src={bomb} width={40} height={40} alt='rating-svg' className='rating-bar-svg' />
+                  <Image src={bomb} width={40} height={40} alt='rating-svg' className='rating-bar-svg' />
                 </div>
                 <div className='bar1-child'><div style={{ backgroundColor: "green" }}></div><p>Exceptional<strong>115</strong></p></div>
               </div>
 
               <div className='bar2'>
-              <div className="bar2div">
-                <Image src={thumbsUp} width={50} height={50} alt='rating-svg' className='rating-bar-svg' />
+                <div className="bar2div">
+                  <Image src={thumbsUp} width={50} height={50} alt='rating-svg' className='rating-bar-svg' />
                 </div>
                 <div className='bar2-child'><div style={{ backgroundColor: "blue" }}></div><p>Recommended<strong>75</strong></p></div>
-                </div>
+              </div>
 
               <div className='bar3'>
-              <div className='dsp-f justify-center bar3-child'><div style={{ backgroundColor: "orange" }}></div><p>Meh<strong>25</strong></p></div>
+                <div className='dsp-f justify-center bar3-child'><div style={{ backgroundColor: "orange" }}></div><p>Meh<strong>25</strong></p></div>
               </div>
 
               <div className='bar4'>
-              <div className='bar4-child'><div style={{ backgroundColor: "red" }}></div><p>Skip<strong>37</strong></p></div>
+                <div className='bar4-child'><div style={{ backgroundColor: "red" }}></div><p>Skip<strong>37</strong></p></div>
               </div>
 
             </div>
@@ -219,13 +252,17 @@ export default function game() {
           <div className="game-info">
 
             <div className='game-info-div1'>
-              <div><h4>Platforms</h4><span>Playstation,</span><span>Xbox,</span><span>Windows</span></div>
+              <div><h4>Platforms</h4>{
+                data.oneGame.platforms.map((item, index) => (<span key={index}>{item}</span>))
+              }</div>
               <div><h4>Release date</h4><span>TBA</span></div>
               <div><h4>Publisher</h4><span>Paradox Interactive</span></div>
             </div>
 
             <div className='game-info-div2'>
-              <div><h4>Genre</h4><span>Action,</span><span>RPG</span></div>
+              <div><h4>Genre</h4>{
+                data.oneGame.genres.map((item, index) => (<span key={index}>{item}</span>))
+              }</div>
               <div><h4>Developer</h4><span>Hardsuit Labs</span></div>
               <div><h4>Age Rating</h4><span>Not rated</span></div>
             </div>
@@ -233,25 +270,25 @@ export default function game() {
           </div>
 
           <div className="game-info2">
-          <div className='game-info2-div0'>
-            <h4>Other games in the series</h4>
-            <div>
-            <span>Vampire: The Masquerade-Swansong,</span><span>Vampire: The Masquerade-Bloodhunt</span><span>Vampire: The Masquerade-Shadows of New York,</span><span>Vampire: The Masquerade-Coteries of New York</span><span>Vampire: The Masquerade-Redemption,</span>
+            <div className='game-info2-div0'>
+              <h4>Other games in the series</h4>
+              <div>
+                <span>Vampire: The Masquerade-Swansong,</span><span>Vampire: The Masquerade-Bloodhunt</span><span>Vampire: The Masquerade-Shadows of New York,</span><span>Vampire: The Masquerade-Coteries of New York</span><span>Vampire: The Masquerade-Redemption,</span>
+              </div>
+
             </div>
 
-          </div>
+            <div className='game-info2-div1'>
+              <h4>Tags</h4>
+              <div>
+                <span>Action,</span><span>Story</span><span>Action,</span><span>Great Soundtrack</span><span>Open world,</span><span>First-person</span><span>Horror,</span><span>Gore</span><span>Violent,</span><span>Vampire</span><span>Single-player,</span><span>RPG</span><span>Atmospheric,</span><span>RPG</span>
+              </div>
 
-          <div className='game-info2-div1'>
-            <h4>Tags</h4>
-            <div>
-            <span>Action,</span><span>Story</span><span>Action,</span><span>Great Soundtrack</span><span>Open world,</span><span>First-person</span><span>Horror,</span><span>Gore</span><span>Violent,</span><span>Vampire</span><span>Single-player,</span><span>RPG</span><span>Atmospheric,</span><span>RPG</span>
             </div>
-
-          </div>
-          <div className="game-info2-div2">
-          <h4>Website</h4>
-          <p>https://www.bloodlines2.com</p>
-          </div>
+            <div className="game-info2-div2">
+              <h4>Website</h4>
+              <p>https://www.bloodlines2.com</p>
+            </div>
           </div>
 
         </div>
@@ -264,7 +301,7 @@ export default function game() {
               className='game-container-video'
               muted
               loop
-              cldVid={cld.video(vid)}
+              cldVid={cld.video(data.oneGame.videoUrl)}
               plugins={[lazyload]}
               controls
             />
@@ -274,7 +311,7 @@ export default function game() {
             {images.map((image, index) => {
               return <div key={index}>
                 <AdvancedImage
-                  cldImg={cld.image(image)}
+                  cldImg={cld.image(data.oneGame.imageUrl)}
                   className="game-image"
                 />
               </div>
@@ -306,16 +343,16 @@ export default function game() {
               {
                 gameCollections.slice(0, viewSlice).map((game, index) => {
                   return <div key={index} className='collection-grid'>
-                      <div className='collection-grid-grid'>
+                    <div className='collection-grid-grid'>
                       <Image src={game.image.image1} width={35} height={35} alt='image' />
-                      <Image src={game.image.image2} width={35} height={35} alt='image'/>
+                      <Image src={game.image.image2} width={35} height={35} alt='image' />
                       <Image src={game.image.image3} width={35} height={35} alt='image' />
                       <Image src={game.image.image4} width={35} height={35} alt='image' />
-                      </div>
+                    </div>
 
-                      <div className='collection-grid-text'>
-                        <h2>{game.title}</h2>
-                        <p>{game.games} GAMES</p>
+                    <div className='collection-grid-text'>
+                      <h2>{game.title}</h2>
+                      <p>{game.games} GAMES</p>
                     </div>
                   </div>
                 })
@@ -328,24 +365,23 @@ export default function game() {
 
       </div>
 
-      <div className='similar-games cols-8-xl'>
+      <div className='similar-games cols-8-xl' ref={similarParentRef}>
+
+        <div className='dsp-f justify-center'>
+          <h1>{`Games like ${data.oneGame.title}`}</h1>
+        </div>
 
         <div>
-          <h1>Games like Vampire: The Masquerade - Bloodlines 2</h1>
-        </div>
-
-        <div className='row cards similar-games-cards'>
-          {
-            cardArray.slice(0, cardCount).map((card, index) => {
-              return <Card image={card} index={index} />
-            })
-          }
-        </div>
-
-        <div className='mt-4'>
+          <div ref={similarRef}>
+            {
+              <SimilarGames data={similarGamesData} count={cardCount} />
+            }
+          </div>
+          <div className='mt-4 dsp-f ai-c justify-center'>
           <div>
             <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount >= cardArray.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
           </div>
+        </div>
         </div>
 
       </div>
@@ -355,7 +391,7 @@ export default function game() {
         <div className='reviews-div-container'>
 
           <div className='reviews-div-title'>
-            <h1>Vampire: The Masquerade - Bloodlines 2 Reviews</h1>
+            <h1>{`${data.oneGame.title} Reviews`}</h1>
           </div>
 
           <div className='review-title'>
@@ -377,7 +413,7 @@ export default function game() {
           </div>
           {
             reviewArray.map((review, index) => {
-              return <ReviewBox svg={review.svg} rating={review.rating} ratingsvg={review.ratingsvg} profilePic={review.profilePic} name={review.name} index={index} review={review.review} date={review.date} likes={review.likes} dislikes={review.dislikes} />
+              return <ReviewBox svg={review.svg} thumbsop={thumbsop} thumbsdown={thumbsDown} rating={review.rating} ratingsvg={review.ratingsvg} profilePic={review.profilePic} name={review.name} index={index} review={review.review} date={review.date} likes={review.likes} dislikes={review.dislikes} />
             })
           }
         </div>

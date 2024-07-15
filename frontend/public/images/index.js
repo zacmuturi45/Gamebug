@@ -38,6 +38,8 @@ export { default as blood } from './blood.jpg';
 export { default as alpha } from './alpha.jpg';
 export { default as action } from './action.png';
 export { default as nintendoWhite } from './nintendoWhite.svg';
+export { default as thumbsop } from './thumbsop.svg';
+export { default as thumbsDown } from './thumbsDown.svg' 
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';
@@ -47,6 +49,12 @@ import sports from './sports.png';
 import strategy from './strategy.png';
 import adventure from './adventure.png';
 import puzzle from './puzzle.png';
+import psWhite from './psWhite.svg';
+import windowsWhite from './windowsWhite.svg';
+import xboxWhite from './xboxWhite.svg';
+import nintendoWhite from './nintendoWhite.svg';
+import iosWhite from './iosWhite.svg';
+import androidWhite from './androidWhite.svg';
 
 export const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } });
 
@@ -79,6 +87,14 @@ export const genres = [
   { image: puzzle, text: "Puzzle" }
 ]
 
+export const platformIcons = {
+  PS5: psWhite,
+  PC: windowsWhite,
+  'Xbox One': xboxWhite,
+  'Nintendo Switch': nintendoWhite,
+  iOS: iosWhite,
+  Android: androidWhite,
+};
 
 export const cardArray = [
   "my-videos/boat_tyrkf7",

@@ -35,7 +35,6 @@ export default function SideNavBar({ main }) {
     <div className='sidenavbar dsp-f fd-c col-12-xs' ref={sidenavRef}>
       <div className='sidenavbar-content'>
         <Link href="/" className='links linksh2'><h2>Home</h2></Link>
-        <Link href="/" className='links linksh2'><h2>Reviews</h2></Link>
       </div>
       <div className='sidenavbar-children'>
         <div className='box'>

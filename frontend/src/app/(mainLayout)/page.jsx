@@ -157,8 +157,8 @@ export default function Home() {
                             (
                                 <motion.div
                                     variants={tickVariant}
-                                    animate={"enter"}
                                     initial={"initial"}
+                                    animate={"enter"}
                                     exit={"exit"}
                                     className="options-box-absolute" ref={popup1Ref}>
                                     {spanOne.map((item, index) => {
@@ -216,7 +216,8 @@ export default function Home() {
             <div className="row cards">
                 {
                     cardData.map((item, index) => {
-                        return <Card image={item.node.imageUrl} video={item.node.videoUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
+                        console.log(`Rs date is ${item.node.dateAdded}`)
+                        return <Card id={item.node.gameid} image={item.node.imageUrl} video={item.node.videoUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
                     })
                 }
             </div>

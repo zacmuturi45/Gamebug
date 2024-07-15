@@ -882,6 +882,7 @@ body {
   position: relative;
   flex-direction: column;
   padding-bottom: 1rem;
+  min-width: 300px;
   max-width: 390px;
   height: auto;
   background: hsl(200, 3%, 11%);
@@ -1350,6 +1351,7 @@ body {
 .reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 .bio :nth-child(1) {
   font-size: 0.9rem;
   letter-spacing: 0.5px;
+  cursor: pointer;
 }
 .reviewbox-main .reviewbox-div2 .reviewbox-div2-div1 .bio :nth-child(2) {
   font-size: 0.8rem;
@@ -1362,12 +1364,22 @@ body {
 }
 .reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 {
   margin-right: 0.5rem;
+  min-width: 100px;
   display: flex;
+  justify-content: space-between;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 .like {
+  display: flex;
+  align-items: center;
 }
 .reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 .like :nth-child(2) {
   font-size: 0.8rem;
   color: green;
   margin: 0 0.5rem 0 0.2rem;
+}
+.reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 .dislike {
+  display: flex;
+  align-items: center;
 }
 .reviewbox-main .reviewbox-div2 .reviewbox-div2-div2 .dislike :nth-child(2) {
   font-size: 0.8rem;
@@ -1404,6 +1416,25 @@ body {
   padding: 0.5rem 0 0.5rem 2.2rem;
   letter-spacing: 0.5px;
   color: rgb(158, 158, 158);
+}
+
+.similarGamesComponent {
+  border: 2px solid red;
+  position: relative;
+  top: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 300px));
+  gap: 2rem;
+  padding: 0.5rem;
+  justify-content: center;
+  transform: scale(0.85, 0.75);
+  transform-origin: top;
+}
+.similarGamesComponent > *:hover {
+  transform: scale(1.05, 1.02);
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
 }
 
 .game_main {
@@ -2152,11 +2183,18 @@ body {
   letter-spacing: 0.5px;
 }
 .game_main .similar-games {
+  border: 2px solid blue;
+  position: relative;
   margin: 2rem 0;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: fit-content;
+}
+.game_main .similar-games > * {
+  width: 100%;
 }
 .game_main .similar-games h1 {
   text-align: center;
@@ -2164,14 +2202,7 @@ body {
   width: fit-content;
   letter-spacing: 1px;
   font-weight: 500;
-}
-.game_main .similar-games .similar-games-cards > * {
-  margin-bottom: 2rem;
-  transform: scale(0.99);
-}
-.game_main .similar-games .similar-games-cards > *:hover {
-  transform: scale(1.05, 1.02);
-  transition: all 0.2s ease-in-out;
+  margin-bottom: 1rem;
 }
 .game_main .reviews-div {
   height: auto;
