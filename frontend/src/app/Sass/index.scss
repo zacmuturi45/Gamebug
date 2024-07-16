@@ -1218,7 +1218,6 @@ body {
 @media screen and (min-width: 2500px) {
     .main_card {
         width: 540px;
-        border: 4px solid red;
     }
 }
 
@@ -1514,7 +1513,7 @@ body {
 // COMPONENTS
 
 .similarGamesComponent {
-    border: 2px solid red;
+    // border: 2px solid red;
     position: relative;
     top: 0;
     width: 100%;
@@ -2354,7 +2353,7 @@ body {
     }
 
     .similar-games {
-        border: 2px solid blue;
+        // border: 2px solid blue;
         position: relative;
         margin: 2rem 0;
         padding: .5rem;

@@ -9,7 +9,7 @@ export const FilterProvider = ({ children }) => {
     const [filter, setFilter] = useState('all');
 
     useEffect(() => {
-        console.log(`Filterssss iss ${filter}`)
+        // console.log(`Filterssss iss ${filter}`)
     }, [filter])
 
   return (

@@ -11,26 +11,10 @@ import { useQuery } from "@apollo/client";
 import { CARD_DATA } from "../GraphQL/queries";
 import { AnimatePresence, motion } from "framer-motion";
 import { useFilter } from "../contexts/sidenavContext";
+import { tickVariant } from "../../../public/images";
 
 
 export default function Home() {
-
-    const tickVariant = {
-        initial: {
-            scale: 0,
-            opacity: 0
-        },
-        enter: {
-            scale: 1,
-            opacity: 1,
-            transition: { duration: 0.2, ease: [0.85, 0, 0.15, 1] }
-        },
-        exit: {
-            scale: 0,
-            opacity: 0,
-            transition: { duration: 0.2, ease: [0.85, 0, 0.15, 1] }
-        }
-    }
 
     const [sortBy, setSortBy] = useState("Relevance");
     const [platforms, setPlatforms] = useState("Platforms");
@@ -42,33 +26,32 @@ export default function Home() {
 
     const { loading: card_data_loading, error: card_data_errors, data: card_data_data } = useQuery(CARD_DATA);
 
-    // if (card_data_loading) {return <p>Loading..</p>;}
-
     useEffect(() => {
         if (card_data_data) {
             setCardData(card_data_data.allGames.edges)
             setFilteredCards(card_data_data.allGames.edges)
-        }
+        } 
     }, [card_data_data])
 
     useEffect(() => {
-        applyFilter(filter);
-    }, [filter, cardData])
+        if (cardData) {
+            applyFilter(filter);
+        }
+    }, [filter, cardData]);
 
     const applyFilter = (filter) => {
         const now = new Date();
         let filtered = cardData;
+        const cd = filteredCards
 
         if(filter === "Last 30 days") {
-            filtered = cardData.filter(card => {
+            filtered = cd.filter(card => {
                 const dateAdded = new Date(card.node.dateAdded);
                 const daysDifference = (now - dateAdded) / (1000*60*60*24);
                 return daysDifference <= 30;
             });
-        } else if (filter === "PC") {
-            filtered = cardData.filter(card => {
-                return card.node.platforms.includes("PC")
-            })
+        } else if (filter === "Nintendo Switch") {
+            filtered = cd.filter(card => card.node.platforms.includes("Nintendo Switch"));
         }
 
         setCardData(filtered)
@@ -161,6 +144,7 @@ export default function Home() {
             document.removeEventListener('click', handleClickOutside, false);
         };
     }, [sortVisible, platformVisible]);
+    
 
     return (
         <main className="col-10-lg cols-12-sm main-pagejsx">
@@ -235,11 +219,22 @@ export default function Home() {
             {/* END OF OPTIONS BOX */}
 
             <div className="row cards">
-                {
-                    cardData.map((item, index) => {
-                        return <Card id={item.node.gameid} image={item.node.imageUrl} video={item.node.videoUrl} key={index} platforms={item.node.platforms} title={item.node.title} releaseDate={item.node.dateAdded} genres={item.node.genres} chart={item.node.chart} reviews={item.node.reviews.edges[0].node.gameRating} />
-                    })
-                }
+            {cardData &&
+                cardData.map((item, index) => (
+                    <Card
+                        id={item.node.gameid}
+                        image={item.node.imageUrl}
+                        video={item.node.videoUrl}
+                        key={index}
+                        platforms={item.node.platforms}
+                        title={item.node.title}
+                        releaseDate={item.node.dateAdded}
+                        genres={item.node.genres}
+                        chart={item.node.chart}
+                        reviews={item.node.reviews.edges[0]?.node?.gameRating}
+                    />
+                ))
+            }
             </div>
             <div className="load-more"><span onClick={() => {
                 if (cardArray.length >= addCards + 24) {

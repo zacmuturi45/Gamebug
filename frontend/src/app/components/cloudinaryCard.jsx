@@ -23,7 +23,6 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
-    console.log(`Releaseee is ${genres, title}`)
 
     const create_date_string = (dateString) => {
         const day = dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1]+"st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1]+"nd" : dateString.slice(8, 10)[1]+"th")

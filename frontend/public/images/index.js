@@ -58,6 +58,23 @@ import androidWhite from './androidWhite.svg';
 
 export const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } });
 
+export const tickVariant = {
+  initial: {
+      scale: 0,
+      opacity: 0
+  },
+  enter: {
+      scale: 1,
+      opacity: 1,
+      transition: { duration: 0.2, ease: [0.85, 0, 0.15, 1] }
+  },
+  exit: {
+      scale: 0,
+      opacity: 0,
+      transition: { duration: 0.2, ease: [0.85, 0, 0.15, 1] }
+  }
+}
+
 export const newReleases = [
   { image: star, text: "Last 30 days" },
   { image: flame, text: "This week" },

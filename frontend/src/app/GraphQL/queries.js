@@ -27,6 +27,45 @@ query {
 }
 `;
 
+export const REVIEWS = gql`
+query {
+    allReviews {
+        edges {
+            node {
+                content
+            }
+        }
+    }
+}
+`;
+
+export const ALL_GAMES = gql`
+query {
+    allGames {
+        edges {
+            node {
+                gameid
+                title
+                platforms
+                dateAdded
+                genres
+                price
+                chart
+                imageUrl
+                videoUrl
+                reviews {
+                    edges {
+                        node {
+                            gameRating
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+`;
+
 export const ONEGAME = gql`
 query OneGame($id: Int!) {
     oneGame (id: $id) {

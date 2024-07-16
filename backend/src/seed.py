@@ -212,7 +212,7 @@ def seed():
     db.session.commit()
     games = Game.query.all()
     for game in games:
-        print(game.image_url)
+        print(game.platforms)
 
     for g in user_bought_games:
         for _ in range(random.randint(1, 5)):
