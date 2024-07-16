@@ -40,6 +40,7 @@ export { default as action } from './action.png';
 export { default as nintendoWhite } from './nintendoWhite.svg';
 export { default as thumbsop } from './thumbsop.svg';
 export { default as thumbsDown } from './thumbsDown.svg' 
+export { default as play } from './play.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';

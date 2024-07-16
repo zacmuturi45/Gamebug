@@ -7,6 +7,7 @@ import MenuBar from './menuBar'
 import UseScroll from './navScroll'
 import gsap from 'gsap'
 import Link from 'next/link'
+import { useFilter } from '../contexts/sidenavContext'
 
 export default function Navbar() {
     const [isTyping, setIsTyping] = useState(false);
@@ -15,6 +16,7 @@ export default function Navbar() {
     const scrollDirection = UseScroll();
     const [visible, setVisible] = useState(false);
     const inputRef = useRef(null);
+    const { setFilter } = useFilter();
 
 
     useEffect(() => {
@@ -68,7 +70,7 @@ export default function Navbar() {
 
     return (
         <main className={visible ? 'main__navbar dsp-f ai-c justify-space-between' : 'main__navbar nav-hidden dsp-f ai-c justify-space-between'}>
-            <Link href="/"><h1>GameBug</h1></Link>
+            <Link href="/"><h1 onClick={() => setFilter("Home")}>GameBug</h1></Link>
             <form>
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' width={15} height={15} style={{fontSize: 15}} />

@@ -8,13 +8,14 @@ import { newReleases, genres, platforms, arrowDown } from '../../../../public/im
 import SideNavBox from '../sideNavBox';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/src/ScrollTrigger';
+import { useFilter } from '@/app/contexts/sidenavContext';
 
 export default function SideNavBar({ main }) {
 
   gsap.registerPlugin(ScrollTrigger);
   const [toSlice, setToSlice] = useState(3);
   const [toSlice1, setToSlice1] = useState(3);
-
+  const { setFilter } = useFilter();
   const [visible, setVisible] = useState(true);
   const [visible1, setVisible1] = useState(true);
 
@@ -34,7 +35,7 @@ export default function SideNavBar({ main }) {
   return (
     <div className='sidenavbar dsp-f fd-c col-12-xs' ref={sidenavRef}>
       <div className='sidenavbar-content'>
-        <Link href="/" className='links linksh2'><h2>Home</h2></Link>
+        <Link href="/" className='links linksh2'><h2 onClick={() => setFilter("Home")}>Home</h2></Link>
       </div>
       <div className='sidenavbar-children'>
         <div className='box'>

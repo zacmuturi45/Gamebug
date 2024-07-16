@@ -123,16 +123,20 @@ def random_date(start_year, end_year):
     return random_date
 
 cloudGames = [
-    {"title": "Fifa 24", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 65, "chart": "#1 Sports", "video_url": "GameGo/fif24_z8jucm", "imageurl": "GameGo/fifa24_gq5mew", "date_added": random_date(2023, 2024)},
-    {"title": "Pes 24", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 60, "chart": "#2 Sports", "video_url": "GameGo/pesvid_d07nra", "imageurl": "GameGo/pes_uvexkf", "date_added": random_date(2023, 2024)},
-    {"title": "NBA 2K 24", "platforms": ["Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 55, "chart": "#3 Sports", "video_url": "GameGo/nba2k_jr40hv", "imageurl": "GameGo/nba2k_gp89qs", "date_added": random_date(2023, 2024)},
-    {"title": "Madden NFL 23", "platforms": ["Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 55, "chart": "#4 Sports", "video_url": "GameGo/Madden_i9zdmi", "imageurl": "GameGo/madden_sceo2i", "date_added": random_date(2023, 2024)},
-    {"title": "Afl Evolution", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 45, "chart": "#5 Sports", "video_url": "GameGo/Afl_xukype", "imageurl": "GameGo/afl_jak666", "date_added": random_date(2022, 2023)},
+    {"title": "Fifa 24", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Racing", "Strategy"], "price": 65, "chart": "#1 Sports", "video_url": "GameGo/fif24_z8jucm", "imageurl": "GameGo/fifa24_gq5mew", "date_added": random_date(2023, 2024)},
+    {"title": "Pes 24", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Adventure", "Strategy"], "price": 60, "chart": "#2 Sports", "video_url": "GameGo/pesvid_d07nra", "imageurl": "GameGo/pes_uvexkf", "date_added": random_date(2023, 2024)},
+    {"title": "NBA 2K 24", "platforms": ["Xbox One", "PS5"], "genres": ["Sports", "Sports", "Strategy"], "price": 55, "chart": "#3 Sports", "video_url": "GameGo/nba2k_jr40hv", "imageurl": "GameGo/nba2k_gp89qs", "date_added": random_date(2023, 2024)},
+    {"title": "Madden NFL 23", "platforms": ["Xbox One", "PS5"], "genres": ["Sports", "Strategy", "Strategy"], "price": 55, "chart": "#4 Sports", "video_url": "GameGo/Madden_i9zdmi", "imageurl": "GameGo/madden_sceo2i", "date_added": random_date(2023, 2024)},
+    {"title": "Afl Evolution", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Puzzle", "Strategy"], "price": 45, "chart": "#5 Sports", "video_url": "GameGo/Afl_xukype", "imageurl": "GameGo/afl_jak666", "date_added": random_date(2022, 2023)},
     {"title": "Super Mega Baseball 4", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 50, "chart": "#6 Sports", "video_url": "GameGo/baseball_xrivxy", "imageurl": "GameGo/baseball_w2llmf", "date_added": random_date(2022, 2023)},
     {"title": "Pro Evolution Soccer 19", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 60, "chart": "#10 Sports", "video_url": "GameGo/pesvid_d07nra", "imageurl": "GameGo/pes19_xafujn", "date_added": random_date(2018, 2019)},
     {"title": "Rugby 22", "platforms": ["PC", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 60, "chart": "#12 Sports", "video_url": "GameGo/rugby22_ze3xvg", "imageurl": "GameGo/rugby22_vi4z6n", "date_added": random_date(2023, 2024)},
     {"title": "Ballistic Mini Golf", "platforms": ["PC", "Nintendo Switch", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 85, "chart": "#15 Sports", "video_url": "GameGo/golf_wtypyd", "imageurl": "GameGo/ballisticMiniGolf_om4etb", "date_added": random_date(2020, 2021)},
     {"title": "Tennis World Tour 2", "platforms": ["Nintendo Switch", "Xbox One", "PS5"], "genres": ["Sports", "Strategy"], "price": 40, "chart": "#18 Sports", "video_url": "GameGo/tennis_jqbeyh", "imageurl": "GameGo/tennis_b3wd0j", "date_added": random_date(2021, 2022)},
+    {"title": "TestGame1", "platforms": ["Android", "Xbox One", "PS5"], "genres": ["Action", "Sports", "Strategy"], "price": 60, "chart": "#10 Sports", "video_url": "GameGo/pesvid_d07nra", "imageurl": "GameGo/pes19_xafujn", "date_added": random_date(2018, 2019)},
+    {"title": "TestGame2", "platforms": ["iOS", "Xbox One", "PS5"], "genres": ["Guns", "Sports", "Strategy"], "price": 60, "chart": "#12 Sports", "video_url": "GameGo/rugby22_ze3xvg", "imageurl": "GameGo/rugby22_vi4z6n", "date_added": random_date(2023, 2024)},
+    {"title": "TestGame3", "platforms": ["iOS", "PC", "Nintendo Switch", "Xbox One", "PS5"], "genres": ["Sports", "Shooter", "Strategy"], "price": 85, "chart": "#15 Sports", "video_url": "GameGo/golf_wtypyd", "imageurl": "GameGo/ballisticMiniGolf_om4etb", "date_added": random_date(2020, 2021)},
+    {"title": "Tennis World Tour 2", "platforms": ["Nintendo Switch", "Xbox One", "PS5"], "genres": ["Sports", "RPG", "Strategy"], "price": 40, "chart": "#18 Sports", "video_url": "GameGo/tennis_jqbeyh", "imageurl": "GameGo/tennis_b3wd0j", "date_added": random_date(2021, 2022)},
 ]
 
 

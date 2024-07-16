@@ -22,6 +22,9 @@ export default function Home() {
     const [cardData, setCardData] = useState([]);
     const [arr, setArr] = useState([]);
     const [filteredCards, setFilteredCards] = useState([]);
+    const [header, setHeader] = useState("Highest rated games");
+    const [subHeader, setSubHeader] = useState("Based on player reviews and most played");
+
     const { filter } = useFilter();
 
     const { loading: card_data_loading, error: card_data_errors, data: card_data_data } = useQuery(CARD_DATA);
@@ -44,14 +47,42 @@ export default function Home() {
         let filtered = cardData;
         const cd = filteredCards
 
-        if(filter === "Last 30 days") {
-            filtered = cd.filter(card => {
+        const filterConditions = {
+            "Last 30 days": (card) => {
                 const dateAdded = new Date(card.node.dateAdded);
                 const daysDifference = (now - dateAdded) / (1000*60*60*24);
                 return daysDifference <= 30;
-            });
-        } else if (filter === "Nintendo Switch") {
-            filtered = cd.filter(card => card.node.platforms.includes("Nintendo Switch"));
+            },
+            "Nintendo Switch": (card) => card.node.platforms.includes("Nintendo Switch"),
+            "PC": (card) => card.node.platforms.includes("PC"),
+            "PlayStation 5": (card) => card.node.platforms.includes("PS5"),
+            "Xbox One": (card) => card.node.platforms.includes("Xbox One"),
+            "iOS": (card) => card.node.platforms.includes("iOS"),
+            "Android": (card) => card.node.platforms.includes("Android"),
+            "Action": (card) => card.node.genres.includes("Action"),
+            "Guns": (card) => card.node.genres.includes("Guns"),
+            "Shooter": (card) => card.node.genres.includes("Shooter"),
+            "RPG": (card) => card.node.genres.includes("RPG"),
+            "Racing": (card) => card.node.genres.includes("Racing"),
+            "Adventure": (card) => card.node.genres.includes("Adventure"),
+            "Sports": (card) => card.node.genres.includes("Sports"),
+            "Strategy": (card) => card.node.genres.includes("Strategy"),
+            "Puzzle": (card) => card.node.genres.includes("Puzzle"),  
+            "Home": (card) => card.node.title,          
+        };
+
+        if (filterConditions[filter]) {
+            if (filter === "Last 30 days" || filter === "This week" || filter === "Next week") {
+                setHeader(filter)
+                setSubHeader("")
+            } else if (filter === "Home") {
+                setHeader("Highest rated games")
+                setSubHeader("Based on player reviews and most played")
+            } else {
+                setHeader(`${filter} Games`)
+                setSubHeader("");
+            }
+            filtered = cd.filter(filterConditions[filter]);
         }
 
         setCardData(filtered)
@@ -81,8 +112,6 @@ export default function Home() {
 
     const [previousIndex, setPreviousIndex] = useState(null);
     const [previousPlatformTick, setPreviousPlatformTick] = useState(null);
-
-    const [header, setHeader] = useState("Highest rated games");
 
     const popup1Ref = useRef(null);
     const popup2Ref = useRef(null);
@@ -150,7 +179,7 @@ export default function Home() {
         <main className="col-10-lg cols-12-sm main-pagejsx">
             <div className="main-pagejsx-h1">
                 <h1>{header}</h1>
-                <p className="mt-2">Based on player reviews and most played</p>
+                <p className="mt-2">{subHeader}</p>
             </div>
 
             {/* OPTIONS BOX */}

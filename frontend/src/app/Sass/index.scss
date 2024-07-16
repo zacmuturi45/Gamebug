@@ -904,6 +904,25 @@ body {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         overflow: hidden;
+        .play-button-div {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            z-index: 20000;
+            padding: .3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            .play-button {
+                width: 17px;
+                height: 20px;
+                margin-left: 2.5px;
+            }
+        }
         .img {
             width: 100%;
             height: 100%;
@@ -927,6 +946,10 @@ body {
                 opacity: 1;
                 transition: all .5s ease;
                 transform: scale(1.03);
+            }
+            .play-button-div {
+                opacity: 0;
+                transition: all .4s ease-in-out;
             }
         }
     }

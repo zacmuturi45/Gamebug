@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
@@ -81,6 +81,9 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     return (
         <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={index}>
             <div className="cloudinary">
+                <div className='play-button-div'>
+                <Image src={play} alt='play-button' className='play-button' />
+                </div>
                 <AdvancedImage
                     className="img"
                     cldImg={cld.image(image)}
