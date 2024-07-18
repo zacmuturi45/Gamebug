@@ -26,8 +26,8 @@ export default function RootLayout({ children }) {
           <main className={pathname === '/games' ? "container wrapper layouts" : (pathname === '/signup' ? "container wrapper layout" : "container wrapper")}>
             <div className={pathname === '/games' ? "before" : (pathname === '/signup' ? "container wrapper after" : "")}></div>
             <FilterProvider>
-              <Navbar />
-              {children}
+                <Navbar />
+                {children}
             </FilterProvider>
           </main>
           {/* </Layouts> */}

@@ -24,27 +24,38 @@ from src.models import (
 
 
 class User(SQLAlchemyObjectType):
-    
+
     userid = Field(Int)
-    
+
     class Meta:
         model = UserModel
         interfaces = (relay.Node,)
-        
+
     def resolve_userid(self, info):
         return self.id
 
 
 class Game(SQLAlchemyObjectType):
-    
+
     gameid = Field(Int)
-    
+    gameAverageRating = Field(Int)
+
     class Meta:
         model = GameModel
         interfaces = (relay.Node,)
-        
+
     def resolve_gameid(self, info):
         return self.id
+
+    def resolve_gameAverageRating(self, info):
+        averageRating = (
+            db.session.query(func.avg(ReviewModel.game_rating))
+            .filter_by(game_id=self.id)
+            .scalar()
+        )
+        if averageRating is not None:
+            averageRating = round(averageRating)
+        return averageRating
 
 
 class Review(SQLAlchemyObjectType):
@@ -160,10 +171,10 @@ class Query(ObjectType):
         if game is None:
             raise Exception("Game does not exist")
         return game
-    
+
     def resolve_one_user(self, info, id=None):
         user = UserModel.query.get(id)
-        
+
         if user is None:
             raise Exception("User with the provided id does not exist")
         return user

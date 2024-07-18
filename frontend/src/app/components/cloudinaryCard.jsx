@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { cld } from '../../../public/images'
+import { useFilter } from '../contexts/sidenavContext'
 
 export default function Card({ id, image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
@@ -18,6 +19,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const panelRef = useRef(null);
     const [showGiftBox, setShowGiftBox] = useState(false);
     const [platArray, setPlatArray] = useState([]);
+    const { setFilter } = useFilter();
 
     const vid = video
     const img = image
@@ -43,7 +45,6 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     }, [])
 
     useEffect(() => {
-        console.log(`Reviews iss ${reviews}`)
         getPlatforms(platforms)
     }, [])
 
@@ -104,7 +105,15 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     <div className="cloudinarydiv1">
                         {
                             platArray.map((item, index) => {
-                                return (<div key={index}>
+                                const platIcons = {
+                                    psWhite: "PS5",
+                                    iosWhite: "iOS",
+                                    xboxWhite: "Xbox One",
+                                    nintendoWhite: "Nintendo Switch",
+                                    androidWhite: "Android",
+                                    windowsWhite: "PC"
+                                }
+                                return (<div key={index} onClick={() => setFilter(item === windowsWhite ? "PC" : (item === psWhite ? "PlayStation 5" : (item === iosWhite ? "iOS" : (item === xboxWhite ? "Xbox One" : (item === nintendoWhite ? "Nintendo Switch" : (item === androidWhite ? "Android" : ""))))))}>
                                     <Image src={item} width={17} height={17} alt='svg-image' className='gamePlatform-image' />
                                 </div>)
                             })
@@ -112,7 +121,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><Link href={`/${id}`}><span>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
+                        <h2><Link href={`/${id}`}><span onClick={() => setFilter("")}>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
                         </h2>
                     </div>
 
@@ -154,7 +163,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                             <div className='genre-div'>
                             {
                                 genres.map((item, index) => (
-                                    <strong key={index}>{item}</strong>
+                                    <strong key={index} onClick={() => setFilter(item)}>{item}</strong>
                                 ))
                             }
                             </div>

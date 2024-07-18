@@ -14,6 +14,7 @@ query {
                 chart
                 imageUrl
                 videoUrl
+                gameAverageRating
                 reviews {
                     edges {
                         node {

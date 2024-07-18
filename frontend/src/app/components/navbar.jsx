@@ -93,7 +93,7 @@ export default function Navbar() {
                 <ul className='nav-ul'>
                     <div className='ul-divp'>
                         <div className='ul-div1'>
-                            <Link href="/login"><span>LOG IN</span></Link>
+                            <Link href="/login"><span onClick={() => setFilter("")}>LOG IN</span></Link>
                             <div className='ul-child-div1'></div>
                             <div className='ul-child-div1b'></div>
                         </div>
@@ -101,7 +101,7 @@ export default function Navbar() {
 
                     <div className="ul-divp">
                         <div className='ul-div2'>
-                            <Link href="/signup"><span>SIGN UP</span></Link>
+                            <Link href="/signup"><span onClick={() => setFilter("")}>SIGN UP</span></Link>
                             <div className='ul-child-div2'></div>
                             <div className='ul-child-div1c'></div>
                         </div>
