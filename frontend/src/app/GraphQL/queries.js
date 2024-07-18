@@ -28,17 +28,23 @@ query {
 }
 `;
 
-export const REVIEWS = gql`
-query {
-    allReviews {
-        edges {
-            node {
-                content
-            }
+export const SEARCH_QUERY = gql`
+query ($query: String!) {
+    search(query: $query) {
+        ... on Game {
+            gameid
+            title
+            imageUrl
+            platforms
+        }
+        ... on User {
+            userid
+            username
+            profilePic
         }
     }
 }
-`;
+`
 
 export const ALL_GAMES = gql`
 query {

@@ -205,6 +205,10 @@ img {
   font-size: 1.5rem;
 }
 
+.fw-3 {
+  font-weight: 300;
+}
+
 body {
   background: hsl(10, 3%, 8%);
   font-family: "Ubuntu", sans-serif;
@@ -283,6 +287,50 @@ body {
   font-size: 35px;
 }
 
+.game-result {
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.5rem;
+  height: 55px;
+}
+.game-result > * {
+  height: 100%;
+}
+.game-result .game-result-title {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  cursor: pointer;
+}
+.game-result .game-result-title p {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.game-result .game-result-title p:hover {
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+}
+.game-result .game-result-title .pticons {
+  display: flex;
+}
+.game-result .game-result-title .pticons > * {
+  margin-right: 0.3rem;
+}
+.game-result .game-result-image {
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.game-result .game-result-image:hover {
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+}
+.game-result .game-result-image > * {
+  height: 100%;
+}
+
 .main__navbar {
   width: 100%;
   position: fixed;
@@ -321,15 +369,40 @@ body {
   position: relative;
 }
 .main__navbar form .form-div .onSearchTab {
-  visibility: hidden;
   position: absolute;
   top: 65px;
   left: 5.3%;
   border-radius: 15px;
   width: 92.3%;
-  min-height: 0;
-  height: auto;
+  height: fit-content;
+  visibility: hidden;
+  max-height: 70vh;
+  overflow: scroll;
   background-color: black;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+}
+.main__navbar form .form-div .onSearchTab h2 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 20px;
+}
+.main__navbar form .form-div .onSearchTab #p-results {
+  padding: 1rem 0 0 1rem;
+  color: rgb(106, 106, 106);
+  font-size: 15px;
+  letter-spacing: -0.5px;
+  text-decoration: underline;
+  text-decoration-color: rgb(58, 58, 58);
+}
+.main__navbar form .form-div .onSearchTab .gameResults {
+  border-bottom: 1px solid rgba(58, 58, 58, 0.6);
+  padding: 1rem 0 0.2rem 1rem;
+}
+.main__navbar form .form-div .onSearchTab .userResults {
+  border-bottom: 1px solid rgba(58, 58, 58, 0.6);
+  padding: 1rem 0 0.2rem 1rem;
 }
 .main__navbar input {
   height: 100%;

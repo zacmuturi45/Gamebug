@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { Cloudinary } from '@cloudinary/url-gen'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
 import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play } from '../../../public/images'
 import Image from 'next/image'

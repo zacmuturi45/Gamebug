@@ -11,6 +11,7 @@ from graphene import (
     Mutation,
     Boolean,
     ID,
+    Union
 )
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from sqlalchemy import func, or_
@@ -68,6 +69,10 @@ class Purchase(SQLAlchemyObjectType):
     class Meta:
         model = PurchaseModel
         interfaces = (relay.Node,)
+        
+class SearchResultType(Union):
+    class Meta:
+        types = (Game, User)
 
 
 class UpdateUserWishlistGames(Mutation):
@@ -164,6 +169,14 @@ class Query(ObjectType):
     my_wishlist_games = List(Game, id=Int())
 
     similar_user_games = List(Game, id=Int())
+    
+    search = List(SearchResultType, query=String(required=True))
+    
+    def resolve_search(self, info, query):
+        games = db.session.query(GameModel).filter(GameModel.title.ilike(f'%{query}%')).all()
+        users = db.session.query(UserModel).filter(UserModel.username.ilike(f'%{query}%')).all()
+        
+        return games + users
 
     def resolve_one_game(self, info, id=None):
         game = GameModel.query.get(id)

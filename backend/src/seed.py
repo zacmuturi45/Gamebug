@@ -272,6 +272,7 @@ def create_fake_user():
     user = User(
         username=fake.user_name(),
         email=fake.email(),
+        profilePic="GameGo/fifa24_gq5mew"
     )
     return user
 
