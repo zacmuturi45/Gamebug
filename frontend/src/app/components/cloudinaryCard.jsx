@@ -80,7 +80,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
     return (
         <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={index}>
-            <div className="cloudinary">
+            <div className="cloudinary" onMouseOver={() => {setFilter("")}}>
                 <div className='play-button-div'>
                 <Image src={play} alt='play-button' className='play-button' />
                 </div>

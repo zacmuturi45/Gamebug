@@ -11,7 +11,7 @@ from graphene import (
     Mutation,
     Boolean,
     ID,
-    Union
+    Union,
 )
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from sqlalchemy import func, or_
@@ -69,7 +69,8 @@ class Purchase(SQLAlchemyObjectType):
     class Meta:
         model = PurchaseModel
         interfaces = (relay.Node,)
-        
+
+
 class SearchResultType(Union):
     class Meta:
         types = (Game, User)
@@ -105,6 +106,42 @@ class UpdateUserWishlistGames(Mutation):
             ok=True,
             success_message=f"{game.title} successfully added to your wishlist",
         )
+
+
+class FollowerFollowee(Mutation):
+    class Arguments:
+        follower_id = ID(required=True)
+        followee_id = ID(required=True)
+        toFollow = Boolean(required=True)
+
+    ok = Boolean()
+    status = String()
+
+    def mutate(self, info, follower_id, followee_id, toFollow):
+        follower = UserModel.query.get(follower_id)
+        followee = UserModel.query.get(followee_id)
+        status = "pending"
+
+        if follower is None:
+            raise Exception("Follower with provided id does not exist")
+        if followee is None:
+            raise Exception("Followee with provided id does not exist")
+
+        if toFollow:
+            follower.following.append(followee)
+            db.session.flush()
+            status = "following"
+
+        if not toFollow:
+            follower.following.remove(followee)
+            db.session.flush()
+            status = "follow"
+
+        db.session.commit()
+        ok = True
+        status = status
+
+        return FollowerFollowee(ok=ok, status=status)
 
 
 class CartItemInput(InputObjectType):
@@ -150,6 +187,8 @@ class MyMutations(ObjectType):
 
     add_to_purchase = AddToPurchases.Field()
 
+    follower_followee = FollowerFollowee.Field()
+
 
 class Query(ObjectType):
     node = relay.Node.Field()
@@ -169,13 +208,21 @@ class Query(ObjectType):
     my_wishlist_games = List(Game, id=Int())
 
     similar_user_games = List(Game, id=Int())
-    
+
     search = List(SearchResultType, query=String(required=True))
-    
+
     def resolve_search(self, info, query):
-        games = db.session.query(GameModel).filter(GameModel.title.ilike(f'%{query}%')).all()
-        users = db.session.query(UserModel).filter(UserModel.username.ilike(f'%{query}%')).all()
-        
+        games = (
+            db.session.query(GameModel)
+            .filter(GameModel.title.ilike(f"%{query}%"))
+            .all()
+        )
+        users = (
+            db.session.query(UserModel)
+            .filter(UserModel.username.ilike(f"%{query}%"))
+            .all()
+        )
+
         return games + users
 
     def resolve_one_game(self, info, id=None):

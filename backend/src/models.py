@@ -24,6 +24,12 @@ wishlist_game = db.Table(
     db.Column("game_id", db.Integer, db.ForeignKey("games.id"), primary_key=True),
 )
 
+followers = db.Table(
+    "followers",
+    db.Column("follower_id", db.Integer, db.ForeignKey("users.id")),
+    db.Column("followee_id", db.Integer, db.ForeignKey("users.id")),
+)
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -44,6 +50,14 @@ class User(db.Model):
     )
     purchases = db.relationship("Purchase", backref="user", lazy=True)
 
+    following = db.relationship(
+        "User",
+        secondary=followers,
+        primaryjoin=id == followers.c.follower_id,
+        secondaryjoin=id == followers.c.followee_id,
+        backref="followers",
+    )
+
 
 class Game(db.Model):
     __tablename__ = "games"
@@ -57,6 +71,8 @@ class Game(db.Model):
     chart = db.Column(db.String(100), default="Unranked")
     image_url = db.Column(db.String(255), nullable=False)
     video_url = db.Column(db.String(255))
+    followers = db.Column(db.Integer)
+    following = db.Column(db.Integer)
 
     reviews = db.relationship("Review", backref="game", lazy=True)
 

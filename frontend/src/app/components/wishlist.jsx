@@ -1,28 +1,50 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cardArray } from '../../../public/images'
 import Card from './cloudinaryCard';
 import UtilityButton from './button';
 import SearchBar from './searchbar';
+import { useQuery } from '@apollo/client';
+import { ALL_GAMES } from '../GraphQL/queries';
 
 export default function Wishlist() {
     const [cardCount, setCardCount] = useState(8);
+    const [userGames, setUserGames] = useState([]);
+    const { data } = useQuery(ALL_GAMES);
+
+    useEffect(() => {
+        if (data) {
+            setUserGames(data.allGames.edges)
+        }
+    }, [data])
+
 
     const handleLoadMore = () => {
-        if (cardArray.length >= cardCount + 4) {
+        if (userGames.length >= cardCount + 4) {
             setCardCount(cardCount + 4)
         } else { setCardCount(8) }
     }
 
     return (
-        <div className='wishlist-maindiv'>
-            <SearchBar search={"my wishlist"} />
-            <div className="row cards my-games-cards" id='cardy'>
+        <div>
+            <SearchBar search={"games"} />
+            <div className="row cards my-games-cards">
                 {
-                    cardArray.slice(0, cardCount).map((card, index) => {
-                        return <Card image={card} index={index} />
-                    })
+                    userGames.slice(0, cardCount).map((item, index) => (
+                        <Card
+                            id={item.node.gameid}
+                            image={item.node.imageUrl}
+                            video={item.node.videoUrl}
+                            key={index}
+                            platforms={item.node.platforms}
+                            title={item.node.title}
+                            releaseDate={item.node.dateAdded}
+                            genres={item.node.genres}
+                            chart={item.node.chart}
+                            reviews={item.node.reviews.edges[0]?.node?.gameRating}
+                        />
+                    ))
                 }
             </div>
 

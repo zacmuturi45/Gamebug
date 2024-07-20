@@ -88,6 +88,23 @@ query OneGame($id: Int!) {
 }
 `;
 
+export const ONEUSER = gql`
+query ($id: Int!) {
+    oneUser (id: $id) {
+        userid
+        username
+        following {
+            edges {
+                node {
+                    userid
+                    username
+                }
+            }
+        }
+    }
+}
+`;
+
 export const SIMILAR_GAMES = gql`
 query similarGames($id: Int!) {
     similarUserGames(id: $id) {

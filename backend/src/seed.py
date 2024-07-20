@@ -261,18 +261,17 @@ cloudGames = [
         "genres": ["Sports", "RPG", "Strategy"],
         "price": 40,
         "chart": "#18 Sports",
-        "video_url": "GameGo/tennis_jqbeyh",
+        "video_url": "GameGo/tennis_b3wd0j",
         "imageurl": "GameGo/tennis_b3wd0j",
         "date_added": random_date(2021, 2022),
     },
 ]
 
 
+
 def create_fake_user():
     user = User(
-        username=fake.user_name(),
-        email=fake.email(),
-        profilePic="GameGo/fifa24_gq5mew"
+        username=fake.user_name(), email=fake.email(), profilePic="GameGo/fifa24_gq5mew"
     )
     return user
 
@@ -357,6 +356,10 @@ def seed():
     for user in users:
 
         for _ in range(random.randint(1, 5)):
+            toFollow = random.choice(users)
+        
+            if toFollow != user and toFollow not in user.following:
+                user.following.append(toFollow)            
             game = random.choice(user_bought_games)
             wishlist = random.choice(user_bought_games)
             if game not in user.bought_games:

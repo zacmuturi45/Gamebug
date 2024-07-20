@@ -12,7 +12,7 @@ import UtilityButton from '@/app/components/button'
 import Card from '@/app/components/cloudinaryCard'
 import ReviewBox from '@/app/components/reviewBox'
 import { useQuery } from '@apollo/client'
-import { ONEGAME, SIMILAR_GAMES } from '@/app/GraphQL/queries'
+import { ONEGAME, ONEUSER, SIMILAR_GAMES } from '@/app/GraphQL/queries'
 import Link from 'next/link'
 import SimilarGames from '@/app/components/similarGames'
 import gsap from 'gsap'
@@ -29,14 +29,18 @@ export default function game({ params }) {
   const similarRef = useRef(null);
   const similarParentRef = useRef(null);
 
-  const gameId = parseInt(params.game, 10)
+  const gameId = parseInt(params.game, 176)
 
   const { loading, error, data } = useQuery(ONEGAME, {
-    variables: { id: gameId },
+    variables: { id: 177 },
+  });
+
+  const { loading: userLoading, error: userError, data: userData} = useQuery(ONEUSER, {
+    variables: { id: 610 },
   });
 
   const { loading: similarLoading, error: similarError, data: similarGamesData } = useQuery(SIMILAR_GAMES, {
-    variables: { id: gameId },
+    variables: { id: 177 },
   });
 
   const reviewArray = [
@@ -132,9 +136,11 @@ export default function game({ params }) {
 
   if (loading || similarLoading) return <p>Loading.....</p>;
 
-  if (error || similarError) return <p>Error: {error ? error.message : similarError.message}</p>
+  if (error || similarError || userError) return <p>Error: {error ? `Errorrr: ${error.message}` : (similarError ? `similar Errorrr: ${similarError.message}` : `User Errorrr: ${userError.message}`)}</p>
 
-  console.log(`SimilarGames is ${similarGamesData.similarUserGames[0].title}`)
+  if(userData) {
+    console.log(`Follwer data is ${userData.oneUser.following.edges[0].node.username}`)
+  }
 
 
   const gamePlatforms = data.oneGame.platforms.map(item => platformIcons[item]).filter(it => it !== undefined);
