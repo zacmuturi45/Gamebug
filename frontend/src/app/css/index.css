@@ -112,14 +112,6 @@ img {
   }
 }
 
-.spans-gray {
-  color: #808080;
-}
-
-.spans-black {
-  color: black;
-}
-
 .thickspans-white {
   background-color: white;
 }
@@ -165,12 +157,8 @@ img {
   margin-left: 1rem;
 }
 
-.m-b-2 {
-  margin-bottom: 1rem;
-}
-
-.m-b-4 {
-  margin-bottom: 3rem;
+.m-b-1 {
+  margin-bottom: 0.5rem;
 }
 
 .m-r-1 {
@@ -179,10 +167,6 @@ img {
 
 .m-r-2 {
   margin-right: 1rem;
-}
-
-.m-r-5 {
-  margin-right: 4rem;
 }
 
 .br-lg {
@@ -201,10 +185,6 @@ img {
   align-items: center;
 }
 
-.fs-lg {
-  font-size: 1.5rem;
-}
-
 .fw-3 {
   font-weight: 300;
 }
@@ -213,6 +193,10 @@ body {
   background: hsl(10, 3%, 8%);
   font-family: "Ubuntu", sans-serif;
   box-sizing: border-box;
+}
+
+body.no-scroll {
+  overflow: hidden;
 }
 
 * {
@@ -542,6 +526,20 @@ body {
 }
 .main__navbar .nav-ul .ellipsis-div-main:hover .ellipsis-div {
   display: flex;
+  color: black;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  font-weight: 400;
+  background-color: rgb(222, 222, 222);
+}
+.main__navbar .nav-ul .ellipsis-div-main:hover .ellipsis-div > * {
+  margin: 0.3rem 0 0.3rem 1rem;
+  letter-spacing: 1px;
+}
+.main__navbar .nav-ul .ellipsis-div-main:hover .ellipsis-div > *:hover {
+  opacity: 0.7;
+  transform: scale(1.03);
 }
 .main__navbar .nav-ul .ellipsis-div-main .faEllipsis {
   font-size: 20px;
@@ -551,44 +549,19 @@ body {
   position: absolute;
   top: 0;
   right: 16px;
-  width: 205px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   background-color: white;
   border-radius: 8px;
 }
-.main__navbar .menuToggler {
+.main__navbar .mobi-menu {
   display: none;
-}
-.main__navbar .faremove {
-  position: absolute;
-  top: -0.6rem;
-  right: 2rem;
-  color: black;
-  border-radius: 22px 0 0 22px;
-  padding: 1rem 1.8rem;
-  min-width: 250px;
-}
-.main__navbar .faremove p {
-  margin: 0.5rem 0;
-  font-size: 17px;
-}
-.main__navbar .faremove h2 {
-  font-size: 27px;
-  font-weight: 600;
-}
-.main__navbar .rateG {
-  width: 80%;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border-radius: 2px;
-  padding: 0.2rem;
-  margin: 1.4rem 0 2.2rem 0;
 }
 .main__navbar .menuBar {
   margin-right: 4rem;
   cursor: pointer;
   height: 15px;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
 }
@@ -629,8 +602,17 @@ body {
   .main__navbar .nav-ul {
     display: none;
   }
-  .main__navbar .menuToggler {
+  .main__navbar .overlay {
+    width: 100%;
+    position: relative;
+  }
+  .main__navbar .overlay .menuBar {
     display: flex;
+    position: absolute;
+    top: 50%;
+    right: -50%;
+    transform: translate(-50%, -60%);
+    z-index: 200;
   }
   .main__navbar form {
     max-width: 700px;
@@ -649,22 +631,79 @@ body {
     left: 40px;
     top: 50px;
   }
-  .menuBar {
-    align-self: flex-end;
+  .main__navbar .mobi-menu {
+    display: grid;
+    position: fixed;
+    top: 0;
+    padding: 1.5rem 0;
+    box-sizing: border-box;
+    right: 0;
+    width: 50%;
+    height: 110vh;
+    background-color: hsl(10, 3%, 10%);
+    overflow: scroll;
+  }
+  .main__navbar .mobi-menu .mobi-container {
+    position: relative;
+    height: 100%;
+    width: 95%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+  }
+  .main__navbar .mobi-menu .mobi-container .mobi-box {
+    padding-left: 0.5rem;
+    padding-bottom: 5rem;
+    margin-top: 1rem;
+  }
+  .main__navbar .mobi-menu .mobi-container > div {
+    width: 100%;
+    padding-left: 0.5rem;
+  }
+  .main__navbar .mobi-menu .mobi-container > div h2 {
+    margin: 0.5rem 0 1rem 1rem;
+    font-size: 23px;
+    letter-spacing: 1px;
+  }
+  .main__navbar .mobi-menu .mobi-container .mobi-div2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 3rem;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-70%, -50%);
+    width: fit-content;
+    right: 0.3rem;
+    color: rgb(106, 106, 106);
+  }
+  .main__navbar .mobi-menu .mobi-container .mobi-div2 .mobi-profile {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    background: linear-gradient(to bottom, hsl(330, 39%, 65%), hsl(315, 43%, 52%), hsl(315, 53%, 51%), hsl(330, 47%, 51%));
+  }
+  .main__navbar .mobi-menu .mobi-container .mobi-div2 .logout-svg {
+    align-self: center;
+    margin: 1rem 0 0 1rem;
   }
 }
 @media screen and (max-width: 720px) {
   .main__navbar form .faSearch-icon {
     left: 40px;
   }
+  .main__navbar .mobi-menu {
+    width: 100%;
+  }
 }
 @media screen and (max-width: 480px) {
   .main__navbar h1 {
     font-size: 1rem;
+  }
+  .main__navbar .mobi-menu {
+    width: 100%;
   }
   .main__navbar form input {
     height: 80%;

@@ -6,11 +6,7 @@ import { createContext, useContext, useState } from 'react'
 const FilterContext = createContext();
 
 export const FilterProvider = ({ children }) => {
-    const [filter, setFilter] = useState('all');
-
-    useEffect(() => {
-        // console.log(`Filterssss iss ${filter}`)
-    }, [filter])
+    const [filter, setFilter] = useState('');
 
   return (
     <FilterContext.Provider value={{ filter, setFilter }}>

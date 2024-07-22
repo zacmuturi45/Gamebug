@@ -120,7 +120,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><Link href={`/${id}`}><span onClick={() => setFilter("")}>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
+                        <h2><Link href={`/${id}`}><span>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
                         </h2>
                     </div>
 

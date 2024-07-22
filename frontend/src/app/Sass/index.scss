@@ -8,6 +8,9 @@ body {
     font-family: "Ubuntu", sans-serif;
     box-sizing: border-box;
 }
+body.no-scroll {
+    overflow: hidden;
+}
 
 * {
     font-family: "Ubuntu";
@@ -413,6 +416,20 @@ body {
             &:hover {
                 .ellipsis-div {
                     display: flex;
+                    color: black;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: start;
+                    font-weight: 400;
+                    background-color: rgb(222, 222, 222);
+                    > * {
+                        margin: .3rem 0 .3rem 1rem;
+                        letter-spacing: 1px;
+                        &:hover {
+                            opacity: 0.7;
+                            transform: scale(1.03);
+                        }
+                    }
                 }
             }
 
@@ -425,8 +442,8 @@ body {
                 position: absolute;
                 top: 0;
                 right: 16px;
-                width: 205px;
-                height: 200px;
+                width: 150px;
+                height: 150px;
                 background-color: white;
                 border-radius: 8px;
             }
@@ -472,12 +489,15 @@ body {
         padding: .2rem;
         margin: 1.4rem 0 2.2rem 0;
     }
+    .mobi-menu {
+        display: none;
+    }
 
     .menuBar {
         margin-right: 4rem;
         cursor: pointer;
         height: 15px;
-        display: flex;
+        display: none;
         flex-direction: column;
         align-items: center;
 
@@ -532,10 +552,19 @@ body {
         .nav-ul {
             display: none;
         }
-
-        .menuToggler {
-            display: flex;
+        .overlay {
+            width: 100%;
+            position: relative;
+            .menuBar {
+                display: flex;
+                position: absolute;
+                top: 50%;
+                right: -50%;
+                transform: translate(-50%, -60%);
+                z-index: 200;
+            }
         }
+
 
         form {
             max-width: 700px;
@@ -559,14 +588,67 @@ body {
                 }
             }
         }
-    }
-
-    .menuBar {
-        align-self: flex-end;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-70%, -50%);
+        .mobi-menu {
+            display: grid;
+            position: fixed;
+            top: 0;
+            // border: 2px solid blue;
+            padding: 1.5rem 0;
+            box-sizing: border-box;
+            right: 0;
+            width: 50%;
+            height: 110vh;
+            background-color: hsl(10, 3%, 10%);
+            overflow: scroll;
+            .mobi-container {
+                position: relative;
+                // border: 2px solid red;
+                height: 100%;
+                width: 95%;
+                display: grid;
+                grid-template-columns: 70% 30%;
+                .mobi-box {
+                    padding-left: .5rem;
+                    padding-bottom: 5rem;
+                    margin-top: 1rem;
+                }
+                > div {
+                    // border: 1px solid blue;
+                    width: 100%;
+                    padding-left: .5rem;
+                    h2 {
+                        margin: .5rem 0 1rem 1rem;
+                        font-size: 23px;
+                        letter-spacing: 1px;
+                    }
+                }
+                .mobi-div2 {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding-top: 3rem;
+                    position: absolute;
+                    width: fit-content;
+                    right: .3rem;
+                    color: rgb(106, 106, 106);
+                    .mobi-profile {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        font-size: 30px;
+                        background: linear-gradient(to bottom, hsl(330, 39%, 65%), hsl(315, 43%, 52%), hsl(315, 53%, 51%), hsl(330, 47%, 51%));
+                    }
+                    .logout-svg {
+                        align-self: center;
+                        margin: 1rem 0 0 1rem;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -577,6 +659,9 @@ body {
                 left: 40px;
             }
         }
+        .mobi-menu {
+            width: 100%;
+        }
     }
 }
 
@@ -584,6 +669,9 @@ body {
     .main__navbar {
         h1 {
             font-size: 1rem;
+        }
+        .mobi-menu {
+            width: 100%;
         }
 
         form {

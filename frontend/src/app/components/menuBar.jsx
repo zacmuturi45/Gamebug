@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import gsap from 'gsap'
 
-export default function MenuBar() {
+export default function MenuBar({ setToggleMenu, toggleMenu }) {
     const [isAnimated, setIsAnimated] = useState(false);
 
     const handleClick = () => {
@@ -43,6 +43,7 @@ export default function MenuBar() {
             })
         }
         setIsAnimated(!isAnimated);
+        setToggleMenu(!toggleMenu)
     }
 
     return (

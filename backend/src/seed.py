@@ -2,7 +2,7 @@ import random
 from src import create_app
 from datetime import datetime, timedelta
 from faker import Faker
-from src.models import User, Game, Review, Purchase, db, purchased_game, wishlist_game
+from src.models import User, Game, Review, Purchase, db, purchased_game, wishlist_game, followers
 
 
 fake = Faker()
@@ -222,7 +222,7 @@ cloudGames = [
         "price": 40,
         "chart": "#18 Sports",
         "video_url": "GameGo/tennis_jqbeyh",
-        "imageurl": "GameGo/tennis_b3wd0j",
+        "imageurl": "GameGo/trial_dyifgm",
         "date_added": random_date(2021, 2022),
     },
     {
@@ -262,7 +262,7 @@ cloudGames = [
         "price": 40,
         "chart": "#18 Sports",
         "video_url": "GameGo/tennis_b3wd0j",
-        "imageurl": "GameGo/tennis_b3wd0j",
+        "imageurl": "GameGo/trial_dyifgm",
         "date_added": random_date(2021, 2022),
     },
 ]
@@ -312,6 +312,7 @@ def create_fake_review(user_id, game_id):
 
 
 def seed():
+    db.session.query(followers).delete()
     db.session.query(Purchase).delete()
     db.session.query(Review).delete()
     db.session.query(purchased_game).delete()

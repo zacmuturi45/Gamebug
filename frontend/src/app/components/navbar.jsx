@@ -8,10 +8,30 @@ import UseScroll from './navScroll'
 import gsap from 'gsap'
 import Link from 'next/link'
 import { useFilter } from '../contexts/sidenavContext'
+import Image from 'next/image'
 import SearchGame from './searchGame'
-import { grateful, isaac, nintendoWhite, psWhite, windowsWhite } from '../../../public/images'
+import { grateful, isaac, logout, nintendoWhite, psWhite, windowsWhite } from '../../../public/images'
 import { useLazyQuery } from '@apollo/client'
 import { SEARCH_QUERY } from '../GraphQL/queries'
+import { AnimatePresence, motion } from 'framer-motion'
+import { newReleases } from '../../../public/images'
+import SideNavBox from './sideNavBox'
+import { genres, platforms, arrowDown } from '../../../public/images'
+
+
+const mobiVariant = {
+    initial: {
+        right: "-100%"
+    },
+    enter: {
+        right: 0,
+        transition: { duration: 0.4, delay: 0.2, ease: [0.85, 0, 0.15, 1] }
+    },
+    exit: {
+        right: "-100%",
+        transition: { duration: 0.5, delay: 0.2, ease: [0.85, 0, 0.15, 1] }
+    }
+}
 
 export default function Navbar() {
     const [isTyping, setIsTyping] = useState(false);
@@ -36,6 +56,13 @@ export default function Navbar() {
             setUserResults([]);
         };
     }, [query])
+
+    useEffect(() => {
+        const body = document.body;
+        if (toggleMenu) {
+            body.classList.toggle("no-scroll");
+        } else { body.classList.remove('no-scroll'); }
+    }, [toggleMenu])
 
     useEffect(() => {
         if (data) {
@@ -71,7 +98,7 @@ export default function Navbar() {
     }, [])
 
     const hideQuery = (e) => {
-        if(!searchRef.current.contains(e.target)) {
+        if (!searchRef.current.contains(e.target)) {
             setQuery("")
         }
     }
@@ -118,11 +145,11 @@ export default function Navbar() {
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' width={15} height={15} style={{ fontSize: 15 }} />
                     <div className="onSearchTab" ref={searchRef}>
-                        {loading && <p style={{margin: "1rem"}}>Loading.....</p>}
+                        {loading && <p style={{ margin: "1rem" }}>Loading.....</p>}
                         {gameResults.length > 0 ? (
                             <div>
                                 {
-                                    gameResults.length>0 && (
+                                    gameResults.length > 0 && (
                                         <div className='gameResults'>
                                             <h2>Games</h2>
                                             {
@@ -134,7 +161,7 @@ export default function Navbar() {
                                     )
                                 }
 
-                                {userResults.length>0 && (
+                                {userResults.length > 0 && (
                                     <div className='userResults'>
                                         <h2>Users</h2>
                                         {
@@ -145,7 +172,7 @@ export default function Navbar() {
                                     </div>
                                 )}
                             </div>
-                        ) : <div style={{padding: "1.5rem"}}>{!loading && <p className='fw-3'>No results for "{query}"</p>}</div>}
+                        ) : <div style={{ padding: "1.5rem" }}>{!loading && <p className='fw-3'>No results for "{query}"</p>}</div>}
 
                         {/* {data && (data.search.length > 10 && <p id='p-results'>See all results</p>)} */}
                     </div>
@@ -183,52 +210,84 @@ export default function Navbar() {
 
                     <div className="ellipsis-div-main">
                         <li className="m-r-2"><FontAwesomeIcon icon={faEllipsis} className='faEllipsis' /></li>
-                        <div className="ellipsis-div"></div>
+                        <div className="ellipsis-div">
+                            <Link href="#"><span>@Twitter</span></Link>
+                            <Link href="#"><span>@Facebook</span></Link>
+                            <Link href="#"><span>@Instagram</span></Link>
+                            <Link href="#"><span>@Discord</span></Link>
+                            <Link href="#"><span>@Steam</span></Link>
+                        </div>
                     </div>
                 </ul>
 
-                <div className='overlay'>
-                    <div className='menuToggler dsp-f ai-c fs-lg'>
-                        {toggleMenu ? <FontAwesomeIcon icon={faRemove} aria-hidden='false' className='m-r-5 faremoveIcon' /> : <MenuBar />}
-                        {toggleMenu && (
-                            <div className="faremove dsp-f thickspans-white">
-                                <div>
-                                    <div className='dsp-f fd-c'>
-                                        <h2>Home</h2>
-                                        <div className='rateG'>
-                                            <FontAwesomeIcon icon={faSpaceShuttle} className='m-r-1 spans-gray' />
-                                            <span>Rate top games</span>
+                <div className="overlay">
+                    <MenuBar setToggleMenu={setToggleMenu} toggleMenu={toggleMenu} />
+                </div>
+            </div>
+            <AnimatePresence>
+
+                {
+                    toggleMenu && (
+                        <motion.div
+                            variants={mobiVariant}
+                            initial={"initial"}
+                            animate={"enter"}
+                            exit={"exit"}
+                            className='mobi-menu'>
+                            <div className='mobi-container'>
+                                <div className='mobi-div1'>
+                                    <h2>My library</h2>
+                                    <h2>Home</h2>
+                                    <h2>Browse</h2>
+                                    <div className='mobi-box'>
+                                        <div style={{ paddingLeft: ".5rem" }}>
+                                            <h3>New Releases</h3>
+                                            {
+                                                newReleases.map((item, index) => (
+                                                    <div key={index}>
+                                                        <SideNavBox image={item.image} text={item.text} setToggleMenu={setToggleMenu} />
+                                                    </div>
+                                                ))
+                                            }
                                         </div>
-                                        <div>
-                                            <h2 className='m-b-4'>Reviews</h2>
-                                            <h2>Browse</h2>
-                                            <p>Collections</p>
-                                            <p>Platforms</p>
-                                            <p>Stores</p>
-                                            <p>Genres</p>
-                                            <p>Creators</p>
-                                            <p>Tags</p>
-                                            <p>Developers</p>
-                                            <p>Publishers</p>
-                                            <h2>Reviews</h2>
-                                            <h2>API</h2>
-                                            <h2>Get an API KEY</h2>
-                                            <h2>Sitemap</h2>
+
+                                        <div className='mt-3' style={{ paddingLeft: ".5rem" }}>
+                                            <h3>Platforms</h3>
+                                            {
+                                                platforms.map((item, index) => (
+                                                    <div key={index}>
+                                                        <SideNavBox image={item.image} text={item.text} setToggleMenu={setToggleMenu} />
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
+
+                                        <div className='mt-3 box' style={{ paddingLeft: ".5rem" }}>
+                                            <h3 className='m-b-1'>Genres</h3>
+                                            {
+                                                genres.map((item, index) => (
+                                                    <div key={index} className='sidenavbox-container'>
+                                                        <SideNavBox image={item.image} text={item.text} setToggleMenu={setToggleMenu} />
+                                                    </div>
+                                                ))
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
-                                <div className="dsp-f fd-c ai-c">
-                                    <FontAwesomeIcon icon={faRemove} className='fs-lg spans-black m-b-2' style={{ fontSize: 43 }} onClick={() => setToggleMenu(false)} />
-                                    <FontAwesomeIcon icon={faSignIn} style={{ fontSize: 43 }} className='fs-lg spans-black' />
-                                    <span style={{ fontSize: 10 }} className='m-b-2'>Login</span>
-                                    <FontAwesomeIcon icon={faPencilSquare} style={{ fontSize: 43 }} className='fs-lg spans-black' />
-                                    <span style={{ fontSize: 10 }}>Sign up</span>
+
+                                <div className='mobi-div2'>
+                                    <div className='mobi-profile'>Z</div>
+                                    <span className='mt-1' style={{color: "rgb(106, 106, 106)"}}>My Profile</span>
+                                    <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' />
+                                    <span>Logout</span>
                                 </div>
                             </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+                        </motion.div>
+                    )
+                }
+            </AnimatePresence>
+
         </main>
     )
 }
