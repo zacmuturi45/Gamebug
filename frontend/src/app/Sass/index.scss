@@ -3365,6 +3365,13 @@ body.no-scroll {
             box-shadow: 2px 2px 5px 2px rgb(110, 110, 110);
         }
     }
+    .signup-error {
+        color: rgb(189, 63, 63);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: .5rem;
+    }
 }
 
 .login-main {
@@ -3426,8 +3433,63 @@ body.no-scroll {
             }
         }
     }
+    .login-error {
+        color: rgb(189, 63, 63);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: .5rem;
+    }
 }
 
+.verify {
+    padding: 4rem 0;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    .verify-div {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: rgb(141, 141, 141);
+        h1 {
+            margin: 1rem 0;
+            font-size: 55px;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 5px;
+        }
+        p {
+            max-width: 600px;
+            text-align: center;
+            margin: 1rem 0;
+            letter-spacing: 1px;
+        }
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .verify {
+        .verify-div {
+            h1 {
+                margin: 1rem 0;
+                font-size: 30px;
+                text-decoration: underline;
+                text-decoration-thickness: 2px;
+                text-underline-offset: 5px;
+            }
+            p {
+                max-width: 400px;
+                text-align: center;
+                margin: 1rem 0;
+                letter-spacing: 1px;
+                font-size: 17px;
+            }
+        }
+    }
+    
+}
 
 
 // ........................................

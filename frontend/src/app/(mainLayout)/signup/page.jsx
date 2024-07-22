@@ -1,13 +1,63 @@
 "use client"
 
 import AuthCard from '@/app/components/authcard'
-import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@apollo/client';
+import { SIGNUP_USER } from '@/app/GraphQL/queries';
 
 export default function Signup() {
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
+    const SignupForm = () => {
+        const [signup] = useMutation(SIGNUP_USER);
+
+        const formik = useFormik({
+            initialValues: {
+                email: "",
+                password: "",
+                confirmPassword: "",
+                username: "",
+            },
+            validationSchema: Yup.object({
+                email: Yup.string().email("Invalid email address").required("Required"),
+                password: Yup.string().min(6, "Must be at least 6 characters").required("Required"),
+                confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match").required("Required"),
+                username: Yup.string().required("Required"),
+            }),
+            onSubmit: async (values, { setSubmitting, resetForm }) => {
+                try {
+                    const { data } = await signup({ variables: { email: values.email, password: values.password, username: values.username } });
+                    if (data.signup.ok) {
+                        resetForm();
+                        alert("Signup successful. Please check your email for confirmation");
+                    } else {
+                        alert("Signup failed. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Signup error:", error);
+                } finally {
+                    setSubmitting(false);
+                }
+            },
+        });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const router = useRouter();
+    }
+
     return (
         <AuthCard>
-            <div className='signup-main'>
+            <form
+                onSubmit={formik.handleSubmit}
+                className='signup-main'>
                 <div>
                     <h1>Sign up</h1>
                 </div>
@@ -17,24 +67,47 @@ export default function Signup() {
                     type="text"
                     placeholder='Email'
                     id='emailinput'
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                 />
+                {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
 
                 <input
                     name='username'
                     type="text"
                     placeholder='Username'
                     id='usernameinput'
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                 />
+                {formik.touched.username && formik.errors.username ? <div>{formik.errors.username}</div> : null}
 
                 <input
                     name='password'
                     type="password"
                     placeholder='Create password'
                     id='passwordinput'
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                 />
+                {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
 
-                <div className='signup-button'>Sign up</div>
-            </div>
+                <input
+                    name='confirmPassword'
+                    type="password"
+                    placeholder='Confirm password'
+                    id='confirmpasswordinput'
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.confirmPassword && formik.errors.confirmPassword ? <div>{formik.errors.confirmPassword}</div> : null}
+
+                <div className='signup-button' type='submit'>Sign up</div>
+            </form>
         </AuthCard>
 
     )

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1da1129600a8ebb90dced098caff8284440590e2701b8a81b741eb04f7ed4c06"
+            "sha256": "14cb0279ec878d5922333e0ffef747329c4a44e7f62e8e944d2570af0859568c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -108,6 +108,15 @@
             ],
             "index": "pypi",
             "version": "==2.0.0"
+        },
+        "flask-jwt-extended": {
+            "hashes": [
+                "sha256:63a28fc9731bcc6c4b8815b6f954b5904caa534fc2ae9b93b1d3ef12930dca95",
+                "sha256:9215d05a9413d3855764bcd67035e75819d23af2fafb6b55197eb5a3313fdfb2"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.7' and python_version < '4'",
+            "version": "==4.6.0"
         },
         "flask-marshmallow": {
             "hashes": [
@@ -461,6 +470,14 @@
             "markers": "python_version >= '3.7'",
             "version": "==2.9.9"
         },
+        "pyjwt": {
+            "hashes": [
+                "sha256:57e28d156e3d5c10088e0c68abb90bfac3df82b40a71bd0daa20c65ccd5c23de",
+                "sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==2.8.0"
+        },
         "python-dateutil": {
             "hashes": [
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
@@ -480,12 +497,12 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:b8b8060bb426838fbe942479c90296ce976249451118ef566a5a0b7d8b78fb05",
-                "sha256:bd63e505105011b25c3c11f753f7e3b8465ea739efddaccef8f0efac2137bac1"
+                "sha256:032d42ee9fb536e33087fb66cac5f840eb9391ed05637b3f2a76a7c8fb477936",
+                "sha256:33874fdc59b3188304b2e7c80d9029097ea31627180896fb549c578ceb8a0855"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==70.2.0"
+            "version": "==71.1.0"
         },
         "six": {
             "hashes": [

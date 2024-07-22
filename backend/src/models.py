@@ -39,6 +39,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     profilePic = db.Column(db.String(255), nullable=False)
     isAdmin = db.Column(db.Boolean, default=False)
+    password_hash = db.Column(db.String, nullable=False)
 
     reviews = db.relationship("Review", backref="user", lazy=True)
 

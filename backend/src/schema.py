@@ -23,6 +23,9 @@ from src.models import (
     db,
 )
 
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token
+
 
 class User(SQLAlchemyObjectType):
 
@@ -128,6 +131,8 @@ class FollowerFollowee(Mutation):
             raise Exception("Followee with provided id does not exist")
 
         if toFollow:
+            if follower in followee.following:
+                raise Exception("You are already following this user")
             follower.following.append(followee)
             db.session.flush()
             status = "following"
@@ -142,6 +147,41 @@ class FollowerFollowee(Mutation):
         status = status
 
         return FollowerFollowee(ok=ok, status=status)
+    
+class SignUpMutation(Mutation):
+    class Arguments:
+        email = String(required=True)
+        password = String(required=True)
+        username = String(required=True)
+        
+    ok = Boolean()
+    user = Field(lambda: User)
+    success_message = String()
+    
+    def mutate(self, info, email, password, username):
+        hashed_password = generate_password_hash(password)
+        new_user = UserModel(email=email, password_hash=hashed_password, username=username)
+        db.session.add(new_user)
+        db.session.commit()
+        
+        return SignUpMutation(ok=True, user=new_user, success_message="Signup successful")
+    
+class LoginMutation(Mutation):
+    class Arguments:
+        email = String(required=True)
+        password = String(required=True)
+        
+    ok = Boolean()
+    token = String()
+    
+    def mutate(self, info, email, password):
+        user = UserModel.query.filter_by(email=email).first()
+        
+        if user and check_password_hash(user.password_hash, password):
+            token = create_access_token(identity=user.id)
+            return LoginMutation(ok=True, token=token)
+        
+        return LoginMutation(ok=False, token=None)
 
 
 class CartItemInput(InputObjectType):
@@ -188,6 +228,10 @@ class MyMutations(ObjectType):
     add_to_purchase = AddToPurchases.Field()
 
     follower_followee = FollowerFollowee.Field()
+    
+    signup = SignUpMutation.Field()
+    
+    login = LoginMutation.Field()
 
 
 class Query(ObjectType):

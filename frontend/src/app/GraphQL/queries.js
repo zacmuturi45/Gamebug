@@ -120,3 +120,16 @@ query similarGames($id: Int!) {
     }
 }
 `;
+
+export const SIGNUP_USER = gql`
+mutation Signup($email: String!, $password: String!, $username: String!) {
+    signup(email: $email, password: $password, username: $username) {
+        ok
+        user {
+            userid
+            email
+        }
+        successMessage
+    }
+}
+`;

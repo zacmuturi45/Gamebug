@@ -43,7 +43,8 @@ export { default as thumbsDown } from './thumbsDown.svg'
 export { default as play } from './play.svg';
 export { default as cry } from './cry.svg';
 export { default as logout } from './logout.svg';
-
+export { default as email } from './email.svg';
+export { default as grass } from './grass.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';

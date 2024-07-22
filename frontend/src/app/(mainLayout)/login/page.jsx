@@ -3,12 +3,16 @@
 import AuthCard from '@/app/components/authcard'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Signup() {
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     return (
         <AuthCard>
-            <div className='login-main'>
+            <form className='login-main'>
                 <h1>Log in</h1>
 
                 <input
@@ -16,6 +20,7 @@ export default function Signup() {
                     type="text"
                     placeholder='Email'
                     id='emailinput'
+                    value={email}
                 />
 
                 <input
@@ -23,6 +28,7 @@ export default function Signup() {
                     type="password"
                     placeholder='Password'
                     id='passwordinput'
+                    value={password}
                 />
 
                 <div className='login-button'>Log in</div>
@@ -32,7 +38,7 @@ export default function Signup() {
                     </Link>
                     <p>Forgot your password?</p>
                 </div>
-            </div>
+            </form>
         </AuthCard>
     )
 }

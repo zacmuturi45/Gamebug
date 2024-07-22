@@ -3,7 +3,7 @@ from src import create_app
 from datetime import datetime, timedelta
 from faker import Faker
 from src.models import User, Game, Review, Purchase, db, purchased_game, wishlist_game, followers
-
+from werkzeug.security import generate_password_hash
 
 fake = Faker()
 # platforms = ["PS5", "PC", "Xbox One", "Nintendo Switch", "iOS", "Android"]
@@ -270,8 +270,9 @@ cloudGames = [
 
 
 def create_fake_user():
+    hashed_password = generate_password_hash("californium-98")    
     user = User(
-        username=fake.user_name(), email=fake.email(), profilePic="GameGo/fifa24_gq5mew"
+        username=fake.user_name(), email=fake.email(), profilePic="GameGo/fifa24_gq5mew", password_hash=hashed_password
     )
     return user
 

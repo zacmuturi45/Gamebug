@@ -5,6 +5,7 @@ from flask_graphql import GraphQLView
 from .models import db
 from config import config
 from .schema import schema
+from flask_jwt_extended import JWTManager
 
 migrate = Migrate()
 
@@ -12,6 +13,8 @@ migrate = Migrate()
 def create_app(config_name="default"):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
+    
+    jwt = JWTManager(app)
 
     db.init_app(app)
     CORS(app)
