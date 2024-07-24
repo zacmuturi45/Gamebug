@@ -20,6 +20,7 @@ from src.models import (
     Game as GameModel,
     Purchase as PurchaseModel,
     Review as ReviewModel,
+    PurchasedGame as purchasedGameModel,
     db,
 )
 
@@ -77,6 +78,10 @@ class Purchase(SQLAlchemyObjectType):
 class SearchResultType(Union):
     class Meta:
         types = (Game, User)
+        
+class BoughtGames(SQLAlchemyObjectType):
+    class Meta: 
+        model = purchasedGameModel
 
 
 class UpdateUserWishlistGames(Mutation):
@@ -174,16 +179,45 @@ class LoginMutation(Mutation):
         
     ok = Boolean()
     token = String()
+    user = Field(lambda: User)
     
     def mutate(self, info, email, password):
         user = UserModel.query.filter_by(email=email).first()
         
         if user and check_password_hash(user.password_hash, password):
             token = create_access_token(identity=user.id)
-            return LoginMutation(ok=True, token=token)
+            return LoginMutation(ok=True, token=token, user=user)
+        if not user:
+            raise Exception("User with the provided email does not exist")
+        if not check_password_hash(user.password_hash, password):
+            raise Exception("Wrong Password")
         
         return LoginMutation(ok=False, token=None)
 
+class AddToGames(Mutation):
+    class Arguments:
+        game_id = Int()
+        user_id = Int()
+        
+    ok = Boolean()
+    count = Int()
+    
+    def mutate(self, info, game_id, user_id):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+        
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+        if game not in user.bought_games:
+            user.bought_games.append(game)
+            db.session.commit()
+            count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
+            return AddToGames(ok=True, count=count)
+        return AddToGames(ok=False, count=None)
+
+        
 
 class CartItemInput(InputObjectType):
     game_id = ID(required=True)
@@ -237,6 +271,8 @@ class MyMutations(ObjectType):
     signup = SignUpMutation.Field()
     
     login = LoginMutation.Field()
+    
+    add_to_games = AddToGames.Field()
 
 
 class Query(ObjectType):
@@ -259,6 +295,12 @@ class Query(ObjectType):
     similar_user_games = List(Game, id=Int())
 
     search = List(SearchResultType, query=String(required=True))
+    
+    add_to_games = Field(Int, game_id=Int(), required=True)
+    
+    def resolve_add_to_games(self, info, game_id):
+        count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
+        return count
 
     def resolve_search(self, info, query):
         games = (

@@ -26,11 +26,9 @@ export default function AuthCard({ children }) {
         })
     }
 
-    const handleSignIn = () => { }
-
     return (
         <main className='authcard-main row'>
-            <div>
+            <div className='auth-children'>
                 {children}
             </div>
 

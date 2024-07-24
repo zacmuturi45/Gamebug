@@ -2,7 +2,7 @@ import random
 from src import create_app
 from datetime import datetime, timedelta
 from faker import Faker
-from src.models import User, Game, Review, Purchase, db, purchased_game, wishlist_game, followers
+from src.models import User, Game, Review, Purchase, db, PurchasedGame, wishlist_game, followers
 from werkzeug.security import generate_password_hash
 
 fake = Faker()
@@ -316,7 +316,7 @@ def seed():
     db.session.query(followers).delete()
     db.session.query(Purchase).delete()
     db.session.query(Review).delete()
-    db.session.query(purchased_game).delete()
+    db.session.query(PurchasedGame).delete()
     db.session.query(wishlist_game).delete()
     db.session.query(User).delete()
     db.session.query(Game).delete()

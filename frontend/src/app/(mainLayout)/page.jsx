@@ -12,6 +12,7 @@ import { CARD_DATA } from "../GraphQL/queries";
 import { AnimatePresence, motion } from "framer-motion";
 import { useFilter } from "../contexts/sidenavContext";
 import { tickVariant } from "../../../public/images";
+import Loader from "../components/loader";
 
 
 export default function Home() {
@@ -243,6 +244,8 @@ export default function Home() {
             document.removeEventListener('click', handleClickOutside, false);
         };
     }, [sortVisible, platformVisible]);
+
+    if(card_data_loading) return <div style={{marginTop: "20%"}}><Loader /></div>
 
 
     return (

@@ -139,6 +139,19 @@ mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
         ok
         token
+        user {
+            userid
+            username
+        }
     }
 }
 `
+
+export const ADDTOMYGAMES = gql`
+mutation addToMyGames($gameId: Int!, $userId: Int!) {
+    addToGames(gameId: $gameId, userId: $userId) {
+        ok
+        count
+    }
+}
+`;

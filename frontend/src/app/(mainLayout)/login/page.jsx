@@ -2,6 +2,7 @@
 
 import AuthCard from '@/app/components/authcard'
 import Loader from '@/app/components/loader'
+import { useLoggedUser } from '@/app/contexts/loginContext'
 import { useFilter } from '@/app/contexts/sidenavContext'
 import { LOGIN_USER } from '@/app/GraphQL/queries'
 import { useMutation } from '@apollo/client'
@@ -19,6 +20,7 @@ export default function Login() {
 
     const [login] = useMutation(LOGIN_USER);
     const router = useRouter();
+    const { setUserInfo } = useLoggedUser();
 
     const formik = useFormik({
         initialValues: {
@@ -31,7 +33,7 @@ export default function Login() {
         }),
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
-                const { data } = await login({ variables: { email: values.email, password: values.password } });
+                const { data, errors } = await login({ variables: { email: values.email, password: values.password } });
                 if (data.login.ok) {
                     resetForm();
                     const token = data.login.token;
@@ -40,16 +42,22 @@ export default function Login() {
                     }
                     setLoading(true)
                     setTimeout(() => {
+                        setUserInfo(data.login.user)
                         setLoading(false)
                         setFilter("Home")
                         router.push("/");
                     }, 3000);
                 } else {
-                    alert("Wrong password, please try again.");
+                    alert("Login failed. Please try again");
                 }
             } catch (error) {
-                console.error("Signup error:", error);
-                alert("Signup error. Please try again.");
+                if(error.graphQLErrors) {
+                    error.graphQLErrors.forEach(({ message }) => {
+                        alert(message);
+                    });
+                } else {
+                    alert("Login Error:", error);
+                }
             } finally {
                 setSubmitting(false);
             }

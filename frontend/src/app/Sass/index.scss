@@ -16,6 +16,19 @@ body.no-scroll {
     font-family: "Ubuntu";
 }
 
+.name-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
 .login-loader {
     display: flex;
     justify-content: center;
@@ -244,7 +257,41 @@ body.no-scroll {
         position: relative;
         height: 43px;
         margin: 0 2.5rem 0 1.5%;
-
+        .toggleSearch {
+            position: absolute;
+            right: 3%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            display: flex;
+            color: rgb(133, 133, 133);
+            > div {
+                font-size: 1rem;
+                display: flex;
+                justify-content: center;
+                span {
+                    font-size: .6rem;
+                    border: 1px solid rgb(133, 133, 133);
+                    margin: 0 5px;
+                    letter-spacing: .5px;
+                    padding: 0 5px;
+                    border-radius: 3px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        }
+        &:focus {
+            .toggleSearch {
+                display: none;
+            }
+        }
+        &:hover {
+            .toggleSearch {
+                display: none;
+            }
+        }
         .faSearch-icon {
             transform: scale(1.1);
             position: absolute;
@@ -755,7 +802,7 @@ body.no-scroll {
             margin-top: 30px;
 
             h2 {
-                margin-bottom: 2rem;
+                margin-bottom: 1rem;
                 font-size: 23px;
                 font-weight: 700;
                 letter-spacing: -0.5px;
@@ -3388,13 +3435,15 @@ body.no-scroll {
         justify-content: center;
         background-color: white;
         color: black;
-        font-size: 17px;
         padding: 1rem;
         margin-top: 1.5rem;
         border-radius: 2px;
         opacity: 0.9;
         font-size: 1.2rem;
         cursor: pointer;
+        span {
+            font-size: 21px;
+        }
         &:hover {
             opacity: 1;
             box-shadow: 2px 2px 5px 2px rgb(110, 110, 110);
@@ -3409,9 +3458,27 @@ body.no-scroll {
     }
 }
 
+@media screen and (max-width: 720px) {
+    .authcard-main {
+        // border: 2px solid green;
+        height: 100vh;
+    }
+    .auth-children {
+        position: absolute;
+        top: 30%;
+    }
+    .authcard-container {
+        // border: 2px solid yellow;
+        margin: 0;
+        position: absolute;
+        top: 1rem;
+    }
+}
+
 .login-main {
     display: flex;
     flex-direction: column;
+    // border: 2px solid red;
     h1 {
         font-weight: 500;
         font-size: 2.5rem;

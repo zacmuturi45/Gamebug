@@ -203,6 +203,19 @@ body.no-scroll {
   font-family: "Ubuntu";
 }
 
+.name-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
 .login-loader {
   display: flex;
   justify-content: center;
@@ -375,6 +388,37 @@ body.no-scroll {
   position: relative;
   height: 43px;
   margin: 0 2.5rem 0 1.5%;
+}
+.main__navbar form .toggleSearch {
+  position: absolute;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  color: rgb(133, 133, 133);
+}
+.main__navbar form .toggleSearch > div {
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+}
+.main__navbar form .toggleSearch > div span {
+  font-size: 0.6rem;
+  border: 1px solid rgb(133, 133, 133);
+  margin: 0 5px;
+  letter-spacing: 0.5px;
+  padding: 0 5px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main__navbar form:focus .toggleSearch {
+  display: none;
+}
+.main__navbar form:hover .toggleSearch {
+  display: none;
 }
 .main__navbar form .faSearch-icon {
   transform: scale(1.1);
@@ -709,17 +753,6 @@ body.no-scroll {
     right: 0.3rem;
     color: rgb(106, 106, 106);
   }
-  .main__navbar .mobi-menu .mobi-container .mobi-div2 .mobi-profile {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 30px;
-    background: linear-gradient(to bottom, hsl(330, 39%, 65%), hsl(315, 43%, 52%), hsl(315, 53%, 51%), hsl(330, 47%, 51%));
-  }
   .main__navbar .mobi-menu .mobi-container .mobi-div2 .logout-svg {
     align-self: center;
     margin: 1rem 0 0 1rem;
@@ -774,7 +807,7 @@ body.no-scroll {
   margin-top: 30px;
 }
 .sidenavlayout .sidenavbar .sidenavbar-content h2 {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-size: 23px;
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -2975,7 +3008,6 @@ body.no-scroll {
   justify-content: center;
   background-color: white;
   color: black;
-  font-size: 17px;
   padding: 1rem;
   margin-top: 1.5rem;
   border-radius: 2px;
@@ -2983,11 +3015,28 @@ body.no-scroll {
   font-size: 1.2rem;
   cursor: pointer;
 }
+.signup-main .signup-button span {
+  font-size: 21px;
+}
 .signup-main .signup-button:hover {
   opacity: 1;
   box-shadow: 2px 2px 5px 2px rgb(110, 110, 110);
 }
 
+@media screen and (max-width: 720px) {
+  .authcard-main {
+    height: 100vh;
+  }
+  .auth-children {
+    position: absolute;
+    top: 30%;
+  }
+  .authcard-container {
+    margin: 0;
+    position: absolute;
+    top: 1rem;
+  }
+}
 .login-main {
   display: flex;
   flex-direction: column;

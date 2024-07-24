@@ -4,11 +4,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import "../../css/index.css"
 import Link from 'next/link'
 import Image from 'next/image';
-import { newReleases, genres, platforms, arrowDown, isLoggedIn } from '../../../../public/images';
+import { newReleases, genres, platforms, arrowDown, isLoggedIn, gradients, getMiddleDigit } from '../../../../public/images';
 import SideNavBox from '../sideNavBox';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/src/ScrollTrigger';
 import { useFilter } from '@/app/contexts/sidenavContext';
+import { useLoggedUser } from '@/app/contexts/loginContext';
+import NameCircle from '../nameCircle';
 
 export default function SideNavBar({ main }) {
 
@@ -18,17 +20,9 @@ export default function SideNavBar({ main }) {
   const { setFilter, filter } = useFilter();
   const [visible, setVisible] = useState(true);
   const [visible1, setVisible1] = useState(true);
-  const [logged, setLogged] = useState(false);
 
   const sidenavRef = useRef(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if(token) {
-      setLogged(true)
-      console.log("TRUEEEE")
-    } else if (!token) {setLogged(false)}
-  }, [filter])
+  const { userInfo } = useLoggedUser();
 
   const handlePlatforms = () => {
     setToSlice(platforms.length)
@@ -47,7 +41,7 @@ export default function SideNavBar({ main }) {
         <Link href="/" className='links linksh2'><h2 onClick={() => setFilter("Home")}>Home</h2></Link>
       </div>
 
-      {logged && <div>Z</div>}
+      {userInfo.username && <div className='dsp-f ai-c' style={{marginBottom: 5}}>{userInfo.username.length >= 10 ? (<span style={{marginRight: 15, textTransform: "capitalize", fontSize: "1.2rem", fontWeight: 700, letterSpacing: 1}}>{userInfo.username.slice(0, 10)}...</span>) : (<span style={{marginRight: 10, textTransform: "capitalize", fontSize: "1.2rem", fontWeight: 700, letterSpacing: 1}}>{userInfo.username}</span>)}<NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /></div>}
 
       <div className='sidenavbar-children'>
         <div className='box'>

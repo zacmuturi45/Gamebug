@@ -16,6 +16,7 @@ import { ONEGAME, SIMILAR_GAMES } from '@/app/GraphQL/queries'
 import Link from 'next/link'
 import SimilarGames from '@/app/components/similarGames'
 import gsap from 'gsap'
+import Loader from '@/app/components/loader'
 
 export default function game({ params }) {
 
@@ -130,7 +131,7 @@ export default function game({ params }) {
     "Skip"
   ]
 
-  if (loading || similarLoading) return <p>Loading.....</p>;
+  if (loading || similarLoading) return <div style={{alignSelf: "center", marginTop: "20%"}}><Loader /></div>;
 
   if (error || similarError) return <p>Error: {error ? error.message : similarError.message}</p>
 

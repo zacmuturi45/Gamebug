@@ -8,7 +8,6 @@ export const logoutLogic = () => {
 
     const logout = () => {
         localStorage.removeItem('token')
-        // destroyCookie(null, 'token');
         router.push("/login");
     };
 

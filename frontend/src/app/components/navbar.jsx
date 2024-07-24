@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { useFilter } from '../contexts/sidenavContext'
 import Image from 'next/image'
 import SearchGame from './searchGame'
-import { grateful, isaac, isLoggedIn, logout, nintendoWhite, psWhite, windowsWhite } from '../../../public/images'
+import { getMiddleDigit, gradients, grateful, isaac, isLoggedIn, logout, nintendoWhite, psWhite, windowsWhite, login } from '../../../public/images'
 import { useLazyQuery } from '@apollo/client'
 import { SEARCH_QUERY } from '../GraphQL/queries'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -20,6 +20,9 @@ import { genres, platforms, arrowDown } from '../../../public/images'
 import { logoutLogic } from './logout'
 import { useRouter } from 'next/navigation'
 import { destroyCookie } from 'nookies'
+import { useLoggedUser } from '../contexts/loginContext'
+import NameCircle from './nameCircle'
+import Loader from './loader'
 
 const mobiVariant = {
     initial: {
@@ -50,6 +53,7 @@ export default function Navbar() {
     const [fetchResults, { loading, data }] = useLazyQuery(SEARCH_QUERY);
 
     const router = useRouter();
+    const { userInfo, setUserInfo } = useLoggedUser();
 
     useEffect(() => {
         if (query.length > 0) {
@@ -126,10 +130,11 @@ export default function Navbar() {
     }
 
     const handleLogout = () => {
-        setToggleMenu(false)
-        setFilter("")
         localStorage.removeItem('token')
+        setFilter("")
+        setUserInfo({})
         router.push("/login")
+        setToggleMenu(false)
     }
 
     const focusSearchBar = () => {
@@ -152,10 +157,13 @@ export default function Navbar() {
         <main className={visible ? 'main__navbar dsp-f ai-c justify-space-between' : 'main__navbar nav-hidden dsp-f ai-c justify-space-between'}>
             <Link href="/"><h1 onClick={() => setFilter("Home")}>GameBug</h1></Link>
             <form>
+            <div className='toggleSearch'>
+                <div><span>CTRL</span> + <span>ENTER</span></div>
+            </div>
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' width={15} height={15} style={{ fontSize: 15 }} />
                     <div className="onSearchTab" ref={searchRef}>
-                        {loading && <p style={{ margin: "1rem" }}>Loading.....</p>}
+                        {loading && <Loader />}
                         {gameResults.length > 0 ? (
                             <div>
                                 {
@@ -204,15 +212,25 @@ export default function Navbar() {
                 <ul className='nav-ul'>
                     <div className='ul-divp'>
                         <div className='ul-div1'>
-                            <Link href="/login"><span onClick={() => setFilter("")}>LOG IN</span></Link>
-                            <div className='ul-child-div1'></div>
-                            <div className='ul-child-div1b'></div>
+                            <Link href="/login"><div onClick={() => setFilter("")}>
+                                {userInfo.username ? <span style={{ textTransform: "capitalize" }}><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /></span> : <span>LOG IN</span>}
+                            </div></Link>
+                            {!userInfo.username && (
+                                <div>
+                                    <div className='ul-child-div1'></div>
+                                    <div className='ul-child-div1b'></div>
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     <div className="ul-divp">
                         <div className='ul-div2'>
-                            <Link href="/signup"><span onClick={() => setFilter("")}>SIGN UP</span></Link>
+                            <div>
+                                {userInfo.username ? <span onClick={() => {
+                                    handleLogout();
+                                }}>SIGN OUT</span> : <span onClick={() => { router.push("/signup") }}>SIGN UP</span>}
+                            </div>
                             <div className='ul-child-div2'></div>
                             <div className='ul-child-div1c'></div>
                         </div>
@@ -225,9 +243,7 @@ export default function Navbar() {
                             <Link href="#"><span>@Facebook</span></Link>
                             <Link href="#"><span>@Instagram</span></Link>
                             <Link href="#"><span>@Discord</span></Link>
-                            <div onClick={() => {
-                                handleLogout()
-                            }}>Logout</div>
+                            <div><span>@Github</span></div>
                         </div>
                     </div>
                 </ul>
@@ -289,10 +305,29 @@ export default function Navbar() {
                                 </div>
 
                                 <div className='mobi-div2'>
-                                    <div className='mobi-profile'>Z</div>
-                                    <span className='mt-1' style={{color: "rgb(106, 106, 106)"}}>My Profile</span>
-                                    <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => handleLogout()} />
-                                    <span>Logout</span>
+                                    {userInfo.username ? <div style={{ textTransform: "capitalize", minHeight: 80, display: "flex", flexDirection: "column", alignItems: "center" }}><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span className='mt-1' style={{ color: "rgb(106, 106, 106)" }}>My Profile</span>
+                                    </div> : <div className='dsp-f fd-c ai-c' onClick={() => {
+                                        setToggleMenu(false)
+                                        router.push("/signup")
+                                    }}><Image src={login} width={50} height={50} alt='logout-svg' className='logout-svg' /><span>SIGN UP</span></div>}
+
+                                    {userInfo.username ? (
+                                        <div className='dsp-f fd-c ai-c'>
+                                            <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => handleLogout()} />
+                                            <span onClick={() => {
+                                                handleLogout();
+                                            }}>Logout</span>
+                                        </div>
+                                    ) : (
+                                        <div className='dsp-f fd-c ai-c'>
+                                            <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => {
+                                                setToggleMenu(false)
+                                                router.push("/login")
+                                            }} />
+                                            <span>LOG IN</span>
+                                        </div>
+                                    )}
+
                                 </div>
                             </div>
                         </motion.div>

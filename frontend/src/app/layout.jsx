@@ -7,6 +7,7 @@ import Layouts from "./components/layouts";
 import { usePathname } from "next/navigation";
 import Head from "next/head";
 import { FilterProvider } from "./contexts/sidenavContext";
+import { LoggedProvider } from "./contexts/loginContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,10 +26,12 @@ export default function RootLayout({ children }) {
           {/* <Layouts> */}
           <main className={pathname === '/games' ? "container wrapper layouts" : (pathname === '/signup' ? "container wrapper layout" : "container wrapper")}>
             <div className={pathname === '/games' ? "before" : (pathname === '/signup' ? "container wrapper after" : "")}></div>
+            <LoggedProvider>
               <FilterProvider>
                 <Navbar />
                 {children}
               </FilterProvider>
+            </LoggedProvider>
           </main>
           {/* </Layouts> */}
         </ApolloProviderWrapper>

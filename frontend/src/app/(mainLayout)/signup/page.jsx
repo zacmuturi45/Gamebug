@@ -7,12 +7,14 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client';
 import { SIGNUP_USER } from '@/app/GraphQL/queries';
+import Loader from '@/app/components/loader';
 
 export default function Signup() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const [signup] = useMutation(SIGNUP_USER);
     const router = useRouter();
@@ -35,9 +37,11 @@ export default function Signup() {
             try {
                 const { data } = await signup({ variables: { email: values.email, password: values.password, username: values.username } });
                 if (data.signup.ok) {
-                    resetForm();
-                    alert("Signup successful. Please check your email for confirmation");
-                    router.push("/login")
+                    setLoading(true)
+                    setTimeout(() => {
+                        resetForm();
+                        router.push("/login")
+                    }, 3000);
                 } else {
                     alert("Signup failed. Please try again.");
                 }
@@ -109,7 +113,9 @@ export default function Signup() {
                 <div style={{ color: "red", textAlign: "center" }}>{formik.touched.confirmPassword && formik.errors.confirmPassword ? <div>{formik.errors.confirmPassword}</div> : null}
                 </div>
 
-                <button className='signup-button' type='submit'>Sign up</button>
+                <button className='signup-button' type='submit'>
+                    {loading ? <Loader /> : <span>Sign up</span>}
+                </button>
             </form>
         </AuthCard>
 
