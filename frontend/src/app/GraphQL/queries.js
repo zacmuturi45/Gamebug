@@ -133,3 +133,12 @@ mutation Signup($email: String!, $password: String!, $username: String!) {
     }
 }
 `;
+
+export const LOGIN_USER = gql`
+mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+        ok
+        token
+    }
+}
+`

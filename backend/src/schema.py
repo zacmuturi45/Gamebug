@@ -24,7 +24,7 @@ from src.models import (
 )
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 
 class User(SQLAlchemyObjectType):
@@ -120,6 +120,7 @@ class FollowerFollowee(Mutation):
     ok = Boolean()
     status = String()
 
+    @jwt_required()
     def mutate(self, info, follower_id, followee_id, toFollow):
         follower = UserModel.query.get(follower_id)
         followee = UserModel.query.get(followee_id)
@@ -198,6 +199,10 @@ class AddToPurchases(Mutation):
     success_message = String()
 
     def mutate(root, info, user_id, purchase_data):
+        current_user_id = info.context.get('user_id')
+        if current_user_id != user_id:
+            raise Exception("You are not authorized to perform this action")
+        
         user = UserModel.query.get(user_id)
         if user is None:
             raise Exception("User with provided id does not exist")

@@ -17,6 +17,7 @@ black = "*"
 graphene = "*"
 psycopg2-binary = "*"
 flask-jwt-extended = "*"
+flask-dance = "*"
 
 [dev-packages]
 

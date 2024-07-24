@@ -16,6 +16,41 @@ body.no-scroll {
     font-family: "Ubuntu";
 }
 
+.login-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    height: 25px;
+    > div {
+        width: 15px;
+        height: 15px;
+        margin: 2px;
+        border-radius: 50%;
+        background-color: #333;
+    }
+    div:nth-child(1) {
+        animation: loader 1s ease infinite;
+        animation-delay: 0s;
+    }
+    div:nth-child(2) {
+        animation: loader 1s ease infinite;
+        animation-delay: 0.1s;
+    }
+    div:nth-child(3) {
+        animation: loader 1s ease infinite;
+        animation-delay: 0.2s;
+    }
+    @keyframes loader {
+        0%, 100% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1);
+        }
+    }
+}
+
 .myid {
     color: white;
     display: flex;
@@ -144,7 +179,7 @@ body.no-scroll {
     }
     .game-result-title {
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         flex-direction: column;
         justify-content: center;
         height: 100%;
@@ -419,7 +454,7 @@ body.no-scroll {
                     color: black;
                     flex-direction: column;
                     justify-content: center;
-                    align-items: start;
+                    align-items: flex-start;
                     font-weight: 400;
                     background-color: rgb(222, 222, 222);
                     > * {
@@ -3393,7 +3428,6 @@ body.no-scroll {
         border: none;
         font-size: 1.2rem;
         letter-spacing: .5px;
-        cursor: pointer;
         padding: .3rem 0 .3rem 1rem;
     }
     .login-button {
@@ -3402,13 +3436,15 @@ body.no-scroll {
         justify-content: center;
         background-color: white;
         color: black;
-        font-size: 17px;
         padding: 1rem;
         margin-top: 1.5rem;
         opacity: 0.9;
         cursor: pointer;
         border-radius: 2px;
         font-size: 1.2rem;
+        span {
+            font-size: 21px;
+        }
         &:hover {
             opacity: 1;
             box-shadow: 2px 2px 5px 2px rgb(110, 110, 110);

@@ -6,6 +6,8 @@ import android from './android.svg';
 import ios from './ios.svg';
 import ps from './ps.svg';
 import nintendo from './nintendo.svg';
+import { jwtDecode } from 'jwt-decode';
+import { destroyCookie } from 'nookies';
 import xbox from './xbox.svg';
 import { Cloudinary } from '@cloudinary/url-gen';
 import windows from './windows.svg';
@@ -62,6 +64,32 @@ import iosWhite from './iosWhite.svg';
 import androidWhite from './androidWhite.svg';
 
 export const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } });
+
+export const decodeToken = (token) => {
+  try {
+      return jwtDecode(token);
+  } catch (error) {
+      console.error("Invalid token", error);
+      return null;
+  }
+};
+
+export const isLoggedIn = () => {
+  const token = localStorage.getItem('token');
+  if (!token) return false;
+
+  try {
+      const decoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decoded.exp < currentTime) {
+          localStorage.removeItem('token');
+          return false;
+      }
+      return true;
+  } catch (error) {
+      return false;
+  }
+};
 
 export const tickVariant = {
   initial: {

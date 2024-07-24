@@ -14,39 +14,41 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const SignupForm = () => {
-        const [signup] = useMutation(SIGNUP_USER);
+    const [signup] = useMutation(SIGNUP_USER);
+    const router = useRouter();
 
-        const formik = useFormik({
-            initialValues: {
-                email: "",
-                password: "",
-                confirmPassword: "",
-                username: "",
-            },
-            validationSchema: Yup.object({
-                email: Yup.string().email("Invalid email address").required("Required"),
-                password: Yup.string().min(6, "Must be at least 6 characters").required("Required"),
-                confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match").required("Required"),
-                username: Yup.string().required("Required"),
-            }),
-            onSubmit: async (values, { setSubmitting, resetForm }) => {
-                try {
-                    const { data } = await signup({ variables: { email: values.email, password: values.password, username: values.username } });
-                    if (data.signup.ok) {
-                        resetForm();
-                        alert("Signup successful. Please check your email for confirmation");
-                    } else {
-                        alert("Signup failed. Please try again.");
-                    }
-                } catch (error) {
-                    console.error("Signup error:", error);
-                } finally {
-                    setSubmitting(false);
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+            confirmPassword: "",
+            username: "",
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email("Invalid email address").required("Required"),
+            password: Yup.string().min(6, "Must be at least 6 characters").required("Required"),
+            confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match").required("Required"),
+            username: Yup.string().required("Required"),
+        }),
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
+            try {
+                const { data } = await signup({ variables: { email: values.email, password: values.password, username: values.username } });
+                if (data.signup.ok) {
+                    resetForm();
+                    alert("Signup successful. Please check your email for confirmation");
+                    router.push("/login")
+                } else {
+                    alert("Signup failed. Please try again.");
                 }
-            },
-        });
-    }
+            } catch (error) {
+                console.error("Signup error:", error);
+                alert("Signup error. Please try again.");
+            } finally {
+                setSubmitting(false);
+            }
+        },
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -71,7 +73,7 @@ export default function Signup() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                 />
-                {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                <div style={{ color: "red", textAlign: "center" }}>{formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}</div>
 
                 <input
                     name='username'
@@ -82,7 +84,7 @@ export default function Signup() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                 />
-                {formik.touched.username && formik.errors.username ? <div>{formik.errors.username}</div> : null}
+                <div style={{ color: "red", textAlign: "center" }}>{formik.touched.username && formik.errors.username ? <div>{formik.errors.username}</div> : null}</div>
 
                 <input
                     name='password'
@@ -93,7 +95,7 @@ export default function Signup() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                 />
-                {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                <div style={{ color: "red", textAlign: "center" }}>{formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}</div>
 
                 <input
                     name='confirmPassword'
@@ -104,9 +106,10 @@ export default function Signup() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                 />
-                {formik.touched.confirmPassword && formik.errors.confirmPassword ? <div>{formik.errors.confirmPassword}</div> : null}
+                <div style={{ color: "red", textAlign: "center" }}>{formik.touched.confirmPassword && formik.errors.confirmPassword ? <div>{formik.errors.confirmPassword}</div> : null}
+                </div>
 
-                <div className='signup-button' type='submit'>Sign up</div>
+                <button className='signup-button' type='submit'>Sign up</button>
             </form>
         </AuthCard>
 

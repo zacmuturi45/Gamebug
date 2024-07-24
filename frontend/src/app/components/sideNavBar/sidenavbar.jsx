@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import "../../css/index.css"
 import Link from 'next/link'
 import Image from 'next/image';
-import { newReleases, genres, platforms, arrowDown } from '../../../../public/images';
+import { newReleases, genres, platforms, arrowDown, isLoggedIn } from '../../../../public/images';
 import SideNavBox from '../sideNavBox';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/src/ScrollTrigger';
@@ -15,11 +15,20 @@ export default function SideNavBar({ main }) {
   gsap.registerPlugin(ScrollTrigger);
   const [toSlice, setToSlice] = useState(3);
   const [toSlice1, setToSlice1] = useState(3);
-  const { setFilter } = useFilter();
+  const { setFilter, filter } = useFilter();
   const [visible, setVisible] = useState(true);
   const [visible1, setVisible1] = useState(true);
+  const [logged, setLogged] = useState(false);
 
   const sidenavRef = useRef(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if(token) {
+      setLogged(true)
+      console.log("TRUEEEE")
+    } else if (!token) {setLogged(false)}
+  }, [filter])
 
   const handlePlatforms = () => {
     setToSlice(platforms.length)
@@ -37,6 +46,9 @@ export default function SideNavBar({ main }) {
       <div className='sidenavbar-content'>
         <Link href="/" className='links linksh2'><h2 onClick={() => setFilter("Home")}>Home</h2></Link>
       </div>
+
+      {logged && <div>Z</div>}
+
       <div className='sidenavbar-children'>
         <div className='box'>
           <h2>New Releases</h2>

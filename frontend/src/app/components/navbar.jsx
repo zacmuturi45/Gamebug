@@ -10,14 +10,16 @@ import Link from 'next/link'
 import { useFilter } from '../contexts/sidenavContext'
 import Image from 'next/image'
 import SearchGame from './searchGame'
-import { grateful, isaac, logout, nintendoWhite, psWhite, windowsWhite } from '../../../public/images'
+import { grateful, isaac, isLoggedIn, logout, nintendoWhite, psWhite, windowsWhite } from '../../../public/images'
 import { useLazyQuery } from '@apollo/client'
 import { SEARCH_QUERY } from '../GraphQL/queries'
 import { AnimatePresence, motion } from 'framer-motion'
 import { newReleases } from '../../../public/images'
 import SideNavBox from './sideNavBox'
 import { genres, platforms, arrowDown } from '../../../public/images'
-
+import { logoutLogic } from './logout'
+import { useRouter } from 'next/navigation'
+import { destroyCookie } from 'nookies'
 
 const mobiVariant = {
     initial: {
@@ -47,6 +49,7 @@ export default function Navbar() {
 
     const [fetchResults, { loading, data }] = useLazyQuery(SEARCH_QUERY);
 
+    const router = useRouter();
 
     useEffect(() => {
         if (query.length > 0) {
@@ -120,6 +123,13 @@ export default function Navbar() {
 
     const handleTyping = () => {
         setIsTyping(true)
+    }
+
+    const handleLogout = () => {
+        setToggleMenu(false)
+        setFilter("")
+        localStorage.removeItem('token')
+        router.push("/login")
     }
 
     const focusSearchBar = () => {
@@ -215,7 +225,9 @@ export default function Navbar() {
                             <Link href="#"><span>@Facebook</span></Link>
                             <Link href="#"><span>@Instagram</span></Link>
                             <Link href="#"><span>@Discord</span></Link>
-                            <Link href="#"><span>@Steam</span></Link>
+                            <div onClick={() => {
+                                handleLogout()
+                            }}>Logout</div>
                         </div>
                     </div>
                 </ul>
@@ -279,7 +291,7 @@ export default function Navbar() {
                                 <div className='mobi-div2'>
                                     <div className='mobi-profile'>Z</div>
                                     <span className='mt-1' style={{color: "rgb(106, 106, 106)"}}>My Profile</span>
-                                    <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' />
+                                    <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => handleLogout()} />
                                     <span>Logout</span>
                                 </div>
                             </div>
