@@ -201,6 +201,7 @@ class AddToGames(Mutation):
         
     ok = Boolean()
     count = Int()
+    added = Boolean()
     
     def mutate(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
@@ -215,7 +216,7 @@ class AddToGames(Mutation):
             db.session.commit()
             count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
             return AddToGames(ok=True, count=count)
-        return AddToGames(ok=False, count=None)
+        return AddToGames(ok=False, count=None, added=True)
 
         
 
@@ -297,6 +298,20 @@ class Query(ObjectType):
     search = List(SearchResultType, query=String(required=True))
     
     add_to_games = Field(Int, game_id=Int(), required=True)
+    
+    check_game = Field(Boolean, game_id=Int(), user_id=Int(), required=True)
+    
+    def resolve_check_game(self, info, game_id, user_id):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+        
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+        if game not in user.bought_games:
+            return False
+        return True
     
     def resolve_add_to_games(self, info, game_id):
         count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()

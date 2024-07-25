@@ -48,6 +48,7 @@ export { default as logout } from './logout.svg';
 export { default as email } from './email.svg';
 export { default as grass } from './grass.svg';
 export { default as login } from './login.svg';
+export { default as whiteTick } from './whiteTick.svg';
 import guns from './guns.svg';
 import action from './action.png';
 import rpg from './rpg.png';

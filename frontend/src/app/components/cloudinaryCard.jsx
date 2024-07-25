@@ -2,13 +2,18 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play, tick, whiteTick } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { cld } from '../../../public/images'
 import { useFilter } from '../contexts/sidenavContext'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { ADDTOMYGAMES, CHECKGAME, GAMECOUNT } from '../GraphQL/queries'
+import { useLoggedUser } from '../contexts/loginContext'
+import { useRouter } from 'next/navigation'
+import Loader from './loader'
 
 export default function Card({ id, image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
@@ -18,22 +23,51 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const panelRef = useRef(null);
     const [showGiftBox, setShowGiftBox] = useState(false);
     const [platArray, setPlatArray] = useState([]);
+    const [addCount, setAddCount] = useState(0);
+    const [loader, setLoader] = useState(false);
+    const [added, setAdded] = useState(false);
     const { setFilter } = useFilter();
+    const router = useRouter();
 
     const vid = video
     const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+    const [addToGames] = useMutation(ADDTOMYGAMES);
+    const [fetchCount, { loading, data, error }] = useLazyQuery(GAMECOUNT);
+    const [checkGames, { loading: checkLoading, data: checkData, error: checkError }] = useQuery(CHECKGAME);
+    const { userInfo } = useLoggedUser();
+
+    useEffect(() => {
+        fetchCount({ variables: { gameId: id } });
+    }, [id])
+
+    useEffect(() => {
+        if (userInfo.username && id) {
+            checkGames({ variables: { gameId: id, userId: userInfo.userid }});
+        }
+    }, [userInfo, id, checkGames])
+
+    useEffect(() => {
+        if (data && data.addToGames !== undefined) {
+            setAddCount(data.addToGames);
+        }
+    }, [data])
+
+    useEffect(() => {
+        if (checkData.checkGame) {
+            setAdded(false)
+        } else {setAdded(true)}
+    }, [])
 
     const create_date_string = (dateString) => {
-        const day = dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1]+"st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1]+"nd" : dateString.slice(8, 10)[1]+"th")
-        const month = months[parseInt(dateString.slice(5, 7)) -1]
+        const day = dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1] + "st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1] + "nd" : dateString.slice(8, 10)[1] + "th")
+        const month = months[parseInt(dateString.slice(5, 7)) - 1]
         const year = dateString.slice(0, 4)
-        let full_date = month+" "+day+" "+year
+        let full_date = month + " " + day + " " + year
         return full_date
     }
 
-    // const rd = create_date_string(releaseDate.slice(0, 10))
 
     useEffect(() => {
         document.addEventListener('click', hideReviewPanel);
@@ -78,11 +112,31 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
         setPlatArray(plats)
     };
 
+    const addGame = async () => {
+        try {
+            const { data, errors } = await addToGames({ variables: { gameId: id, userId: userInfo.userid } });
+            if (data.addToGames.ok) {
+                setLoader(true)
+                setTimeout(() => {
+                    setLoader(false)
+                    setAdded(true)
+                    setAddCount(data.addToGames.count)
+                }, 2000);
+            } else { alert("This Game already exists in your library") }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    alert(message)
+                });
+            }
+        }
+    }
+
     return (
         <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={index}>
-            <div className="cloudinary" onMouseOver={() => {setFilter("")}}>
+            <div className="cloudinary" onMouseOver={() => { setFilter("") }}>
                 <div className='play-button-div'>
-                <Image src={play} alt='play-button' className='play-button' />
+                    <Image src={play} alt='play-button' className='play-button' />
                 </div>
                 <AdvancedImage
                     className="img"
@@ -125,9 +179,21 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     </div>
 
                     <div className="cloudinarydiv3">
-                        <div className='plusWhite'>
-                            <Image src={plusWhite} alt='plus-sign' width={12} height={12} />
-                            <span style={{ marginLeft: 10 }}>847</span>
+                        <div className='plusWhite' onClick={() => {
+                            if (userInfo.username) {
+                                addGame()
+                            } else {
+                                router.push("/login")
+                            }
+                        }} style={added ? {backgroundColor: "rgb(119, 177, 32)"} : {backgroundColor: "rgb(52, 52, 52)"}}>
+                            {!loader ? (
+                                <div style={{padding: "0 5px"}} className='dsp-f ai-c'>
+                                    {added ? (<><Image src={whiteTick} alt='plus-sign' width={15} height={15} /></>) : (<><Image src={plusWhite} alt='plus-sign' width={12} height={12} /></>)}
+                                    <span style={{ marginLeft: 10 }}>{addCount}</span>
+                                </div>
+                            ) : (<div style={{zIndex: 5000, transform: "scale(0.5)"}}>
+                                <Loader />
+                            </div>)}
                         </div>
 
                         <div className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}>
@@ -160,11 +226,11 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                         <div className="cloudinarydiv5">
                             <span style={{ opacity: 0.5 }}>Genres:</span>
                             <div className='genre-div'>
-                            {
-                                genres.map((item, index) => (
-                                    <strong key={index} onClick={() => setFilter(item)}>{item}</strong>
-                                ))
-                            }
+                                {
+                                    genres.map((item, index) => (
+                                        <strong key={index} onClick={() => setFilter(item)}>{item}</strong>
+                                    ))
+                                }
                             </div>
                         </div>
 

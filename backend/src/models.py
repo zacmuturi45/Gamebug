@@ -37,7 +37,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    profilePic = db.Column(db.String(255), nullable=False)
+    profilePic = db.Column(db.String(255), default="GameGo/fifa24_gq5mew")
     isAdmin = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.String, nullable=False)
 

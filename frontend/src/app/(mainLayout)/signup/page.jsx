@@ -53,12 +53,7 @@ export default function Signup() {
             }
         },
     });
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const router = useRouter();
-    }
-
+    
     return (
         <AuthCard>
             <form
