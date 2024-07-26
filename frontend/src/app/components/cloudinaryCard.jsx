@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { cld } from '../../../public/images'
 import { useFilter } from '../contexts/sidenavContext'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { ADDTOMYGAMES, CHECKGAME, GAMECOUNT } from '../GraphQL/queries'
+import { ADDTOMYGAMES, ADDTOWISHLIST, CHECKGAME, GAMECOUNT } from '../GraphQL/queries'
 import { useLoggedUser } from '../contexts/loginContext'
 import { useRouter } from 'next/navigation'
 import Loader from './loader'
@@ -31,14 +31,22 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const [showPlayingGame, setShowPlayingGame] = useState(false);
     const { setFilter } = useFilter();
     const router = useRouter();
+    const [addedToUserWishlist, setAddedToUserWishlist] = useState(false);
     const { userInfo } = useLoggedUser();
     const vid = video
     const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
     const [addToGames] = useMutation(ADDTOMYGAMES);
-    const [fetchCount, { loading, data, error }] = useLazyQuery(GAMECOUNT);
-    const [fetchCheck, { checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME);
+    const [addedToWishlist] = useMutation(ADDTOWISHLIST, {
+        fetchPolicy: 'no-cache'
+    });
+    const [fetchCount, { loading, data, error }] = useLazyQuery(GAMECOUNT, {
+        fetchPolicy: 'no-cache'
+    });
+    const [fetchCheck, { checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME, {
+        fetchPolicy: 'no-cache'
+    });
     const panel = [
         {image: dice, mainText: "Uncategorized", spanText: "I'll pick the category later"},
         {image: controller, mainText: "Currently playing", spanText: "I'm playing this game currently"},
@@ -50,13 +58,13 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
     useEffect(() => {
         fetchCount({ variables: { gameId: id } });
-    }, [id])
+    }, [id, addedToUserWishlist])
 
     useEffect(() => {
         if (userInfo.userid) {
             fetchCheck({ variables: { gameId: id, userId: userInfo.userid } })
         }
-    }, [userInfo, id])
+    }, [userInfo, added, addedToUserWishlist])
 
     useEffect(() => {
         if (data && data.addToGames !== undefined) {
@@ -66,10 +74,22 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
     useEffect(() => {
         if (checkData !== undefined) {
-            if (checkData.checkGame === true) {
+            if (checkData.checkGame.inBoughtGames === true) {
                 setAdded(true);
-            } else if (checkData.checkGame === false) {
+                setAddedToUserWishlist(false)
+            } else if (checkData.checkGame.inBoughtGames === false) {
                 setAdded(false);
+                if(checkData.checkGame.inWishlist) {
+                    setAddedToUserWishlist(true)
+                }
+            } else if (checkData.checkGame.inWishlist === false) {
+                setAddedToUserWishlist(false)
+                if (checkData.checkGame.inBoughtGames) {
+                    setAdded(true)
+                }
+            } else if (checkData.checkGame.inWishlist === true) {
+                setAddedToUserWishlist(true)
+                setAdded(false)
             }
         }
     }, [checkData]);
@@ -150,9 +170,30 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                 setTimeout(() => {
                     setLoader(false)
                     setAdded(true)
+                    if(addedToUserWishlist) {
+                        setAddedToUserWishlist(false)
+                    }
                     setAddCount(data.addToGames.count)
                 }, 2000);
             } else { console.log("This Game already exists in your library") }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    alert(message)
+                });
+            }
+        }
+    }
+
+    const addGameToWishlist = async () => {
+        try {
+            const { data, errors } = await addedToWishlist({ variables: { gameId: id, userId: userInfo.userid }});
+            if(data.addedToWishlist.ok) {
+                setAddedToUserWishlist(true)
+                if(added) {
+                    setAdded(false)
+                }
+            } else {console.log("This game already exists in your wishlist")}
         } catch (error) {
             if (error.graphQLErrors) {
                 error.graphQLErrors.forEach(({ message }) => {
@@ -209,8 +250,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     </div>
 
                     <div className="cloudinarydiv3">
-                        <div className='plusWhite' onClick={() => {
-                            console.log(`STATE IS ${added}`)
+                        <div className={added ? "plusWhite" : "plusWhite plusHover"} onClick={() => {
                             if (userInfo.username) {
                                 addGame()
                             } else {
@@ -235,7 +275,15 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                             </div>)}
                         </div>
 
-                        <div className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}>
+                        <div 
+                        className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}
+                        onClick={() => {
+                            if (userInfo.username) {
+                                addGameToWishlist()
+                            } else {router.push("/login")}
+                        }}
+                        style={addedToUserWishlist ? { backgroundColor: "rgb(119, 177, 32)" } : { backgroundColor: "rgb(52, 52, 52)" }}                         
+                        >
                             <Image src={giftBox} alt='gift-box' width={25} height={15} />
                         </div>
 

@@ -164,6 +164,17 @@ query gameCount($gameId: Int!) {
 
 export const CHECKGAME = gql`
 query gameCheck($gameId: Int!, $userId: Int!) {
-    checkGame(gameId: $gameId, userId: $userId)
+    checkGame(gameId: $gameId, userId: $userId) {
+        inWishlist
+        inBoughtGames
+    }
+}
+`;
+
+export const ADDTOWISHLIST = gql`
+mutation addToWishlist($gameId: Int!, $userId: Int!) {
+    addedToWishlist(gameId: $gameId, userId: $userId) {
+        ok
+    }
 }
 `;

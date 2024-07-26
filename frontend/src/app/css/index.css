@@ -220,8 +220,8 @@ body.no-scroll {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3px;
-  height: 25px;
+  padding: 0;
+  height: fit-content;
 }
 .login-loader > div {
   width: 15px;
@@ -1272,7 +1272,7 @@ body.no-scroll {
   font-size: 0.8rem;
   color: rgb(136, 136, 136);
 }
-.sidenavlayout .cloudinarydiv3 .plusWhite:hover {
+.sidenavlayout .cloudinarydiv3 .plusHover:hover {
   opacity: 0.7;
   transform: scale(0.99);
 }

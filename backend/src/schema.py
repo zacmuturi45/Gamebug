@@ -83,6 +83,15 @@ class BoughtGames(SQLAlchemyObjectType):
     class Meta: 
         model = purchasedGameModel
 
+class GameCheckResult(ObjectType):
+    in_bought_games = Field(Boolean)
+    in_wishlist = Field(Boolean)
+    
+    def resolve_in_bought_games(self, info):
+        return self.in_bought_games
+    
+    def resolve_in_wishlist(self, info):
+        return self.in_wishlist
 
 class UpdateUserWishlistGames(Mutation):
     class Arguments:
@@ -211,11 +220,18 @@ class AddToGames(Mutation):
             raise Exception("User with the provided id does not exist")
         if not game:
             raise Exception("Game with the provided id does not exist")
-        if game not in user.bought_games:
+        if game not in user.bought_games and game not in user.user_wishlist_games:
             user.bought_games.append(game)
             db.session.commit()
             count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
             return AddToGames(ok=True, count=count)
+        if game not in user.bought_games and game in user.user_wishlist_games:
+            user.user_wishlist_games.remove(game)
+            user.bought_games.append(game)
+            db.session.commit()
+            count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
+            return AddToGames(ok=True, count=count)
+        
         return AddToGames(ok=False, count=None, added=True)
     
 class AddToWishlist(Mutation):
@@ -235,11 +251,17 @@ class AddToWishlist(Mutation):
         if not game:
             raise Exception("Game with the provided id does not exist")
         
-        if game not in user.user_wishlist_games:
+        if game not in user.user_wishlist_games and game not in user.bought_games:
             user.user_wishlist_games.append(game)
             db.session.commit()
             return AddToWishlist(ok=True, success_message="Game successfully added to wishlist")
-        return AddToGames(ok=False, success_message=None)
+        elif game not in user.user_wishlist_games and game in user.bought_games:
+            user.bought_games.remove(game)
+            user.user_wishlist_games.append(game)
+            db.session.commit()
+            return AddToWishlist(ok=True, success_message="Game successfully added to wishlist")
+            
+        return AddToWishlist(ok=False, success_message="")
             
 class CartItemInput(InputObjectType):
     game_id = ID(required=True)
@@ -296,7 +318,7 @@ class MyMutations(ObjectType):
     
     add_to_games = AddToGames.Field()
     
-    add_to_wishlist = AddToWishlist.Field()
+    added_to_wishlist = AddToWishlist.Field()
 
 
 class Query(ObjectType):
@@ -322,7 +344,8 @@ class Query(ObjectType):
     
     add_to_games = Field(Int, game_id=Int(), required=True)
     
-    check_game = Field(Boolean, game_id=Int(), user_id=Int(), required=True)
+    check_game = Field(lambda: GameCheckResult, game_id=Int(required=True), user_id=Int(required=True))
+    
     
     def resolve_check_game(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
@@ -332,9 +355,10 @@ class Query(ObjectType):
             raise Exception("User with the provided id does not exist")
         if not game:
             raise Exception("Game with the provided id does not exist")
-        if game not in user.bought_games:
-            return False
-        return True
+        in_bought_games = game in user.bought_games
+        in_wishlist = game in user.user_wishlist_games
+        
+        return GameCheckResult(in_bought_games=in_bought_games, in_wishlist=in_wishlist)
     
     def resolve_add_to_games(self, info, game_id):
         count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()

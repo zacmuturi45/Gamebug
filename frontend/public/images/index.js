@@ -124,16 +124,16 @@ export const newReleases = [
 ]
 
 export const gradients = [
-  "linear-gradient(to bottom, #FFE0B2 0%, #FFB74D 50%, #E64A19 100%)",
-  "linear-gradient(to bottom, #FFCDD2 0%, #E57373 50%, #D32F2F 100%)",
-  "linear-gradient(to bottom, #E0F2F1 0%, #4DB6AC 50%, #00796B 100%)",
-  "linear-gradient(to bottom, #FFF9C4 0%, #FFF176 50%, #FBC02D 100%)",
-  "linear-gradient(to bottom, #E1F5FE 0%, #4FC3F7 50%, #0288D1 100%)",
-  "linear-gradient(to bottom, #F3E5F5 0%, #BA68C8 50%, #8E24AA 100%)",
-  "linear-gradient(to bottom, #E0F7FA 0%, #4DD0E1 50%, #00695C 100%)",
+  "linear-gradient(to bottom, #FFEBEE 0%, #FF8A65 50%, #D84315 100%)",
   "linear-gradient(to bottom, #FFF3E0 0%, #FFB74D 50%, #F57C00 100%)",
-  "linear-gradient(to bottom, #E8F5E9 0%, #81C784 50%, #388E3C 100%)",
-  "linear-gradient(to bottom, #FBE9E7 0%, #FF8A65 50%, #D84315 100%)"
+  "linear-gradient(to bottom, #FFE0B2 0%, #FFB74D 50%, #F57C00 100%)",
+  "linear-gradient(to bottom, #FFF8E1 0%, #FFCC80 50%, #FF6F00 100%)",
+  "linear-gradient(to bottom, #FFE0B2 0%, #FFAB40 50%, #FF5722 100%)",
+  "linear-gradient(to bottom, #FFEBEE 0%, #FF7043 50%, #D32F2F 100%)",
+  "linear-gradient(to bottom, #FBE9E7 0%, #FF8A65 50%, #F57C00 100%)",
+  "linear-gradient(to bottom, #FFF3E0 0%, #FFB74D 50%, #F57C00 100%)",
+  "linear-gradient(to bottom, #FFF9C4 0%, #FFEB3B 50%, #FBC02D 100%)",
+  "linear-gradient(to bottom, #FFE0B2 0%, #FFB74D 50%, #F57C00 100%)"
 ];
 
 
