@@ -217,9 +217,30 @@ class AddToGames(Mutation):
             count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
             return AddToGames(ok=True, count=count)
         return AddToGames(ok=False, count=None, added=True)
-
+    
+class AddToWishlist(Mutation):
+    class Arguments:
+        game_id = Int()
+        user_id = Int()
         
-
+    ok = Boolean()
+    success_message = String()
+    
+    def mutate(self, info, game_id, user_id):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+        
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+        
+        if game not in user.user_wishlist_games:
+            user.user_wishlist_games.append(game)
+            db.session.commit()
+            return AddToWishlist(ok=True, success_message="Game successfully added to wishlist")
+        return AddToGames(ok=False, success_message=None)
+            
 class CartItemInput(InputObjectType):
     game_id = ID(required=True)
     quantity = Int(required=True)
@@ -274,6 +295,8 @@ class MyMutations(ObjectType):
     login = LoginMutation.Field()
     
     add_to_games = AddToGames.Field()
+    
+    add_to_wishlist = AddToWishlist.Field()
 
 
 class Query(ObjectType):

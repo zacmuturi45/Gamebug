@@ -160,10 +160,10 @@ export const GAMECOUNT = gql`
 query gameCount($gameId: Int!) {
     addToGames(gameId: $gameId)
 }
-`
+`;
 
 export const CHECKGAME = gql`
-query ($gameId: Int!, $userId: Int!) {
+query gameCheck($gameId: Int!, $userId: Int!) {
     checkGame(gameId: $gameId, userId: $userId)
 }
 `;

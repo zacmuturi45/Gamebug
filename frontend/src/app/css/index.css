@@ -660,6 +660,9 @@ body.no-scroll {
   .main__navbar form .faSearch-icon {
     left: 7.5%;
   }
+  .main__navbar form .toggleSearch {
+    display: none;
+  }
   .main__navbar form .form-div .onSearchTab {
     left: 55px;
   }
@@ -1208,9 +1211,66 @@ body.no-scroll {
   justify-content: center;
   align-items: center;
 }
+.sidenavlayout .cloudinarydiv3 .plusWhite {
+  padding: 2px;
+  position: relative;
+  z-index: 1000;
+}
 .sidenavlayout .cloudinarydiv3 .plusWhite span {
   font-size: 13px;
   font-weight: 400;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv {
+  z-index: 1000;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  background-color: rgb(235, 235, 235);
+  padding: 0.5rem 0;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel:hover {
+  z-index: 1000;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .g3 p {
+  color: red;
+  text-align: center;
+  margin: 0.5rem 0;
+  font-weight: 400;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .g3 p:hover {
+  opacity: 0.9;
+  transform: scale(0.9);
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .addGMain {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1.2rem 0.5rem 1rem;
+  border-bottom: 1px solid rgb(194, 194, 194);
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .addGMain:hover {
+  background-color: rgb(190, 190, 190);
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .addGMain .gOne {
+  display: flex;
+  color: rgb(110, 110, 110);
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .addGMain .gOne > * {
+  margin-right: 0.5rem;
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .addGMain .gOne .gTwo h4 {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgb(35, 35, 35);
+}
+.sidenavlayout .cloudinarydiv3 .plusWhite .addToGamesdiv .addGamePanel .addGMain .gOne .gTwo p {
+  width: 100%;
+  text-wrap: nowrap;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgb(136, 136, 136);
 }
 .sidenavlayout .cloudinarydiv3 .plusWhite:hover {
   opacity: 0.7;

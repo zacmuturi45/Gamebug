@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play, tick, whiteTick } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play, tick, whiteTick, arrdown, dice, controller, medal, played, notPlayed } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
@@ -14,6 +14,7 @@ import { ADDTOMYGAMES, CHECKGAME, GAMECOUNT } from '../GraphQL/queries'
 import { useLoggedUser } from '../contexts/loginContext'
 import { useRouter } from 'next/navigation'
 import Loader from './loader'
+import AddGamePanel from './addGamePanel'
 
 export default function Card({ id, image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
@@ -26,27 +27,36 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const [addCount, setAddCount] = useState(0);
     const [loader, setLoader] = useState(false);
     const [added, setAdded] = useState(false);
+    const panRef = useRef(null);
+    const [showPlayingGame, setShowPlayingGame] = useState(false);
     const { setFilter } = useFilter();
     const router = useRouter();
-
+    const { userInfo } = useLoggedUser();
     const vid = video
     const img = image
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
     const [addToGames] = useMutation(ADDTOMYGAMES);
     const [fetchCount, { loading, data, error }] = useLazyQuery(GAMECOUNT);
-    const [checkGames, { loading: checkLoading, data: checkData, error: checkError }] = useQuery(CHECKGAME);
-    const { userInfo } = useLoggedUser();
+    const [fetchCheck, { checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME);
+    const panel = [
+        {image: dice, mainText: "Uncategorized", spanText: "I'll pick the category later"},
+        {image: controller, mainText: "Currently playing", spanText: "I'm playing this game currently"},
+        {image: medal, mainText: "Completed", spanText: "I'm done playing this game"},
+        {image: played, mainText: "Played", spanText: "I gave up and won't play anymore"},
+        {image: notPlayed, mainText: "Not played", spanText: "I'll play it later"}
+    ]
+
 
     useEffect(() => {
         fetchCount({ variables: { gameId: id } });
     }, [id])
 
     useEffect(() => {
-        if (userInfo.username && id) {
-            checkGames({ variables: { gameId: id, userId: userInfo.userid }});
+        if (userInfo.userid) {
+            fetchCheck({ variables: { gameId: id, userId: userInfo.userid } })
         }
-    }, [userInfo, id, checkGames])
+    }, [userInfo, id])
 
     useEffect(() => {
         if (data && data.addToGames !== undefined) {
@@ -55,10 +65,14 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     }, [data])
 
     useEffect(() => {
-        if (checkData.checkGame) {
-            setAdded(false)
-        } else {setAdded(true)}
-    }, [])
+        if (checkData !== undefined) {
+            if (checkData.checkGame === true) {
+                setAdded(true);
+            } else if (checkData.checkGame === false) {
+                setAdded(false);
+            }
+        }
+    }, [checkData]);
 
     const create_date_string = (dateString) => {
         const day = dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1] + "st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1] + "nd" : dateString.slice(8, 10)[1] + "th")
@@ -78,6 +92,14 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     }, [])
 
     useEffect(() => {
+        document.addEventListener('click', handlePan);
+
+        return () => {
+            document.removeEventListener('click', handlePan)
+        }
+    }, [])
+
+    useEffect(() => {
         getPlatforms(platforms)
     }, [])
 
@@ -87,6 +109,14 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
             return
         }
     }
+
+    const handlePan = (e) => {
+        if (!panRef.current.contains(e.target)) {
+            setShowPlayingGame(false)
+            return;
+        }
+    }
+
 
     const onMouseOver = () => {
         playerRef.current.videoRef.current.play()
@@ -122,7 +152,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     setAdded(true)
                     setAddCount(data.addToGames.count)
                 }, 2000);
-            } else { alert("This Game already exists in your library") }
+            } else { console.log("This Game already exists in your library") }
         } catch (error) {
             if (error.graphQLErrors) {
                 error.graphQLErrors.forEach(({ message }) => {
@@ -180,18 +210,27 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
                     <div className="cloudinarydiv3">
                         <div className='plusWhite' onClick={() => {
+                            console.log(`STATE IS ${added}`)
                             if (userInfo.username) {
                                 addGame()
                             } else {
                                 router.push("/login")
                             }
-                        }} style={added ? {backgroundColor: "rgb(119, 177, 32)"} : {backgroundColor: "rgb(52, 52, 52)"}}>
+                        }} style={added ? { backgroundColor: "rgb(119, 177, 32)" } : { backgroundColor: "rgb(52, 52, 52)" }} ref={panRef}>
                             {!loader ? (
-                                <div style={{padding: "0 5px"}} className='dsp-f ai-c'>
+                                <div style={{ padding: "0 5px" }} className='dsp-f ai-c'>
                                     {added ? (<><Image src={whiteTick} alt='plus-sign' width={15} height={15} /></>) : (<><Image src={plusWhite} alt='plus-sign' width={12} height={12} /></>)}
                                     <span style={{ marginLeft: 10 }}>{addCount}</span>
+                                    {added ? <div className='dsp-f ai-c addToGamesdiv'><div className={showPlayingGame ? "addGamePanel showcard" : "hidecard"} >
+                                        {
+                                            panel.map((item, index) => (
+                                                <AddGamePanel index={index} svg={item.image} spanText={item.spanText} mainText={item.mainText} />
+                                            ))
+                                        }
+                                        <div className='g3'><p>Delete game</p></div>
+                                        </div><div style={{ height: 15, width: 1, backgroundColor: "white", margin: "0 5px" }}></div><Image src={arrdown} width={12} height={12} alt='arrowdown' style={{ marginTop: 2.5 }} onClick={() => setShowPlayingGame(true)} /></div> : <div></div>}
                                 </div>
-                            ) : (<div style={{zIndex: 5000, transform: "scale(0.5)"}}>
+                            ) : (<div style={{ zIndex: 5000, transform: "scale(0.5)" }}>
                                 <Loader />
                             </div>)}
                         </div>

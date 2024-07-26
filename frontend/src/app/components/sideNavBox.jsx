@@ -13,7 +13,7 @@ export default function SideNavBox({ image, text, setToggleMenu }) {
     <div className='sidenavbox dsp-f ai-c m-b-1' onClick={() => {
       router.push("/")
       setFilter(text)
-      setToggleMenu(false)
+      // setToggleMenu(false)
     }} >
        <Image src={image} alt="svg-image" width={35} height={35}/>
        <p>{text}</p> 

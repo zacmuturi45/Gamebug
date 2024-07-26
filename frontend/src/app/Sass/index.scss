@@ -605,6 +605,9 @@ body.no-scroll {
             .faSearch-icon {
                 left: 7.5%;
             }
+            .toggleSearch {
+                display: none;
+            }
 
             .form-div {
                 .onSearchTab {
@@ -1295,9 +1298,68 @@ body.no-scroll {
             align-items: center;
         }
         .plusWhite {
+            padding: 2px;
+            position: relative;
+            z-index: 1000;
             span {
                 font-size: 13px;
                 font-weight: 400;
+            }
+            .addToGamesdiv {
+                z-index: 1000;
+                .addGamePanel {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    border-radius: 5px;
+                    background-color: rgb(235, 235, 235);
+                    padding: .5rem 0;
+                    &:hover {
+                        z-index: 1000;
+                    }
+                    .g3 {
+                        p {
+                            color: red;
+                            text-align: center;
+                            margin: .5rem 0;
+                            font-weight: 400;
+                            &:hover {
+                                opacity: 0.9;
+                                transform: scale(0.9);
+                            }
+                        }
+                    }
+                    .addGMain {
+                        display: flex;
+                        flex-direction: column;
+                        padding: .5rem 1.2rem .5rem 1rem;
+                        border-bottom: 1px solid rgb(194, 194, 194);
+                        &:hover {
+                            background-color: rgb(190, 190, 190);
+                        }
+                        .gOne {
+                            display: flex;
+                            color: rgb(110, 110, 110);
+                            > * {
+                                margin-right: .5rem;
+                            }
+                            .gTwo {
+                                h4 {
+                                    font-weight: 600;
+                                    font-size: .9rem;
+                                    color: rgb(35, 35, 35);
+                                }
+                                p {
+                                    width: 100%;
+                                    text-wrap: nowrap;
+                                    text-align: center;
+                                    font-size: .8rem;
+                                    color: rgb(136, 136, 136);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
