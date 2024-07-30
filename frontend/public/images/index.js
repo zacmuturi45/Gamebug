@@ -6,6 +6,11 @@ import android from './android.svg';
 import ios from './ios.svg';
 import ps from './ps.svg';
 import nintendo from './nintendo.svg';
+import dice from './dice.svg';
+import controller from './controller.svg';
+import played from './played.svg';
+import notPlayed from './notPlayed.svg';
+import medal from './medal.svg';
 import { jwtDecode } from 'jwt-decode';
 import { destroyCookie } from 'nookies';
 import xbox from './xbox.svg';
@@ -70,6 +75,11 @@ import xboxWhite from './xboxWhite.svg';
 import nintendoWhite from './nintendoWhite.svg';
 import iosWhite from './iosWhite.svg';
 import androidWhite from './androidWhite.svg';
+import bomb from './bomb.svg';
+import thumbsUp from './thumbsUp.svg';
+import thumbsDown from './thumbsDown.svg';
+import pumpkincry from './pumpkincry.svg';
+import pumpkinmeh from './pumpkinmeh.svg';
 
 export const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } });
 
@@ -162,6 +172,28 @@ export const genres = [
   { image: sports, text: "Sports" },
   { image: strategy, text: "Strategy" },
   { image: puzzle, text: "Puzzle" }
+]
+
+export const comment = {
+  "Exceptional": bomb,
+  "Recommend": thumbsUp,
+  "Meh": pumpkinmeh,
+  "Skip": pumpkincry
+}
+
+export const panel = [
+  {image: dice, mainText: "Uncategorized", spanText: "I'll pick the category later"},
+  {image: controller, mainText: "Currently playing", spanText: "I'm playing this game currently"},
+  {image: medal, mainText: "Completed", spanText: "I'm done playing this game"},
+  {image: played, mainText: "Played", spanText: "I gave up and won't play anymore"},
+  {image: notPlayed, mainText: "Not played", spanText: "I'll play it later"}
+]
+
+export const quickReview = [
+  {image: bomb, span: "Exceptional"},
+  {image: thumbsUp, span: "Recommend"},
+  {image: pumpkinmeh, span: "Meh"},
+  {image: pumpkincry, span: "Skip"}
 ]
 
 export const platformIcons = {

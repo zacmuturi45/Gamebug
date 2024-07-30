@@ -2,7 +2,17 @@ import random
 from src import create_app
 from datetime import datetime, timedelta
 from faker import Faker
-from src.models import User, Game, Review, Purchase, db, PurchasedGame, wishlist_game, followers
+from src.models import (
+    User,
+    Game,
+    Review,
+    Purchase,
+    db,
+    PurchasedGame,
+    wishlist_game,
+    followers,
+    GameStatusCheck
+)
 from werkzeug.security import generate_password_hash
 
 fake = Faker()
@@ -267,10 +277,16 @@ cloudGames = [
     },
 ]
 
+ratings = [
+    "Exceptional",
+    "Recommend",
+    "Meh",
+    "Skip"
+]
 
 
 def create_fake_user():
-    hashed_password = generate_password_hash("californium-98")    
+    hashed_password = generate_password_hash("californium-98")
     user = User(
         username=fake.user_name(), email=fake.email(), password_hash=hashed_password
     )
@@ -305,7 +321,8 @@ def create_fake_user():
 def create_fake_review(user_id, game_id):
     review = Review(
         content=fake.paragraph(),
-        game_rating=random.randint(1, 5),
+        game_rating=random.randint(1, 10),
+        game_comment = random.choice(ratings),
         user_id=user_id,
         game_id=game_id,
     )
@@ -315,6 +332,7 @@ def create_fake_review(user_id, game_id):
 def seed():
     db.session.query(followers).delete()
     db.session.query(Purchase).delete()
+    db.session.query(GameStatusCheck).delete()
     db.session.query(Review).delete()
     db.session.query(PurchasedGame).delete()
     db.session.query(wishlist_game).delete()
@@ -359,9 +377,9 @@ def seed():
 
         for _ in range(random.randint(1, 5)):
             toFollow = random.choice(users)
-        
+
             if toFollow != user and toFollow not in user.following:
-                user.following.append(toFollow)            
+                user.following.append(toFollow)
             game = random.choice(user_bought_games)
             wishlist = random.choice(user_bought_games)
             if game not in user.bought_games:

@@ -51,6 +51,10 @@ class User(db.Model):
     )
     purchases = db.relationship("Purchase", backref="user", lazy=True)
 
+    user_game_status = db.relationship(
+        "Game", secondary="game_status", back_populates="game_status_row"
+    )
+
     following = db.relationship(
         "User",
         secondary=followers,
@@ -85,11 +89,23 @@ class Game(db.Model):
     )
     purchases = db.relationship("Purchase", backref="game", lazy=True)
 
+    game_status_row = db.relationship(
+        "User", secondary="game_status", back_populates="user_game_status"
+    )
+
+
+class GameStatusCheck(db.Model):
+    __tablename__ = "game_status"
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"), primary_key=True)
+    status = db.Column(db.Integer)
+
 
 class PurchasedGame(db.Model):
-    __tablename__ = 'purchased_games'
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'), primary_key=True)
+    __tablename__ = "purchased_games"
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"), primary_key=True)
+
 
 class Purchase(db.Model):
     __tablename__ = "purchases"
@@ -106,7 +122,8 @@ class Review(db.Model):
     __tablename__ = "reviews"
 
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(1000), nullable=False)
+    content = db.Column(db.String(), nullable=True)
     game_rating = db.Column(db.Integer)
+    game_comment = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)

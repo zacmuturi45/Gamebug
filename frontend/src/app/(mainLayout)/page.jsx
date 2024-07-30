@@ -277,7 +277,7 @@ export default function Home() {
                                         }}>
                                             {item}
                                             {
-                                                showTick[`showticks${index}`] && <Image src={tick} width={12} height={12} alt="tick-svg" />
+                                                showTick[`showticks${index}`] && <Image src={tick} width={17} height={17} alt="tick-svg" style={{ marginLeft: ".5rem" }} />
                                             }
                                         </div>
                                     })}

@@ -888,7 +888,6 @@ body.no-scroll {
                         max-width: 85%;
                         border-radius: 5px;
                         font-weight: 400;
-
                         &:hover {
                             background-color: rgb(219, 219, 219);
                         }
@@ -1468,7 +1467,56 @@ body.no-scroll {
             font-weight: 600;
             letter-spacing: .5px;
         }
-
+        .grid-box-review {
+            height: 100%;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .grid-box2 {
+                display: flex;
+                height: 100%;
+                margin-bottom: 1rem;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(221, 221, 221);
+                padding: 1rem 0;
+                border-radius: 5px;
+                >* {
+                    margin: .5rem 0;
+                }
+                .delete-span {
+                    color: red;
+                    &:hover {
+                        transform: scale(0.95);
+                    }
+                }
+            }
+            .review-box2 {
+                border: 1px solid rgb(222, 222, 222);
+                border-radius: 5px;
+                text-align: center;
+                padding: .6rem;
+                &:hover {
+                    transform: scale(0.95);
+                }
+            }
+        }
+        .addTo-box2 {
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(221, 221, 221);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            &:hover {
+                span {
+                    transform: scale(0.95);
+                }
+            }
+        }
         .grid-box {
             height: 100%;
             margin: 0 1rem 1rem 1rem;
@@ -1479,7 +1527,6 @@ body.no-scroll {
 
             :nth-child(1) {
                 border-top-left-radius: 10px;
-
                 &:hover {
                     background-color: rgb(219, 219, 219);
                 }

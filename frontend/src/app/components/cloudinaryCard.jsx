@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
-import { iosWhite, androidWhite, xboxWhite, giftBox, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play, tick, whiteTick, arrdown, dice, controller, medal, played, notPlayed } from '../../../public/images'
+import { iosWhite, androidWhite, xboxWhite, giftBox, quickReview, panel, plusWhite, windowsWhite, psWhite, ellipsisWhite, arrowDown, arrowdown, pumpkincry, pumpkinmeh, thumbsUp, bomb, nintendoWhite, platformIcons, play, tick, whiteTick, arrdown, dice, controller, medal, played, notPlayed, comment } from '../../../public/images'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faL } from '@fortawesome/free-solid-svg-icons'
@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { cld } from '../../../public/images'
 import { useFilter } from '../contexts/sidenavContext'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { ADDTOMYGAMES, ADDTOWISHLIST, CHECKGAME, GAMECOUNT } from '../GraphQL/queries'
+import { ADDTOMYGAMES, ADDTOWISHLIST, CHECKGAME, DELETEGAME, GAMECOUNT, ADDREVIEW, CHECKREVIEW } from '../GraphQL/queries'
 import { useLoggedUser } from '../contexts/loginContext'
 import { useRouter } from 'next/navigation'
 import Loader from './loader'
@@ -26,8 +26,12 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const [platArray, setPlatArray] = useState([]);
     const [addCount, setAddCount] = useState(0);
     const [loader, setLoader] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [chooseReview, setChooseReview] = useState(false);
     const [added, setAdded] = useState(false);
+    const [gameComment, setGameComment] = useState("");
     const panRef = useRef(null);
+    const [deletedGame, setDeletedGame] = useState(false);
     const [showPlayingGame, setShowPlayingGame] = useState(false);
     const { setFilter } = useFilter();
     const router = useRouter();
@@ -38,33 +42,49 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const reviewsvgs = [thumbsUp, bomb, pumpkincry, pumpkinmeh];
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
     const [addToGames] = useMutation(ADDTOMYGAMES);
+    const [addReview] = useMutation(ADDREVIEW);
     const [addedToWishlist] = useMutation(ADDTOWISHLIST, {
+        fetchPolicy: 'no-cache'
+    });
+    const [deleteGame] = useMutation(DELETEGAME, {
         fetchPolicy: 'no-cache'
     });
     const [fetchCount, { loading, data, error }] = useLazyQuery(GAMECOUNT, {
         fetchPolicy: 'no-cache'
     });
-    const [fetchCheck, { checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME, {
+    const [fetchCheck, { loading: checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME, {
         fetchPolicy: 'no-cache'
     });
-    const panel = [
-        {image: dice, mainText: "Uncategorized", spanText: "I'll pick the category later"},
-        {image: controller, mainText: "Currently playing", spanText: "I'm playing this game currently"},
-        {image: medal, mainText: "Completed", spanText: "I'm done playing this game"},
-        {image: played, mainText: "Played", spanText: "I gave up and won't play anymore"},
-        {image: notPlayed, mainText: "Not played", spanText: "I'll play it later"}
-    ]
+
+    const [reviewCheck, { loading: reviewLoading, data: reviewData, error: reviewError }] = useLazyQuery(CHECKREVIEW, {
+        fetchPolicy: 'no-cache'
+    });
 
 
     useEffect(() => {
         fetchCount({ variables: { gameId: id } });
-    }, [id, addedToUserWishlist])
+    }, [id, addedToUserWishlist, deletedGame])
 
     useEffect(() => {
         if (userInfo.userid) {
             fetchCheck({ variables: { gameId: id, userId: userInfo.userid } })
         }
-    }, [userInfo, added, addedToUserWishlist])
+    }, [userInfo, added, addedToUserWishlist, activeIndex, deletedGame])
+
+    useEffect(() => {
+        if (userInfo.userid) {
+            reviewCheck({ variables: { gameId: id, userId: userInfo.userid } });
+        }
+    }, [userInfo])
+
+    useEffect(() => {
+        if(reviewData) {
+            if(reviewData.checkReview.checkReview) {
+                setGameComment(reviewData.checkReview.checkedReview.gameComment)
+                setChooseReview(true)
+            }
+        }
+    }, [reviewData])
 
     useEffect(() => {
         if (data && data.addToGames !== undefined) {
@@ -74,12 +94,13 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
     useEffect(() => {
         if (checkData !== undefined) {
+            setActiveIndex(checkData.checkGame.activeIndex)
             if (checkData.checkGame.inBoughtGames === true) {
                 setAdded(true);
                 setAddedToUserWishlist(false)
             } else if (checkData.checkGame.inBoughtGames === false) {
                 setAdded(false);
-                if(checkData.checkGame.inWishlist) {
+                if (checkData.checkGame.inWishlist) {
                     setAddedToUserWishlist(true)
                 }
             } else if (checkData.checkGame.inWishlist === false) {
@@ -146,15 +167,9 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const onMouseOut = () => {
         playerRef.current.videoRef.current.pause()
         setShowCard(false)
-        setShowGiftBox(false)
-    }
-    const showReviewPanel = (e) => {
-        if (panelRef.current.contains(e.target)) {
-            setShowPanel(true)
-            return;
+        if (!showPanel) {
+            setShowGiftBox(false)
         }
-
-        setShowPanel(false);
     }
 
     const getPlatforms = (plat) => {
@@ -170,7 +185,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                 setTimeout(() => {
                     setLoader(false)
                     setAdded(true)
-                    if(addedToUserWishlist) {
+                    if (addedToUserWishlist) {
                         setAddedToUserWishlist(false)
                     }
                     setAddCount(data.addToGames.count)
@@ -187,17 +202,51 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
     const addGameToWishlist = async () => {
         try {
-            const { data, errors } = await addedToWishlist({ variables: { gameId: id, userId: userInfo.userid }});
-            if(data.addedToWishlist.ok) {
+            const { data, errors } = await addedToWishlist({ variables: { gameId: id, userId: userInfo.userid } });
+            if (data.addedToWishlist.ok) {
                 setAddedToUserWishlist(true)
-                if(added) {
+                if (added) {
                     setAdded(false)
                 }
-            } else {console.log("This game already exists in your wishlist")}
+            } else { console.log("This game already exists in your wishlist") }
         } catch (error) {
             if (error.graphQLErrors) {
                 error.graphQLErrors.forEach(({ message }) => {
                     alert(message)
+                });
+            }
+        }
+    }
+
+    const handleDeleteGame = async () => {
+        try {
+            const { data, errors } = await deleteGame({ variables: { gameId: id, userId: userInfo.userid } });
+            if (data.deleteGame.ok) {
+                setDeletedGame(!deletedGame)
+            } else { alert("Error deleting Game") }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    alert(message)
+                });
+            }
+        }
+    }
+
+    const handleAddReview = async (content, gameComment, gameRating) => {
+        try {
+            const { data, errors } = await addReview({ variables: { userId: userInfo.userid, gameId: id, gameComment: gameComment, gameRating: gameRating, content: content }});
+            
+            if(data.addReview.ok) {
+                setGameComment(data.addReview.newReview.gameComment)
+                setChooseReview(true)
+            } else if (!data.addReview.ok) {
+                alert("You have already reviewed this game!")
+            }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    console.log(message)
                 });
             }
         }
@@ -264,40 +313,70 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                                     {added ? <div className='dsp-f ai-c addToGamesdiv'><div className={showPlayingGame ? "addGamePanel showcard" : "hidecard"} >
                                         {
                                             panel.map((item, index) => (
-                                                <AddGamePanel index={index} svg={item.image} spanText={item.spanText} mainText={item.mainText} />
+                                                <AddGamePanel activeIndex={activeIndex} setActiveIndex={setActiveIndex} index={index} svg={item.image} spanText={item.spanText} mainText={item.mainText} gameid={id} userid={userInfo.userid} />
                                             ))
                                         }
-                                        <div className='g3'><p>Delete game</p></div>
-                                        </div><div style={{ height: 15, width: 1, backgroundColor: "white", margin: "0 5px" }}></div><Image src={arrdown} width={12} height={12} alt='arrowdown' style={{ marginTop: 2.5 }} onClick={() => setShowPlayingGame(true)} /></div> : <div></div>}
+                                        <div className='g3' onClick={() => {
+                                            handleDeleteGame()
+                                            setShowPlayingGame(false)
+                                        }}><p>Delete game</p></div>
+                                    </div><div style={{ height: 15, width: 1, backgroundColor: "white", margin: "0 5px" }}></div><Image src={arrdown} width={12} height={12} alt='arrowdown' style={{ marginTop: 2.5 }} onClick={() => setShowPlayingGame(true)} /></div> : <div></div>}
                                 </div>
                             ) : (<div style={{ zIndex: 5000, transform: "scale(0.5)" }}>
                                 <Loader />
                             </div>)}
                         </div>
 
-                        <div 
-                        className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}
-                        onClick={() => {
-                            if (userInfo.username) {
-                                addGameToWishlist()
-                            } else {router.push("/login")}
-                        }}
-                        style={addedToUserWishlist ? { backgroundColor: "rgb(119, 177, 32)" } : { backgroundColor: "rgb(52, 52, 52)" }}                         
+                        <div
+                            className={showGiftBox ? "showcard giftbox" : "hidecard giftbox mobileview"}
+                            onClick={() => {
+                                if (userInfo.username) {
+                                    addGameToWishlist()
+                                } else { router.push("/login") }
+                            }}
+                            style={addedToUserWishlist ? { backgroundColor: "rgb(119, 177, 32)" } : { backgroundColor: "rgb(52, 52, 52)" }}
                         >
                             <Image src={giftBox} alt='gift-box' width={25} height={15} />
                         </div>
 
-                        <div className={showGiftBox ? "showcard ellipsis-review" : "hidecard mobileview"} onClick={(e) => showReviewPanel(e)} ref={panelRef}>
-                            <div className={showPanel ? "showpanel" : "hidepanel"}>
-                                <span>Quick Review</span>
-                                <div className='grid-box'>
-                                    <div><Image src={bomb} width={55} height={55} alt='review-svg' /><span>Exceptional</span></div>
-                                    <div><Image src={thumbsUp} width={55} height={55} alt='review-svg' /><span>Recommend</span></div>
-                                    <div><Image src={pumpkinmeh} width={55} height={55} alt='review-svg' /><span>Meh</span></div>
-                                    <div><Image src={pumpkincry} width={55} height={55} alt='review-svg' /><span>Skip</span></div>
-                                </div>
-                                <div className='review-box'>Write a review</div>
-                                <div className='addTo-box'>Add to my games</div>
+                        <div className={showGiftBox ? "showcard" : "hidecard mobileview"} onClick={() => {
+                            setShowPanel(true)
+                        }} ref={panelRef}>
+                            <div className={showPanel ? "showcard ellipsis-review" : "hidecard"}>
+                                {
+                                    !chooseReview ? (
+                                        <div className='showpanel'>
+                                            <span>Quick Review</span>
+                                            <div
+                                                className='grid-box'
+                                            >
+                                                {
+                                                    quickReview.map((item, index) => (
+                                                        <div key={index} onClick={() => {
+                                                            if (userInfo.userid) {
+                                                                handleAddReview(null, item.span, null)
+                                                            } else { router.push("/login") }
+                                                        }}><Image src={item.image} width={55} height={55} alt='review-svg' /><span>{item.span}</span></div>
+                                                    ))
+                                                }
+                                            </div>
+                                            <div className='review-box'>Write a review</div>
+                                            <div className='addTo-box'>Add to my games</div>
+                                        </div>
+                                    ) : (<div className='showpanel'>
+                                        <div className='grid-box-review'>
+                                        <span style={{color: "rgb(106, 106, 106)", marginBottom: ".5rem"}}>Your review</span>
+                                        <div className='grid-box2'>
+                                            <Image src={comment[gameComment]} width={35} height={35} alt='pumpkin-cry' />
+                                            <span>{gameComment}</span>
+                                            <span className='delete-span'>Delete</span>
+                                        </div>
+                                        <div className='review-box2'>Write a review</div>
+                                        </div>
+                                        <div className='addTo-box2'><span>Add to collection</span></div>
+                                    </div>)
+                                }
+
                             </div>
                             <FontAwesomeIcon icon={faEllipsis} className='ellips' />
                         </div>

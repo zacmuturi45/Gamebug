@@ -21,6 +21,7 @@ from src.models import (
     Purchase as PurchaseModel,
     Review as ReviewModel,
     PurchasedGame as purchasedGameModel,
+    GameStatusCheck,
     db,
 )
 
@@ -78,20 +79,75 @@ class Purchase(SQLAlchemyObjectType):
 class SearchResultType(Union):
     class Meta:
         types = (Game, User)
-        
+
+
 class BoughtGames(SQLAlchemyObjectType):
-    class Meta: 
+    class Meta:
         model = purchasedGameModel
+
 
 class GameCheckResult(ObjectType):
     in_bought_games = Field(Boolean)
     in_wishlist = Field(Boolean)
-    
+    active_index = Field(Int)
+
     def resolve_in_bought_games(self, info):
         return self.in_bought_games
-    
+
     def resolve_in_wishlist(self, info):
         return self.in_wishlist
+
+    def resolve_active_index(self, info):
+        return self.active_index
+    
+class ReviewCheck(ObjectType):
+    check_review = Field(Boolean)
+    checked_review = Field(lambda: Review)
+    
+    def resolve_check_review(self, info):
+        return self.check_review
+    
+    def resolve_checked_review(self, info):
+        return self.checked_review
+
+
+class GameStatus(SQLAlchemyObjectType):
+    class Meta:
+        model = GameStatusCheck
+
+
+class UpdateGameStatus(Mutation):
+    class Arguments:
+        user_id = Int(required=True)
+        game_id = Int(required=True)
+        index = Int(required=True)
+
+    ok = Boolean()
+    active_index = Int()
+
+    # @jwt_required()
+    def mutate(root, info, user_id, game_id, index):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+        status = GameStatusCheck.query.filter_by(
+            game_id=game_id, user_id=user_id
+        ).first()
+
+        if user is None:
+            raise Exception("User with the provided id does not exist")
+
+        if game is None:
+            raise Exception("Game with the provided id does not exist")
+        if status is None:
+            new_status = GameStatusCheck(game_id=game_id, user_id=user_id, status=index)
+            db.session.add(new_status)
+            db.session.commit()
+            return UpdateGameStatus(ok=True, active_index=index)
+        else:
+            status.status = index
+            db.session.commit()
+            return UpdateGameStatus(ok=True, active_index=index)
+
 
 class UpdateUserWishlistGames(Mutation):
     class Arguments:
@@ -102,6 +158,7 @@ class UpdateUserWishlistGames(Mutation):
     user = Field(lambda: User)
     success_message = String()
 
+    @jwt_required()
     def mutate(root, info, user_id, game_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
@@ -162,37 +219,43 @@ class FollowerFollowee(Mutation):
         status = status
 
         return FollowerFollowee(ok=ok, status=status)
-    
+
+
 class SignUpMutation(Mutation):
     class Arguments:
         email = String(required=True)
         password = String(required=True)
         username = String(required=True)
-        
+
     ok = Boolean()
     user = Field(lambda: User)
     success_message = String()
-    
+
     def mutate(self, info, email, password, username):
         hashed_password = generate_password_hash(password)
-        new_user = UserModel(email=email, password_hash=hashed_password, username=username)
+        new_user = UserModel(
+            email=email, password_hash=hashed_password, username=username
+        )
         db.session.add(new_user)
         db.session.commit()
-        
-        return SignUpMutation(ok=True, user=new_user, success_message="Signup successful")
-    
+
+        return SignUpMutation(
+            ok=True, user=new_user, success_message="Signup successful"
+        )
+
+
 class LoginMutation(Mutation):
     class Arguments:
         email = String(required=True)
         password = String(required=True)
-        
+
     ok = Boolean()
     token = String()
     user = Field(lambda: User)
-    
+
     def mutate(self, info, email, password):
         user = UserModel.query.filter_by(email=email).first()
-        
+
         if user and check_password_hash(user.password_hash, password):
             token = create_access_token(identity=user.id)
             return LoginMutation(ok=True, token=token, user=user)
@@ -200,22 +263,23 @@ class LoginMutation(Mutation):
             raise Exception("User with the provided email does not exist")
         if not check_password_hash(user.password_hash, password):
             raise Exception("Wrong Password")
-        
+
         return LoginMutation(ok=False, token=None)
+
 
 class AddToGames(Mutation):
     class Arguments:
         game_id = Int()
         user_id = Int()
-        
+
     ok = Boolean()
     count = Int()
     added = Boolean()
-    
+
     def mutate(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
-        
+
         if not user:
             raise Exception("User with the provided id does not exist")
         if not game:
@@ -223,46 +287,130 @@ class AddToGames(Mutation):
         if game not in user.bought_games and game not in user.user_wishlist_games:
             user.bought_games.append(game)
             db.session.commit()
-            count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
+            count = (
+                db.session.query(func.count(purchasedGameModel.game_id))
+                .filter(purchasedGameModel.game_id == game_id)
+                .scalar()
+            )
             return AddToGames(ok=True, count=count)
         if game not in user.bought_games and game in user.user_wishlist_games:
             user.user_wishlist_games.remove(game)
             user.bought_games.append(game)
             db.session.commit()
-            count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
+            count = (
+                db.session.query(func.count(purchasedGameModel.game_id))
+                .filter(purchasedGameModel.game_id == game_id)
+                .scalar()
+            )
             return AddToGames(ok=True, count=count)
-        
+
         return AddToGames(ok=False, count=None, added=True)
-    
-class AddToWishlist(Mutation):
+
+class DeleteGame(Mutation):
     class Arguments:
         game_id = Int()
         user_id = Int()
         
     ok = Boolean()
-    success_message = String()
     
     def mutate(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
-        
+
         if not user:
             raise Exception("User with the provided id does not exist")
         if not game:
             raise Exception("Game with the provided id does not exist")
+        if game in user.bought_games:
+            user.bought_games.remove(game)
+            db.session.commit()
+            return DeleteGame(ok=True)
         
+class AddReview(Mutation):
+    class Arguments:
+        game_id = Int(required=True)
+        user_id = Int(required=True)
+        content = String()
+        game_rating = Int()
+        game_comment = String()
+
+    ok = Boolean()
+    new_review = Field(lambda: Review)
+    
+    def mutate(self, info, game_id, user_id, content=None, game_rating=None, game_comment=None):  
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+        ratingDict = {
+            "Exceptional": 10,
+            "Recommend": 7.5,
+            "Meh": 5,
+            "Skip": 2.5
+        }
+
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")  
+        
+        check_review = ReviewModel.query.filter_by(game_id=game_id, user_id=user_id).first()   
+        
+        if check_review:
+            return AddReview(
+                ok=False,
+                new_review=None
+            )
+        
+        new_review = ReviewModel(
+            game_id=game_id,
+            user_id=user_id,
+            content=content
+        )
+        
+        if game_comment:
+            new_review.game_comment = game_comment
+            new_review.game_rating = ratingDict.get(game_comment, game_rating)
+
+            db.session.add(new_review)
+            db.session.commit()
+            return AddReview(
+                ok=True,
+                new_review=new_review
+            )
+                        
+class AddToWishlist(Mutation):
+    class Arguments:
+        game_id = Int()
+        user_id = Int()
+
+    ok = Boolean()
+    success_message = String()
+
+    def mutate(self, info, game_id, user_id):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+
         if game not in user.user_wishlist_games and game not in user.bought_games:
             user.user_wishlist_games.append(game)
             db.session.commit()
-            return AddToWishlist(ok=True, success_message="Game successfully added to wishlist")
+            return AddToWishlist(
+                ok=True, success_message="Game successfully added to wishlist"
+            )
         elif game not in user.user_wishlist_games and game in user.bought_games:
             user.bought_games.remove(game)
             user.user_wishlist_games.append(game)
             db.session.commit()
-            return AddToWishlist(ok=True, success_message="Game successfully added to wishlist")
-            
+            return AddToWishlist(
+                ok=True, success_message="Game successfully added to wishlist"
+            )
+
         return AddToWishlist(ok=False, success_message="")
-            
+
+
 class CartItemInput(InputObjectType):
     game_id = ID(required=True)
     quantity = Int(required=True)
@@ -277,10 +425,10 @@ class AddToPurchases(Mutation):
     success_message = String()
 
     def mutate(root, info, user_id, purchase_data):
-        current_user_id = info.context.get('user_id')
+        current_user_id = info.context.get("user_id")
         if current_user_id != user_id:
             raise Exception("You are not authorized to perform this action")
-        
+
         user = UserModel.query.get(user_id)
         if user is None:
             raise Exception("User with provided id does not exist")
@@ -311,14 +459,20 @@ class MyMutations(ObjectType):
     add_to_purchase = AddToPurchases.Field()
 
     follower_followee = FollowerFollowee.Field()
-    
+
     signup = SignUpMutation.Field()
-    
+
     login = LoginMutation.Field()
-    
+
     add_to_games = AddToGames.Field()
-    
+
     added_to_wishlist = AddToWishlist.Field()
+
+    update_game_status = UpdateGameStatus.Field()
+    
+    delete_game = DeleteGame.Field()
+    
+    add_review = AddReview.Field()
 
 
 class Query(ObjectType):
@@ -341,27 +495,68 @@ class Query(ObjectType):
     similar_user_games = List(Game, id=Int())
 
     search = List(SearchResultType, query=String(required=True))
-    
+
     add_to_games = Field(Int, game_id=Int(), required=True)
     
-    check_game = Field(lambda: GameCheckResult, game_id=Int(required=True), user_id=Int(required=True))
+    check_review = Field(lambda: ReviewCheck, game_id=Int(required=True), user_id=Int(required=True))
+
+    check_game = Field(
+        lambda: GameCheckResult, game_id=Int(required=True), user_id=Int(required=True)
+    )
     
-    
+    def resolve_check_review(self, info, game_id, user_id):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)       
+        
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")   
+        
+        review = ReviewModel.query.filter_by(game_id=game_id, user_id=user_id).first()
+        
+        if review:
+            return ReviewCheck(
+                check_review=True,
+                checked_review=review
+            )      
+        return ReviewCheck(
+            check_review=False,
+            checked_review=None
+        )
+
     def resolve_check_game(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
-        
+        status = (
+            GameStatusCheck.query.filter_by(game_id=game_id, user_id=user_id)
+            .first()
+        )
+        if status is None:
+            status = 0
+        else:
+            status = status.status
+
         if not user:
             raise Exception("User with the provided id does not exist")
         if not game:
             raise Exception("Game with the provided id does not exist")
         in_bought_games = game in user.bought_games
         in_wishlist = game in user.user_wishlist_games
-        
-        return GameCheckResult(in_bought_games=in_bought_games, in_wishlist=in_wishlist)
-    
+        active_index = status
+
+        return GameCheckResult(
+            in_bought_games=in_bought_games,
+            in_wishlist=in_wishlist,
+            active_index=active_index,
+        )
+
     def resolve_add_to_games(self, info, game_id):
-        count = db.session.query(func.count(purchasedGameModel.game_id)).filter(purchasedGameModel.game_id == game_id).scalar()
+        count = (
+            db.session.query(func.count(purchasedGameModel.game_id))
+            .filter(purchasedGameModel.game_id == game_id)
+            .scalar()
+        )
         return count
 
     def resolve_search(self, info, query):

@@ -1361,6 +1361,54 @@ body.no-scroll {
   font-weight: 600;
   letter-spacing: 0.5px;
 }
+.sidenavlayout .showpanel .grid-box-review {
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sidenavlayout .showpanel .grid-box-review .grid-box2 {
+  display: flex;
+  height: 100%;
+  margin-bottom: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(221, 221, 221);
+  padding: 1rem 0;
+  border-radius: 5px;
+}
+.sidenavlayout .showpanel .grid-box-review .grid-box2 > * {
+  margin: 0.5rem 0;
+}
+.sidenavlayout .showpanel .grid-box-review .grid-box2 .delete-span {
+  color: red;
+}
+.sidenavlayout .showpanel .grid-box-review .grid-box2 .delete-span:hover {
+  transform: scale(0.95);
+}
+.sidenavlayout .showpanel .grid-box-review .review-box2 {
+  border: 1px solid rgb(222, 222, 222);
+  border-radius: 5px;
+  text-align: center;
+  padding: 0.6rem;
+}
+.sidenavlayout .showpanel .grid-box-review .review-box2:hover {
+  transform: scale(0.95);
+}
+.sidenavlayout .showpanel .addTo-box2 {
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(221, 221, 221);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.sidenavlayout .showpanel .addTo-box2:hover span {
+  transform: scale(0.95);
+}
 .sidenavlayout .showpanel .grid-box {
   height: 100%;
   margin: 0 1rem 1rem 1rem;
@@ -1429,9 +1477,6 @@ body.no-scroll {
 .sidenavlayout .showpanel .addTo-box:hover {
   color: rgb(75, 75, 75);
   font-size: 15px;
-}
-.sidenavlayout .hidepanel {
-  display: none;
 }
 
 .view_more {

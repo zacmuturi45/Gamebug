@@ -167,6 +167,7 @@ query gameCheck($gameId: Int!, $userId: Int!) {
     checkGame(gameId: $gameId, userId: $userId) {
         inWishlist
         inBoughtGames
+        activeIndex
     }
 }
 `;
@@ -178,3 +179,42 @@ mutation addToWishlist($gameId: Int!, $userId: Int!) {
     }
 }
 `;
+
+export const UPDATEGAMESTATUS = gql`
+mutation updateStatus($gameId: Int!, $userId: Int!, $index: Int!) {
+    updateGameStatus(gameId: $gameId, userId: $userId, index: $index) {
+        ok
+        activeIndex
+    }
+}
+`;
+
+export const DELETEGAME = gql`
+mutation deleteGames($gameId: Int!, $userId: Int!) {
+    deleteGame(gameId: $gameId, userId: $userId) {
+        ok
+    }
+}
+`;
+
+export const ADDREVIEW = gql`
+mutation addReviews($gameId: Int!, $userId: Int!, $content: String, $gameComment: String, $gameRating: Int) {
+    addReview(gameId: $gameId, userId: $userId, content: $content, gameComment: $gameComment, gameRating: $gameRating) {
+        ok
+        newReview {
+            gameComment
+        }
+    }
+}
+`; 
+
+export const CHECKREVIEW = gql`
+query ($gameId: Int!, $userId: Int!) {
+    checkReview(gameId: $gameId, userId: $userId) {
+        checkReview
+        checkedReview {
+            gameComment
+        }
+    }
+}
+`
