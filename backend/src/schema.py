@@ -14,7 +14,7 @@ from graphene import (
     Union,
 )
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-from sqlalchemy import func, or_
+from sqlalchemy import func, or_, and_
 from src.models import (
     User as UserModel,
     Game as GameModel,
@@ -65,9 +65,15 @@ class Game(SQLAlchemyObjectType):
 
 
 class Review(SQLAlchemyObjectType):
+
+    reviewid = Field(Int)
+
     class Meta:
         model = ReviewModel
         interfaces = (relay.Node,)
+
+    def resolve_reviewid(self, info):
+        return self.id
 
 
 class Purchase(SQLAlchemyObjectType):
@@ -100,13 +106,29 @@ class GameCheckResult(ObjectType):
     def resolve_active_index(self, info):
         return self.active_index
     
+class GameRatingTypes(ObjectType):
+    exceptional = Field(Int)
+    recommend = Field(Int)
+    meh = Field(Int)
+    skip = Field(Int)
+    
+    def resolve_exceptional(self, info):
+        return self.exceptional
+    def resolve_recommend(self, info):
+        return self.recommend
+    def resolve_meh(self, info):
+        return self.meh
+    def resolve_skip(self, info):
+        return self.skip        
+
+
 class ReviewCheck(ObjectType):
     check_review = Field(Boolean)
     checked_review = Field(lambda: Review)
-    
+
     def resolve_check_review(self, info):
         return self.check_review
-    
+
     def resolve_checked_review(self, info):
         return self.checked_review
 
@@ -275,6 +297,7 @@ class AddToGames(Mutation):
     ok = Boolean()
     count = Int()
     added = Boolean()
+    userLibrary = Int()
 
     def mutate(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
@@ -292,7 +315,12 @@ class AddToGames(Mutation):
                 .filter(purchasedGameModel.game_id == game_id)
                 .scalar()
             )
-            return AddToGames(ok=True, count=count)
+            library = (
+                db.session.query(func.count(purchasedGameModel.game_id))
+                .filter(purchasedGameModel.user_id == user_id)
+                .scalar()
+            )
+            return AddToGames(ok=True, count=count, userLibrary=library)
         if game not in user.bought_games and game in user.user_wishlist_games:
             user.user_wishlist_games.remove(game)
             user.bought_games.append(game)
@@ -302,17 +330,28 @@ class AddToGames(Mutation):
                 .filter(purchasedGameModel.game_id == game_id)
                 .scalar()
             )
-            return AddToGames(ok=True, count=count)
+            library = (
+                db.session.query(func.count(purchasedGameModel.game_id))
+                .filter(purchasedGameModel.user_id == user_id)
+                .scalar()
+            )
+            return AddToGames(ok=True, count=count, userLibrary=library)
+        library = (
+            db.session.query(func.count(purchasedGameModel.game_id))
+            .filter(purchasedGameModel.game_id == game_id)
+            .scalar()
+        )
 
-        return AddToGames(ok=False, count=None, added=True)
+        return AddToGames(ok=False, count=None, added=True, userLibrary=library)
+
 
 class DeleteGame(Mutation):
     class Arguments:
         game_id = Int()
         user_id = Int()
-        
+
     ok = Boolean()
-    
+
     def mutate(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
@@ -325,7 +364,44 @@ class DeleteGame(Mutation):
             user.bought_games.remove(game)
             db.session.commit()
             return DeleteGame(ok=True)
-        
+
+
+class EditReview(Mutation):
+    class Arguments:
+        game_id = Int(required=True)
+        user_id = Int(required=True)
+        content = String()
+        game_rating = Int()
+        game_comment = String()
+
+    ok = Boolean()
+    new_review = Field(lambda: Review)
+
+    def mutate(
+        self, info, game_id, user_id, content=None, game_rating=None, game_comment=None
+    ):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+        ratingDict = {"Exceptional": 10, "Recommend": 7.5, "Meh": 5, "Skip": 2.5}
+
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+
+        check_review = ReviewModel.query.filter_by(
+            game_id=game_id, user_id=user_id
+        ).first()
+
+        if check_review:
+            check_review.content = content
+            check_review.game_comment = game_comment
+            check_review.game_rating = ratingDict[game_comment]
+            db.session.commit()
+            return EditReview(ok=True, new_review=check_review)
+        return EditReview(ok=False, new_review=None)
+
+
 class AddReview(Mutation):
     class Arguments:
         game_id = Int(required=True)
@@ -336,47 +412,44 @@ class AddReview(Mutation):
 
     ok = Boolean()
     new_review = Field(lambda: Review)
-    
-    def mutate(self, info, game_id, user_id, content=None, game_rating=None, game_comment=None):  
+
+    def mutate(
+        self, info, game_id, user_id, content=None, game_rating=None, game_comment=None
+    ):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
-        ratingDict = {
-            "Exceptional": 10,
-            "Recommend": 7.5,
-            "Meh": 5,
-            "Skip": 2.5
-        }
+        ratingDict = {"Exceptional": 10, "Recommend": 7.5, "Meh": 5, "Skip": 2.5}
 
         if not user:
             raise Exception("User with the provided id does not exist")
         if not game:
-            raise Exception("Game with the provided id does not exist")  
-        
-        check_review = ReviewModel.query.filter_by(game_id=game_id, user_id=user_id).first()   
-        
+            raise Exception("Game with the provided id does not exist")
+
+        check_review = ReviewModel.query.filter_by(
+            game_id=game_id, user_id=user_id
+        ).first()
+
         if check_review:
-            return AddReview(
-                ok=False,
-                new_review=None
-            )
-        
-        new_review = ReviewModel(
-            game_id=game_id,
-            user_id=user_id,
-            content=content
-        )
-        
+            if content:
+                check_review.content=content
+            if game_rating:
+                check_review.game_rating=game_rating
+            if game_comment:
+                check_review.game_comment=game_comment
+            db.session.commit()
+            return AddReview(ok=True, new_review=check_review)
+
+        new_review = ReviewModel(game_id=game_id, user_id=user_id, content=content)
+
         if game_comment:
             new_review.game_comment = game_comment
             new_review.game_rating = ratingDict.get(game_comment, game_rating)
 
             db.session.add(new_review)
             db.session.commit()
-            return AddReview(
-                ok=True,
-                new_review=new_review
-            )
-                        
+            return AddReview(ok=True, new_review=new_review)
+
+
 class AddToWishlist(Mutation):
     class Arguments:
         game_id = Int()
@@ -409,6 +482,27 @@ class AddToWishlist(Mutation):
             )
 
         return AddToWishlist(ok=False, success_message="")
+
+
+class DeleteReview(Mutation):
+    class Arguments:
+        user_id = Int(required=True)
+        rev_id = Int(required=True)
+
+    ok = Boolean()
+
+    def mutate(root, info, user_id, rev_id):
+        review = ReviewModel.query.filter_by(id=rev_id, user_id=user_id).first()
+        user = UserModel.query.get(user_id)
+
+        if user is None:
+            raise Exception("User with provided id does not exist")
+        if review is None:
+            raise Exception("Review does not exist")
+        
+        db.session.delete(review)
+        db.session.commit()
+        return DeleteReview(ok=True)
 
 
 class CartItemInput(InputObjectType):
@@ -469,10 +563,14 @@ class MyMutations(ObjectType):
     added_to_wishlist = AddToWishlist.Field()
 
     update_game_status = UpdateGameStatus.Field()
-    
+
     delete_game = DeleteGame.Field()
-    
+
     add_review = AddReview.Field()
+
+    delete_review = DeleteReview.Field()
+
+    edit_review = EditReview.Field()
 
 
 class Query(ObjectType):
@@ -489,6 +587,8 @@ class Query(ObjectType):
     one_user = Field(User, id=Int())
 
     my_games = List(Game, id=Int())
+    
+    all_game_reviews = List(Review, game_id=Int())
 
     my_wishlist_games = List(Game, id=Int())
 
@@ -497,41 +597,86 @@ class Query(ObjectType):
     search = List(SearchResultType, query=String(required=True))
 
     add_to_games = Field(Int, game_id=Int(), required=True)
+
+    check_ratings = Field(Int, game_id=Int(required=True))
+
+    check_average_rating = Field(String, game_id=Int(required=True))
+
+    check_library = Field(Int, game_id=Int(required=True), user_id=Int(required=True))
+
+    check_review = Field(
+        lambda: ReviewCheck, game_id=Int(required=True), user_id=Int(required=True)
+    )
     
-    check_review = Field(lambda: ReviewCheck, game_id=Int(required=True), user_id=Int(required=True))
+    check_rating_types = Field(
+        lambda: GameRatingTypes, game_id=Int(required=True)
+    )
 
     check_game = Field(
         lambda: GameCheckResult, game_id=Int(required=True), user_id=Int(required=True)
     )
     
+    count_reviews = Field(Int, game_id=Int(required=True))
+    
+    def resolve_check_rating_types(self, info, game_id):
+        game = GameModel.query.get(game_id)
+        
+        exceptional = (
+            db.session.query(func.count(ReviewModel.game_rating))
+            .filter(and_(ReviewModel.game_rating > 7.5, ReviewModel.game_id == game_id))
+            .scalar()
+        )
+        recommend = (
+            db.session.query(func.count(ReviewModel.game_rating))
+            .filter(and_(ReviewModel.game_rating <= 7.5, ReviewModel.game_rating > 5, ReviewModel.game_id == game_id))
+            .scalar()
+        )        
+        meh = (
+            db.session.query(func.count(ReviewModel.game_rating))
+            .filter(and_(ReviewModel.game_rating <= 5, ReviewModel.game_rating > 2.5, ReviewModel.game_id == game_id))
+            .scalar()
+        )        
+        skip = (
+            db.session.query(func.count(ReviewModel.game_rating))
+            .filter(and_(ReviewModel.game_rating <= 2.5, ReviewModel.game_rating > 0, ReviewModel.game_id == game_id))
+            .scalar()
+        )
+        
+        return GameRatingTypes(
+            exceptional=exceptional,
+            recommend=recommend,
+            meh=meh,
+            skip=skip
+        )
+        
+    def resolve_all_game_reviews(self, info, game_id):
+        game = GameModel.query.get(game_id)
+        
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+        return game.reviews    
+    
     def resolve_check_review(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
-        game = GameModel.query.get(game_id)       
-        
+        game = GameModel.query.get(game_id)
+
         if not user:
             raise Exception("User with the provided id does not exist")
         if not game:
-            raise Exception("Game with the provided id does not exist")   
-        
+            raise Exception("Game with the provided id does not exist")
+
         review = ReviewModel.query.filter_by(game_id=game_id, user_id=user_id).first()
-        
+
         if review:
-            return ReviewCheck(
-                check_review=True,
-                checked_review=review
-            )      
-        return ReviewCheck(
-            check_review=False,
-            checked_review=None
-        )
+            return ReviewCheck(check_review=True, checked_review=review)
+        return ReviewCheck(check_review=False, checked_review=None)
 
     def resolve_check_game(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
-        status = (
-            GameStatusCheck.query.filter_by(game_id=game_id, user_id=user_id)
-            .first()
-        )
+        status = GameStatusCheck.query.filter_by(
+            game_id=game_id, user_id=user_id
+        ).first()
         if status is None:
             status = 0
         else:
@@ -558,20 +703,76 @@ class Query(ObjectType):
             .scalar()
         )
         return count
+    
+    def resolve_count_reviews(self, info, game_id):
+        count = (
+            db.session.query(func.count(ReviewModel.user_id))
+            .filter(ReviewModel.game_id == game_id)
+            .scalar()
+        )
+        
+        return count
+
+    def resolve_check_library(self, info, game_id, user_id):
+        count = (
+            db.session.query(func.count(purchasedGameModel.game_id))
+            .filter(purchasedGameModel.user_id == user_id)
+            .scalar()
+        )
+
+        return count
+
+    def resolve_check_average_rating(self, info, game_id):
+        game = GameModel.query.get(game_id)
+
+        if game is None:
+            raise Exception("Game with provided id does not exist")
+
+        game_rating = (
+            db.session.query(func.avg(ReviewModel.game_rating))
+            .filter_by(game_id=game.id)
+            .scalar()
+        )
+
+        if game_rating <= 2.5:
+            game_rating = "Skip"
+        elif 2.5 < game_rating <= 5:
+            game_rating = "Meh"
+        elif 5 < game_rating <= 7.5:
+            game_rating = "Recommend"
+        elif 7.5 < game_rating <= 10:
+            game_rating = "Exceptional"
+
+        return game_rating
+
+    def resolve_check_ratings(self, info, game_id):
+        count = (
+            db.session.query(func.count(ReviewModel.game_rating))
+            .filter(ReviewModel.game_id == game_id)
+            .scalar()
+        )
+
+        return count
 
     def resolve_search(self, info, query):
-        games = (
-            db.session.query(GameModel)
-            .filter(GameModel.title.ilike(f"%{query}%"))
-            .all()
-        )
         users = (
             db.session.query(UserModel)
             .filter(UserModel.username.ilike(f"%{query}%"))
             .all()
         )
 
-        return games + users
+        games = (
+            db.session.query(GameModel)
+            .filter(GameModel.title.ilike(f"%{query}%"))
+            .all()
+        )
+        
+        if users is None:
+            users = []
+        if games is None:
+            games = []
+
+        return users + games
 
     def resolve_one_game(self, info, id=None):
         game = GameModel.query.get(id)

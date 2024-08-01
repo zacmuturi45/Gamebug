@@ -11,7 +11,7 @@ from src.models import (
     PurchasedGame,
     wishlist_game,
     followers,
-    GameStatusCheck
+    GameStatusCheck,
 )
 from werkzeug.security import generate_password_hash
 
@@ -277,12 +277,7 @@ cloudGames = [
     },
 ]
 
-ratings = [
-    "Exceptional",
-    "Recommend",
-    "Meh",
-    "Skip"
-]
+ratings = ["Exceptional", "Recommend", "Meh", "Skip"]
 
 
 def create_fake_user():
@@ -322,7 +317,7 @@ def create_fake_review(user_id, game_id):
     review = Review(
         content=fake.paragraph(),
         game_rating=random.randint(1, 10),
-        game_comment = random.choice(ratings),
+        game_comment=random.choice(ratings),
         user_id=user_id,
         game_id=game_id,
     )
