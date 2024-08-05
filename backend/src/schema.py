@@ -105,21 +105,25 @@ class GameCheckResult(ObjectType):
 
     def resolve_active_index(self, info):
         return self.active_index
-    
+
+
 class GameRatingTypes(ObjectType):
     exceptional = Field(Int)
     recommend = Field(Int)
     meh = Field(Int)
     skip = Field(Int)
-    
+
     def resolve_exceptional(self, info):
         return self.exceptional
+
     def resolve_recommend(self, info):
         return self.recommend
+
     def resolve_meh(self, info):
         return self.meh
+
     def resolve_skip(self, info):
-        return self.skip        
+        return self.skip
 
 
 class ReviewCheck(ObjectType):
@@ -208,13 +212,11 @@ class FollowerFollowee(Mutation):
     class Arguments:
         follower_id = ID(required=True)
         followee_id = ID(required=True)
-        toFollow = Boolean(required=True)
 
     ok = Boolean()
     status = String()
 
-    @jwt_required()
-    def mutate(self, info, follower_id, followee_id, toFollow):
+    def mutate(self, info, follower_id, followee_id):
         follower = UserModel.query.get(follower_id)
         followee = UserModel.query.get(followee_id)
         status = "pending"
@@ -224,23 +226,16 @@ class FollowerFollowee(Mutation):
         if followee is None:
             raise Exception("Followee with provided id does not exist")
 
-        if toFollow:
-            if follower in followee.following:
-                raise Exception("You are already following this user")
-            follower.following.append(followee)
-            db.session.flush()
-            status = "following"
-
-        if not toFollow:
+        if followee in follower.following:
             follower.following.remove(followee)
-            db.session.flush()
+            db.session.commit()
             status = "follow"
-
-        db.session.commit()
-        ok = True
-        status = status
-
-        return FollowerFollowee(ok=ok, status=status)
+            return FollowerFollowee(ok=True, status=status)
+        elif followee not in follower.following:
+            follower.following.append(followee)
+            db.session.commit()
+            status = "unfollow"
+            return FollowerFollowee(ok=True, status=status)
 
 
 class SignUpMutation(Mutation):
@@ -431,11 +426,11 @@ class AddReview(Mutation):
 
         if check_review:
             if content:
-                check_review.content=content
+                check_review.content = content
             if game_rating:
-                check_review.game_rating=game_rating
+                check_review.game_rating = game_rating
             if game_comment:
-                check_review.game_comment=game_comment
+                check_review.game_comment = game_comment
             db.session.commit()
             return AddReview(ok=True, new_review=check_review)
 
@@ -499,7 +494,7 @@ class DeleteReview(Mutation):
             raise Exception("User with provided id does not exist")
         if review is None:
             raise Exception("Review does not exist")
-        
+
         db.session.delete(review)
         db.session.commit()
         return DeleteReview(ok=True)
@@ -587,7 +582,7 @@ class Query(ObjectType):
     one_user = Field(User, id=Int())
 
     my_games = List(Game, id=Int())
-    
+
     all_game_reviews = List(Review, game_id=Int())
 
     my_wishlist_games = List(Game, id=Int())
@@ -603,24 +598,54 @@ class Query(ObjectType):
     check_average_rating = Field(String, game_id=Int(required=True))
 
     check_library = Field(Int, game_id=Int(required=True), user_id=Int(required=True))
+    
+    check_follow_status = Field(String, follower_id=Int(required=True), followee_id=Int(required=True))
 
     check_review = Field(
         lambda: ReviewCheck, game_id=Int(required=True), user_id=Int(required=True)
     )
-    
-    check_rating_types = Field(
-        lambda: GameRatingTypes, game_id=Int(required=True)
-    )
+
+    check_rating_types = Field(lambda: GameRatingTypes, game_id=Int(required=True))
 
     check_game = Field(
         lambda: GameCheckResult, game_id=Int(required=True), user_id=Int(required=True)
     )
-    
+
     count_reviews = Field(Int, game_id=Int(required=True))
     
-    def resolve_check_rating_types(self, info, game_id):
+    user_with_game = List(User, id=Int())
+    
+    user_try = List(User, game_id=Int())
+    
+    def resolve_use_try(self, info, game_id):
         game = GameModel.query.get(game_id)
         
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+        return game.users
+    
+    def resolve_user_with_game(self, info, id=None):
+        game = GameModel.query.get(id)
+        
+        if not game:
+            raise Exception("Game with provided id does not exist")
+        return game.buyers
+    
+    def resolve_check_follow_status(self, info, follower_id, followee_id):
+        follower = UserModel.query.get(follower_id)
+        
+        followee = UserModel.query.get(followee_id)
+        
+        if not follower:
+            raise Exception("Follower does not exist")
+        if not followee:
+            raise Exception("Followee does not exist")
+        
+        if followee in follower.following:
+            return "Unfollow"
+        return "Follow"
+
+    def resolve_check_rating_types(self, info, game_id):
         exceptional = (
             db.session.query(func.count(ReviewModel.game_rating))
             .filter(and_(ReviewModel.game_rating > 7.5, ReviewModel.game_id == game_id))
@@ -628,34 +653,49 @@ class Query(ObjectType):
         )
         recommend = (
             db.session.query(func.count(ReviewModel.game_rating))
-            .filter(and_(ReviewModel.game_rating <= 7.5, ReviewModel.game_rating > 5, ReviewModel.game_id == game_id))
+            .filter(
+                and_(
+                    ReviewModel.game_rating <= 7.5,
+                    ReviewModel.game_rating > 5,
+                    ReviewModel.game_id == game_id,
+                )
+            )
             .scalar()
-        )        
+        )
         meh = (
             db.session.query(func.count(ReviewModel.game_rating))
-            .filter(and_(ReviewModel.game_rating <= 5, ReviewModel.game_rating > 2.5, ReviewModel.game_id == game_id))
+            .filter(
+                and_(
+                    ReviewModel.game_rating <= 5,
+                    ReviewModel.game_rating > 2.5,
+                    ReviewModel.game_id == game_id,
+                )
+            )
             .scalar()
-        )        
+        )
         skip = (
             db.session.query(func.count(ReviewModel.game_rating))
-            .filter(and_(ReviewModel.game_rating <= 2.5, ReviewModel.game_rating > 0, ReviewModel.game_id == game_id))
+            .filter(
+                and_(
+                    ReviewModel.game_rating <= 2.5,
+                    ReviewModel.game_rating > 0,
+                    ReviewModel.game_id == game_id,
+                )
+            )
             .scalar()
         )
-        
+
         return GameRatingTypes(
-            exceptional=exceptional,
-            recommend=recommend,
-            meh=meh,
-            skip=skip
+            exceptional=exceptional, recommend=recommend, meh=meh, skip=skip
         )
-        
+
     def resolve_all_game_reviews(self, info, game_id):
         game = GameModel.query.get(game_id)
-        
+
         if not game:
             raise Exception("Game with the provided id does not exist")
-        return game.reviews    
-    
+        return game.reviews
+
     def resolve_check_review(self, info, game_id, user_id):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
@@ -703,14 +743,14 @@ class Query(ObjectType):
             .scalar()
         )
         return count
-    
+
     def resolve_count_reviews(self, info, game_id):
         count = (
             db.session.query(func.count(ReviewModel.user_id))
             .filter(ReviewModel.game_id == game_id)
             .scalar()
         )
-        
+
         return count
 
     def resolve_check_library(self, info, game_id, user_id):
@@ -766,7 +806,7 @@ class Query(ObjectType):
             .filter(GameModel.title.ilike(f"%{query}%"))
             .all()
         )
-        
+
         if users is None:
             users = []
         if games is None:

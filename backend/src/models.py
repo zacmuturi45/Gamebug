@@ -74,10 +74,15 @@ class Game(db.Model):
     genres = db.Column(ARRAY(db.String), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     chart = db.Column(db.String(100), default="Unranked")
-    image_url = db.Column(db.String(255), nullable=False)
+    image_url = db.Column(ARRAY(db.String), nullable=False)
     video_url = db.Column(db.String(255))
     followers = db.Column(db.Integer)
     following = db.Column(db.Integer)
+    about = db.Column(db.String(1000), nullable=False)
+    publisher = db.Column(db.String(250), nullable=False)
+    age_rating = db.Column(db.String(), default="Not rated")
+    developer = db.Column(db.String(), nullable=False)
+    tags = db.Column(ARRAY(db.String), nullable=True)
 
     reviews = db.relationship("Review", backref="game", lazy=True)
 
@@ -127,3 +132,4 @@ class Review(db.Model):
     game_comment = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)
+    date_added = db.Column(db.DateTime, default=datetime.now())

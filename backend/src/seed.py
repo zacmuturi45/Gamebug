@@ -134,6 +134,20 @@ def random_date(start_year, end_year):
     return random_date
 
 
+age_rate = ["Adult", "PG 16", "PG 10"]
+about = fake.paragraph()
+publisher = fake.user_name()
+developer = fake.company()
+tags = [
+    fake.catch_phrase(),
+    fake.city(),
+    fake.city(),
+    fake.user_name(),
+    fake.city(),
+    fake.country(),
+    fake.user_name(),
+]
+
 cloudGames = [
     {
         "title": "Fifa 24",
@@ -142,8 +156,19 @@ cloudGames = [
         "price": 65,
         "chart": "#1 Sports",
         "video_url": "GameGo/fif24_z8jucm",
-        "imageurl": "GameGo/fifa24_gq5mew",
+        "imageurl": [
+            "GameGo/fifa24_gq5mew",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
         "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Pes 24",
@@ -152,8 +177,19 @@ cloudGames = [
         "price": 60,
         "chart": "#2 Sports",
         "video_url": "GameGo/pesvid_d07nra",
-        "imageurl": "GameGo/pes_uvexkf",
+        "imageurl": [
+            "GameGo/pes_uvexkf",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
         "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "NBA 2K 24",
@@ -162,8 +198,19 @@ cloudGames = [
         "price": 55,
         "chart": "#3 Sports",
         "video_url": "GameGo/nba2k_jr40hv",
-        "imageurl": "GameGo/nba2k_gp89qs",
+        "imageurl": [
+            "GameGo/nba2k_gp89qs",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
         "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Madden NFL 23",
@@ -172,8 +219,19 @@ cloudGames = [
         "price": 55,
         "chart": "#4 Sports",
         "video_url": "GameGo/Madden_i9zdmi",
-        "imageurl": "GameGo/madden_sceo2i",
+        "imageurl": [
+            "GameGo/madden_sceo2i",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
         "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Afl Evolution",
@@ -182,8 +240,19 @@ cloudGames = [
         "price": 45,
         "chart": "#5 Sports",
         "video_url": "GameGo/Afl_xukype",
-        "imageurl": "GameGo/afl_jak666",
-        "date_added": random_date(2022, 2023),
+        "imageurl": [
+            "GameGo/afl_jak666",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Super Mega Baseball 4",
@@ -192,8 +261,19 @@ cloudGames = [
         "price": 50,
         "chart": "#6 Sports",
         "video_url": "GameGo/baseball_xrivxy",
-        "imageurl": "GameGo/baseball_w2llmf",
-        "date_added": random_date(2022, 2023),
+        "imageurl": [
+            "GameGo/baseball_w2llmf",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Pro Evolution Soccer 19",
@@ -202,8 +282,19 @@ cloudGames = [
         "price": 60,
         "chart": "#10 Sports",
         "video_url": "GameGo/pesvid_d07nra",
-        "imageurl": "GameGo/pes19_xafujn",
-        "date_added": random_date(2018, 2019),
+        "imageurl": [
+            "GameGo/pes19_xafujn",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Rugby 22",
@@ -212,8 +303,19 @@ cloudGames = [
         "price": 60,
         "chart": "#12 Sports",
         "video_url": "GameGo/rugby22_ze3xvg",
-        "imageurl": "GameGo/rugby22_vi4z6n",
+        "imageurl": [
+            "GameGo/rugby22_vi4z6n",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
         "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Ballistic Mini Golf",
@@ -222,8 +324,19 @@ cloudGames = [
         "price": 85,
         "chart": "#15 Sports",
         "video_url": "GameGo/golf_gzbr6d",
-        "imageurl": "GameGo/ballisticMiniGolf_om4etb",
-        "date_added": random_date(2020, 2021),
+        "imageurl": [
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Tennis World Tour 2",
@@ -232,8 +345,19 @@ cloudGames = [
         "price": 40,
         "chart": "#18 Sports",
         "video_url": "GameGo/tennis_jqbeyh",
-        "imageurl": "GameGo/trial_dyifgm",
-        "date_added": random_date(2021, 2022),
+        "imageurl": [
+            "GameGo/trial_dyifgm",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "TestGame1",
@@ -242,8 +366,19 @@ cloudGames = [
         "price": 60,
         "chart": "#10 Sports",
         "video_url": "GameGo/pesvid_d07nra",
-        "imageurl": "GameGo/pes19_xafujn",
-        "date_added": random_date(2018, 2019),
+        "imageurl": [
+            "GameGo/pes19_xafujn",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "TestGame2",
@@ -252,8 +387,19 @@ cloudGames = [
         "price": 60,
         "chart": "#12 Sports",
         "video_url": "GameGo/rugby22_ze3xvg",
-        "imageurl": "GameGo/rugby22_vi4z6n",
+        "imageurl": [
+            "GameGo/rugby22_vi4z6n",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
         "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "TestGame3",
@@ -262,8 +408,19 @@ cloudGames = [
         "price": 85,
         "chart": "#15 Sports",
         "video_url": "GameGo/golf_gzbr6d",
-        "imageurl": "GameGo/ballisticMiniGolf_om4etb",
-        "date_added": random_date(2020, 2021),
+        "imageurl": [
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
     {
         "title": "Tennis World Tour 2",
@@ -272,8 +429,19 @@ cloudGames = [
         "price": 40,
         "chart": "#18 Sports",
         "video_url": "GameGo/tennis_b3wd0j",
-        "imageurl": "GameGo/trial_dyifgm",
-        "date_added": random_date(2021, 2022),
+        "imageurl": [
+            "GameGo/trial_dyifgm",
+            "GameGo/ballisticMiniGolf_om4etb",
+            "GameGo/nba2k_gp89qs",
+            "GameGo/pes_uvexkf",
+            "GameGo/baseball_w2llmf"
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": about,
+        "publisher": publisher,
+        "age_rating": random.choice(age_rate),
+        "developer": developer,
+        "tags": tags,
     },
 ]
 
@@ -320,6 +488,7 @@ def create_fake_review(user_id, game_id):
         game_comment=random.choice(ratings),
         user_id=user_id,
         game_id=game_id,
+        date_added=random_date(2022, 2024),
     )
     return review
 
@@ -353,6 +522,11 @@ def seed():
             date_added=game_data["date_added"],
             image_url=game_data["imageurl"],
             video_url=game_data["video_url"],
+            about=game_data["about"],
+            publisher=game_data["publisher"],
+            age_rating=game_data["age_rating"],
+            developer=game_data["developer"],
+            tags=game_data["tags"]
         )
         db.session.add(game)
         user_bought_games.append(game)
