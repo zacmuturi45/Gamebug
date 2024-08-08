@@ -320,7 +320,7 @@ body.no-scroll {
 }
 
 .layouts {
-  background: url("/images/vamp.jpg");
+  background: url("/images/alpha.jpg");
   background-size: contain;
   background-repeat: no-repeat;
   height: 100vh;
@@ -1875,14 +1875,6 @@ body.no-scroll {
 }
 .main-game-users .main-game-users-div2 :nth-child(2) {
   font-size: 0.8rem;
-}
-.main-game-users .main-game-users-div2 .followercount {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  color: rgb(110, 110, 110);
 }
 
 @media screen and (max-width: 580px) {

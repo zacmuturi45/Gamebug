@@ -96,25 +96,6 @@ export default function game({ params }) {
 
   const [userwithgame, { data: userWithGameData }] = useLazyQuery(BUYERS)
 
-  const reviewArray = [
-    { svg: tick, review: "Super nice game", ratingsvg: bomb, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lukasz Milescu" },
-    { svg: tick, review: "Devoid of the x-factor but playable", ratingsvg: thumbsUp, profilePic: grateful, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Aldoff Karembeu" },
-    { svg: tick, review: "A good starter for the wannabe vampire fanatic", ratingsvg: pumpkinmeh, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Meh", name: "Aileen Sanchez" },
-    { svg: tick, review: "Meh is weh ei ken see", ratingsvg: thumbsUp, profilePic: grateful, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lucy Bierschoff" },
-    { svg: tick, review: "Fuck mother Russia", ratingsvg: pumpkincry, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Skip", name: "Alberto Moreira" }
-  ]
-
-  const gameCollections = [
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Kill hour", games: 14 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Less gooo", games: 21 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Vampire fanatic", games: 12 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Meh", games: 11 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Kill hour", games: 14 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Less gooo", games: 21 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Vampire fanatic", games: 12 },
-    { image: { image1: vamp, image2: alpha, image3: blood, image4: action }, title: "Meh", games: 11 },
-  ]
-
 
 
   useEffect(() => {
@@ -388,7 +369,7 @@ export default function game({ params }) {
     } catch (error) {
       if (error.graphQLErrors) {
         error.graphQLErrors.forEach(({ message }) => {
-          console.log(message)
+          alert(message)
         });
       }
     }
@@ -621,7 +602,7 @@ export default function game({ params }) {
           </div>
 
           <div className='game-container-div2-images'>
-            {oneData.oneGame.imageUrl.map((image, index) => {
+            {oneData.oneGame.imageUrl.slice(0, 4).map((image, index) => {
               return <div key={index}>
                 <AdvancedImage
                   cldImg={cld.image(image)}
@@ -647,8 +628,8 @@ export default function game({ params }) {
           <div className="game-users">
             <div className="game-users-title">Top users</div>
             {
-              gameUserData.map((data, index) => {
-                return <GameUsers image={data.image} name={data.name} edits={data.edits} followerCount={data.followerCount} index={index} />
+              oneData.oneGame.buyers.edges.slice(0, 5).map((data, index) => {
+                return <GameUsers image={data.node.profilePic} name={data.node.username} userId={data.node.userid} edits={data.node.boughtGames.edges.length} index={index} />
               })
             }
           </div>

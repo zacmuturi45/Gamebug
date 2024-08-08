@@ -115,6 +115,7 @@ query OneGame($id: Int!) {
                 node {
                     username
                     profilePic
+                    userid
                     boughtGames {
                         edges {
                             node {

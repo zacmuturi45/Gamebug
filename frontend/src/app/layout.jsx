@@ -17,6 +17,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }) {
 
   const pathname = usePathname();
+  const isIntegerPathname = /^\/\d+$/.test(pathname);
   return (
     <html lang="en">
       <Head>
@@ -26,8 +27,8 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ApolloProviderWrapper>
           {/* <Layouts> */}
-          <main className={pathname === '/3' ? "container wrapper layouts" : (pathname === '/signup' ? "container wrapper layout" : "container wrapper")}>
-            <div className={pathname === '/3' ? "before" : (pathname === '/signup' ? "container wrapper after" : "")}></div>
+          <main className={isIntegerPathname ? "container wrapper layouts" : (pathname === '/signup' ? "container wrapper layout" : (pathname === '/login' ? "container wrapper layout" : "container wrapper"))}>
+            <div className={isIntegerPathname ? "before" : (pathname === '/signup' ? "container wrapper after" : (pathname === '/login' ? "container wrapper after" : ""))}></div>
             <LoggedProvider>
               <FilterProvider>
                 <ReviewProvider>

@@ -1,15 +1,23 @@
+"use client"
+
 import Image from 'next/image'
 import React from 'react'
-import { plusWhite } from '../../../public/images'
+import { cld, plusWhite } from '../../../public/images'
 import Link from 'next/link'
+import { AdvancedImage } from '@cloudinary/react'
+import { useRouter } from 'next/navigation'
 
-export default function GameUsers({ image, name, edits, followerCount, index }) {
+export default function GameUsers({ image, name, edits, index, userId }) {
+    const router = useRouter();
     return (
         <main key={index} className='main-game-users'>
-            <Link href={`/users/${55}`}>
+            <Link href={`/users/${userId}`}>
                 <div className='main-game-users-div1'>
                     <div className="image-div">
-                        <Image src={image} alt='profile-image' className='profile-image' />
+                        <AdvancedImage
+                            cldImg={cld.image(image)}
+                            className="profile-image"
+                        />
                     </div>
                     <div className='text-div'>
                         <p>{name}</p>
@@ -18,10 +26,9 @@ export default function GameUsers({ image, name, edits, followerCount, index }) 
                 </div>
             </Link>
 
-            <div className='main-game-users-div2'>
+            <div className='main-game-users-div2' onClick={() => router.push(`/users/${userId}`)}>
                 <Image src={plusWhite} alt='plusWhite' width={8} height={8} className='span' />
-                <p>Follow</p>
-                <p className='followercount'>{followerCount}</p>
+                <p>View</p>
             </div>
         </main>
     )
