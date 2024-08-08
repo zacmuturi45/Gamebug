@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { useFilter } from '../contexts/sidenavContext'
 import Image from 'next/image'
 import SearchGame from './searchGame'
-import { getMiddleDigit, gradients, grateful, isaac, isLoggedIn, logout, nintendoWhite, psWhite, windowsWhite, login } from '../../../public/images'
+import { getMiddleDigit, gradients, grateful, isaac, isLoggedIn, logout, nintendoWhite, psWhite, windowsWhite, login, giftBox, plusWhite, cart, notification } from '../../../public/images'
 import { useLazyQuery } from '@apollo/client'
 import { SEARCH_QUERY } from '../GraphQL/queries'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -18,7 +18,7 @@ import { newReleases } from '../../../public/images'
 import SideNavBox from './sideNavBox'
 import { genres, platforms, arrowDown } from '../../../public/images'
 import { logoutLogic } from './logout'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { destroyCookie } from 'nookies'
 import { useLoggedUser } from '../contexts/loginContext'
 import NameCircle from './nameCircle'
@@ -54,6 +54,7 @@ export default function Navbar() {
 
     const router = useRouter();
     const { userInfo, setUserInfo } = useLoggedUser();
+    const pathname = usePathname();
 
     useEffect(() => {
         if (query.length > 0) {
@@ -73,10 +74,10 @@ export default function Navbar() {
 
     useEffect(() => {
         if (data) {
-            const games = data.search.filter(item => item.gameid);
             const users = data.search.filter(item => item.userid);
-            setGameResults(games);
+            const games = data.search.filter(item => item.gameid);
             setUserResults(users);
+            setGameResults(games);
         }
     }, [data]);
 
@@ -154,7 +155,7 @@ export default function Navbar() {
     const us = [{ im: grateful, gm: "Isaac" }, { im: isaac, gm: "Claire" }]
 
     return (
-        <main className={visible ? 'main__navbar dsp-f ai-c justify-space-between' : 'main__navbar nav-hidden dsp-f ai-c justify-space-between'}>
+        <main className={pathname === "/review" ? "hide" : (visible ? 'main__navbar' : 'main__navbar nav-hidden')}>
             <Link href="/"><h1 onClick={() => setFilter("Home")}>GameBug</h1></Link>
             <form>
             <div className='toggleSearch'>
@@ -212,8 +213,8 @@ export default function Navbar() {
                 <ul className='nav-ul'>
                     <div className='ul-divp'>
                         <div className='ul-div1'>
-                            <Link href="/login"><div onClick={() => setFilter("")}>
-                                {userInfo.username ? <span style={{ textTransform: "capitalize" }}><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /></span> : <span>LOG IN</span>}
+                            <Link href={userInfo.userid ? `/users/${userInfo.userid}` : "/login"}><div onClick={() => setFilter("")}>
+                                {userInfo.username ? <span style={{ textTransform: "capitalize" }} className='dsp-f ai-c my-library'><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span style={{margin: "0 .5rem 0 .2rem", fontWeight: 400}}>My library</span></span> : <span>LOG IN</span>}
                             </div></Link>
                             {!userInfo.username && (
                                 <div>
@@ -224,15 +225,22 @@ export default function Navbar() {
                         </div>
                     </div>
 
-                    <div className="ul-divp">
+                    <div className={userInfo.username ? "ul-divp1" : "ul-divp"}>
                         <div className='ul-div2'>
                             <div>
-                                {userInfo.username ? <span onClick={() => {
-                                    handleLogout();
-                                }}>SIGN OUT</span> : <span onClick={() => { router.push("/signup") }}>SIGN UP</span>}
+                                {userInfo.username ? <div style={{marginRight: 10, display: "flex"}}>
+                                    <><Image src={notification} height={25} width={25} alt='notification' onClick={() => router.push("/notifications")}/></>
+                                    <div className='nav-info'><Image src={plusWhite} height={20} width={20} alt='plus' /><div className='nav-infoChild'>
+                                        <div className='div'>
+                                            <div><Image src={cart} width={20} height={20} alt='box' /><span>Add a game to your library</span></div>
+                                            <div><Image src={cart} width={20} height={20} alt='box' /><span>Start a new collection</span></div>
+                                        </div>
+                                        <div className='last-div' onClick={() => handleLogout()}><span>SIGN OUT</span></div>
+                                        </div></div>
+                                </div> : <span onClick={() => { router.push("/signup") }}>SIGN UP</span>}
                             </div>
-                            <div className='ul-child-div2'></div>
-                            <div className='ul-child-div1c'></div>
+                            <div className='ul-child-div2' style={userInfo.username ? {display: "none"} : {display: "block"}}></div>
+                            <div className='ul-child-div1c' style={userInfo.username ? {display: "none"} : {display: "block"}}></div>
                         </div>
                     </div>
 
@@ -304,22 +312,26 @@ export default function Navbar() {
                                     </div>
                                 </div>
 
-                                <div className='mobi-div2'>
-                                    {userInfo.username ? <div style={{ textTransform: "capitalize", minHeight: 80, display: "flex", flexDirection: "column", alignItems: "center" }}><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span className='mt-1' style={{ color: "rgb(106, 106, 106)" }}>My Profile</span>
-                                    </div> : <div className='dsp-f fd-c ai-c' onClick={() => {
+                                <div className='mobi-div2' style={{marginRight: -15}}>
+                                    {userInfo.username ? <div style={{ textTransform: "capitalize", minHeight: 80, display: "flex", flexDirection: "column", alignItems: "flex-end", cursor: "pointer" }}><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span className='mt-1' style={{ color: "rgb(106, 106, 106)" }}>My Library</span>
+                                    </div> : <div className='dsp-f fd-c' style={{alignItems: "flex-end", marginRight: 15}} onClick={() => {
                                         setToggleMenu(false)
                                         router.push("/signup")
                                     }}><Image src={login} width={50} height={50} alt='logout-svg' className='logout-svg' /><span>SIGN UP</span></div>}
 
+
                                     {userInfo.username ? (
-                                        <div className='dsp-f fd-c ai-c'>
+                                        <div className='dsp-f fd-c ai-c' style={{alignItems: "flex-end"}}>
+                                            <div style={{marginRight: 15, justifyContent: "flex-end", alignItems: "flex-end", cursor: "pointer"}} className='dsp-f fd-c'><Image src={notification} height={35} width={35} alt='notification'/><span style={{marginTop: 5}}>Notifications</span></div>
+                                            <div className="dsp-f fd-c ai-c" style={{paddingRight: 12, cursor: "pointer"}}>
                                             <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => handleLogout()} />
                                             <span onClick={() => {
                                                 handleLogout();
                                             }}>Logout</span>
+                                            </div>
                                         </div>
                                     ) : (
-                                        <div className='dsp-f fd-c ai-c'>
+                                        <div className='dsp-f fd-c ai-c' style={{marginRight: 15}}>
                                             <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => {
                                                 setToggleMenu(false)
                                                 router.push("/login")

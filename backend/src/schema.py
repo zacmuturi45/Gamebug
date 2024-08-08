@@ -16,6 +16,7 @@ from graphene import (
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from sqlalchemy import func, or_, and_
 from src.models import (
+    ReviewLikes,
     User as UserModel,
     Game as GameModel,
     Purchase as PurchaseModel,
@@ -140,6 +141,51 @@ class ReviewCheck(ObjectType):
 class GameStatus(SQLAlchemyObjectType):
     class Meta:
         model = GameStatusCheck
+        
+class ToggleReviewLikeMutation(Mutation):
+    class Arguments:
+        review_id=Int(required=True)
+        user_id=Int(required=True)
+        to_like=Boolean(required=True)
+        
+    ok=Boolean()
+    review=Field(Review)
+    
+    def mutate(self, info, review_id, user_id, to_like):
+        existing_interaction = ReviewLikes.query.filter_by(review_id=review_id, user_id=user_id).first()
+        review = ReviewModel.query.get(review_id)
+        if not review:
+            raise Exception("Review does not exist")
+        
+        if existing_interaction:
+            if existing_interaction.to_like == to_like:
+                db.session.delete(existing_interaction)
+                if to_like:
+                    review.likes -= 1
+                else:
+                    review.dislikes -= 1
+            else:
+                existing_interaction.to_like = to_like
+                if to_like:
+                    review.likes += 1
+                    review.dislikes -= 1
+                else:
+                    review.likes -= 1
+                    review.dislikes += 1
+        else:
+            new_interaction = ReviewLikes(
+                review_id=review_id,
+                user_id=user_id,
+                to_like=to_like
+            )
+            db.session.add(new_interaction)
+            if to_like:
+                review.likes += 1
+            else:
+                review.dislikes += 1
+                
+        db.session.commit()
+        return ToggleReviewLikeMutation(ok=True, review=review)
 
 
 class UpdateGameStatus(Mutation):
@@ -404,12 +450,13 @@ class AddReview(Mutation):
         content = String()
         game_rating = Int()
         game_comment = String()
+        parent_id = Int()
 
     ok = Boolean()
     new_review = Field(lambda: Review)
 
     def mutate(
-        self, info, game_id, user_id, content=None, game_rating=None, game_comment=None
+        self, info, game_id, user_id, content=None, game_rating=None, game_comment=None, parent_id=None
     ):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
@@ -434,7 +481,7 @@ class AddReview(Mutation):
             db.session.commit()
             return AddReview(ok=True, new_review=check_review)
 
-        new_review = ReviewModel(game_id=game_id, user_id=user_id, content=content)
+        new_review = ReviewModel(game_id=game_id, user_id=user_id, content=content, parent_id=parent_id)
 
         if game_comment:
             new_review.game_comment = game_comment
@@ -566,6 +613,8 @@ class MyMutations(ObjectType):
     delete_review = DeleteReview.Field()
 
     edit_review = EditReview.Field()
+    
+    toggle_review_like = ToggleReviewLikeMutation.Field()
 
 
 class Query(ObjectType):
@@ -599,7 +648,11 @@ class Query(ObjectType):
 
     check_library = Field(Int, game_id=Int(required=True), user_id=Int(required=True))
     
-    check_follow_status = Field(String, follower_id=Int(required=True), followee_id=Int(required=True))
+    check_game_status = Field(Int, game_id=Int(required=True), user_id=Int(required=True))
+
+    check_follow_status = Field(
+        String, follower_id=Int(required=True), followee_id=Int(required=True)
+    )
 
     check_review = Field(
         lambda: ReviewCheck, game_id=Int(required=True), user_id=Int(required=True)
@@ -612,35 +665,43 @@ class Query(ObjectType):
     )
 
     count_reviews = Field(Int, game_id=Int(required=True))
-    
+
     user_with_game = List(User, id=Int())
-    
+
     user_try = List(User, game_id=Int())
     
+    def resolve_check_game_status(self, info, game_id, user_id):
+        status = GameStatusCheck.query.filter_by(game_id=game_id, user_id=user_id).first()
+        
+        if not status:
+            return 0
+        else:
+            return status.status
+
     def resolve_use_try(self, info, game_id):
         game = GameModel.query.get(game_id)
-        
+
         if not game:
             raise Exception("Game with the provided id does not exist")
         return game.users
-    
+
     def resolve_user_with_game(self, info, id=None):
         game = GameModel.query.get(id)
-        
+
         if not game:
             raise Exception("Game with provided id does not exist")
         return game.buyers
-    
+
     def resolve_check_follow_status(self, info, follower_id, followee_id):
         follower = UserModel.query.get(follower_id)
-        
+
         followee = UserModel.query.get(followee_id)
-        
+
         if not follower:
             raise Exception("Follower does not exist")
         if not followee:
             raise Exception("Followee does not exist")
-        
+
         if followee in follower.following:
             return "Unfollow"
         return "Follow"

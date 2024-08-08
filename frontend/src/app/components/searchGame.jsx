@@ -17,7 +17,7 @@ export default function SearchGame({ setQuery, title, platform, image, itemIndex
         if(user === "game") {
             router.push(`/${id}`)
         } else if (user === "user") {
-            router.push('/users')
+            router.push(`/users/${id}`)
         }
     }
 

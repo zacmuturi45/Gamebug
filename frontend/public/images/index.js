@@ -19,6 +19,8 @@ import windows from './windows.svg';
 export { default as arrowDown } from './arrow-down.svg';
 export { default as arrowdown } from './arrowDown.svg';
 export { default as arrdown } from './arrdown.svg';
+export { default as xboxGray } from './xboxGray.svg';
+export { default as steam } from './steam.svg';
 export { default as tick } from './tick.svg';
 export { default as iosWhite } from './iosWhite.svg';
 export { default as androidWhite } from './androidWhite.svg';
@@ -27,6 +29,7 @@ export { default as xboxWhite } from './xboxWhite.svg';
 export { default as windowsWhite } from './windowsWhite.svg';
 export { default as ellipsisWhite } from './ellipsisWhite.svg';
 export { default as plusWhite } from './plusWhite.svg';
+export { default as notification } from './notification.svg';
 export { default as giftBox } from './giftBox.svg';
 export { default as riot } from './riot.svg';
 export { default as pumpkincry } from './pumpkincry.svg';
@@ -37,6 +40,7 @@ export { default as isaac } from './isaac.jpeg';
 export { default as grateful } from './grateful.jpg';
 export { default as greenplus } from './greenplus.svg';
 export { default as x } from './x.svg';
+export { default as dropdown } from './dropdown.svg';
 export { default as facebook } from './facebook.svg';
 export { default as fb } from './fbchunky.svg';
 export { default as cart } from './cart.svg';
@@ -134,8 +138,8 @@ export const newReleases = [
 ]
 
 export const gradients = [
-  "linear-gradient(to bottom, #FFEBEE 0%, #FF8A65 50%, #D84315 100%)",
-  "linear-gradient(to bottom, #FFF3E0 0%, #FFB74D 50%, #F57C00 100%)",
+  "linear-gradient(to bottom, #cb6724 0%, #c5731c 50%, #D84315 100%)",
+  "linear-gradient(to bottom, #cb6724 0%, #c5731c 50%, #D84315 100%)",
   "linear-gradient(to bottom, #FFE0B2 0%, #FFB74D 50%, #F57C00 100%)",
   "linear-gradient(to bottom, #FFF8E1 0%, #FFCC80 50%, #FF6F00 100%)",
   "linear-gradient(to bottom, #FFE0B2 0%, #FFAB40 50%, #FF5722 100%)",
@@ -181,28 +185,45 @@ export const comment = {
   "Skip": pumpkincry
 }
 
+export const create_date_string = (dateString) => {
+  const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+  const day =  dateString.slice(8, 10)[0] === 0 ? (dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10)[1] + "st" : (dateString.slice(8, 10)[1] === "2" ? dateString.slice(8, 10)[1] + "nd" : (dateString.slice(8, 10)[1] === "3" ? dateString.slice(8, 10)[1] + "rd" : dateString.slice(8, 10)[1] + "th"))) : (dateString.slice(8, 10)[1] === "1" ? dateString.slice(8, 10) + "st" : (dateString.slice(8, 10)[1] === "2" && dateString.slice(8, 10)[0] !== "1" ? dateString.slice(8, 10) + "nd" : (dateString.slice(8, 10)[1] === "3" && dateString.slice(8, 10)[0] !== "1" ? dateString.slice(8, 10) + "rd" : dateString.slice(8, 10) + "th")))
+  const month = months[parseInt(dateString.slice(5, 7)) - 1]
+  const year = dateString.slice(0, 4)
+  let full_date = month + " " + day + " " + year
+  return full_date
+}
+
+
+export const commentObject = [
+  { comment: "Exceptional", image: bomb },
+  { comment: "Recommend", image: thumbsUp },
+  { comment: "Meh", image: pumpkinmeh },
+  { comment: "Skip", image: pumpkincry }
+]
+
 export const panel = [
-  {image: dice, mainText: "Uncategorized", spanText: "I'll pick the category later"},
-  {image: controller, mainText: "Currently playing", spanText: "I'm playing this game currently"},
-  {image: medal, mainText: "Completed", spanText: "I'm done playing this game"},
-  {image: played, mainText: "Played", spanText: "I gave up and won't play anymore"},
-  {image: notPlayed, mainText: "Not played", spanText: "I'll play it later"}
+  { image: dice, mainText: "Uncategorized", spanText: "I'll pick the category later" },
+  { image: controller, mainText: "Currently playing", spanText: "I'm playing this game currently" },
+  { image: medal, mainText: "Completed", spanText: "I'm done playing this game" },
+  { image: played, mainText: "Played", spanText: "I gave up and won't play anymore" },
+  { image: notPlayed, mainText: "Not played", spanText: "I'll play it later" }
 ]
 
 export const quickReview = [
-  {image: bomb, span: "Exceptional"},
-  {image: thumbsUp, span: "Recommend"},
-  {image: pumpkinmeh, span: "Meh"},
-  {image: pumpkincry, span: "Skip"}
+  { image: bomb, span: "Exceptional" },
+  { image: thumbsUp, span: "Recommend" },
+  { image: pumpkinmeh, span: "Meh" },
+  { image: pumpkincry, span: "Skip" }
 ]
 
 export const platformIcons = {
-  PS5: psWhite,
-  PC: windowsWhite,
+  'PS5': psWhite,
+  'PC': windowsWhite,
   'Xbox One': xboxWhite,
   'Nintendo Switch': nintendoWhite,
-  iOS: iosWhite,
-  Android: androidWhite,
+  'iOS': iosWhite,
+  'Android': androidWhite,
 };
 
 export const cardArray = [

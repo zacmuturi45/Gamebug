@@ -3,6 +3,7 @@ from src import create_app
 from datetime import datetime, timedelta
 from faker import Faker
 from src.models import (
+    ReviewLikes,
     User,
     Game,
     Review,
@@ -28,101 +29,7 @@ fake = Faker()
 #     "Sports",
 # ]
 user_bought_games = []
-# cardArray = [
-#     "my-videos/boat_tyrkf7",
-#     "my-videos/kill_qhzkbt",
-#     "my-videos/switch_muf00v",
-#     "my-videos/images_vvnxxn",
-#     "my-videos/tekken8_fwdock",
-#     "my-videos/tekken_t2s1md",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/metalgearsolid_lspadg",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/cod_znvbzr",
-#     "my-videos/cod_ttbwyz",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/switch_muf00v",
-#     "my-videos/Vrising_r6rjfv",
-#     "my-videos/indika_bupute",
-#     "my-videos/blackMyth_c2na2l",
-#     "my-videos/HollowKnight_jrylsc",
-#     "my-videos/1348625_sfmfmp",
-#     "my-videos/princeOfPersia_o58blw",
-#     "my-videos/bladeSorcery_t7ievt",
-#     "my-videos/theWolfAmongUs_v9dds4",
-#     "my-videos/stellarBlade_c4dgvy",
-#     "my-videos/noRest_jhnsig",
-#     "my-videos/indika_bupute",
-#     "my-videos/blackMyth_c2na2l",
-#     "my-videos/HollowKnight_jrylsc",
-#     "my-videos/1348625_sfmfmp",
-#     "my-videos/princeOfPersia_o58blw",
-#     "my-videos/bladeSorcery_t7ievt",
-#     "my-videos/theWolfAmongUs_v9dds4",
-#     "my-videos/switch_muf00v",
-#     "my-videos/tekken8_fwdock",
-#     "my-videos/tekken_t2s1md",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/metalgearsolid_lspadg",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/cod_znvbzr",
-#     "my-videos/indika_bupute",
-#     "my-videos/blackMyth_c2na2l",
-#     "my-videos/HollowKnight_jrylsc",
-#     "my-videos/1348625_sfmfmp",
-#     "my-videos/princeOfPersia_o58blw",
-#     "my-videos/bladeSorcery_t7ievt",
-#     "my-videos/theWolfAmongUs_v9dds4",
-#     "my-videos/switch_muf00v",
-#     "my-videos/tekken8_fwdock",
-#     "my-videos/tekken_t2s1md",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/metalgearsolid_lspadg",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/cod_znvbzr",
-#     "my-videos/cod_ttbwyz",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/switch_muf00v",
-#     "my-videos/boat_tyrkf7",
-#     "my-videos/kill_qhzkbt",
-#     "my-videos/switch_muf00v",
-#     "my-videos/tekken8_fwdock",
-#     "my-videos/tekken_t2s1md",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/metalgearsolid_lspadg",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/cod_znvbzr",
-#     "my-videos/cod_ttbwyz",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/switch_muf00v",
-#     "my-videos/indika_bupute",
-#     "my-videos/blackMyth_c2na2l",
-#     "my-videos/HollowKnight_jrylsc",
-#     "my-videos/1348625_sfmfmp",
-#     "my-videos/princeOfPersia_o58blw",
-#     "my-videos/bladeSorcery_t7ievt",
-#     "my-videos/theWolfAmongUs_v9dds4",
-#     "my-videos/metalgearsolid_lspadg",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/cod_znvbzr",
-#     "my-videos/cod_ttbwyz",
-#     "my-videos/lastepoch_bepih3",
-#     "my-videos/switch_muf00v",
-# ]
-
-# titleArray = [
-#     "Vampire: the Masquerade: Bloodlines 2",
-#     "Metal Gear Solid",
-#     "S.t.a.l.k.e.r II: Heart of Chernorbyl",
-#     "Senhua's Saga",
-#     "V Rising",
-#     "Hollow Knight: Silksong",
-#     "Stellar Blade",
-#     "Synergy",
-#     "Indika",
-#     "The wolf among us 2",
-# ]
-
+user_reviews = []
 
 def random_date(start_year, end_year):
     start_date = datetime(start_year, 1, 1)
@@ -161,7 +68,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -182,7 +89,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -203,7 +110,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -224,7 +131,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -245,7 +152,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -266,7 +173,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -287,7 +194,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -308,7 +215,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -329,7 +236,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -350,7 +257,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -371,7 +278,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -392,7 +299,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -413,7 +320,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -434,7 +341,7 @@ cloudGames = [
             "GameGo/ballisticMiniGolf_om4etb",
             "GameGo/nba2k_gp89qs",
             "GameGo/pes_uvexkf",
-            "GameGo/baseball_w2llmf"
+            "GameGo/baseball_w2llmf",
         ],
         "date_added": random_date(2023, 2024),
         "about": about,
@@ -497,6 +404,7 @@ def seed():
     db.session.query(followers).delete()
     db.session.query(Purchase).delete()
     db.session.query(GameStatusCheck).delete()
+    db.session.query(ReviewLikes).delete()    
     db.session.query(Review).delete()
     db.session.query(PurchasedGame).delete()
     db.session.query(wishlist_game).delete()
@@ -526,7 +434,7 @@ def seed():
             publisher=game_data["publisher"],
             age_rating=game_data["age_rating"],
             developer=game_data["developer"],
-            tags=game_data["tags"]
+            tags=game_data["tags"],
         )
         db.session.add(game)
         user_bought_games.append(game)
@@ -562,6 +470,24 @@ def seed():
 
             review = create_fake_review(user.id, game.id)
             db.session.add(review)
+            user_reviews.append(review)
+        for _ in range(random.randint(2, 5)):
+            randomReview = random.choice(user_reviews)
+            randomBoolean=random.choice([True, False])            
+            randomReviewLikeCheck = ReviewLikes.query.filter_by(review_id=randomReview.id, user_id=user.id).first()
+            if not randomReviewLikeCheck:
+                newReviewLike = ReviewLikes(
+                    review_id=randomReview.id,
+                    user_id=user.id,
+                    to_like=randomBoolean
+                )
+                db.session.add(newReviewLike)
+                if randomBoolean:
+                    randomReview.likes += 1
+                else:
+                    randomReview.dislikes += 1
+                db.session.commit()
+            
 
         db.session.commit()
 

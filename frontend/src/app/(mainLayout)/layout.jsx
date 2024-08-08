@@ -16,17 +16,9 @@ export default function SideNavLayout({ children }) {
     const main = mainRef.current
     const pathname = usePathname()
 
-    // useEffect(() => {
-    //     if (sidenav) {
-    //         const h = sidenav.getBoundingClientRect().height
-    //         setHeight(h)
-    //     }
-
-    // }, [])
-
     return (
         <div className="sidenavlayout dsp-f" ref={mainRef}>
-            <div ref={sideRef} className={pathname === "/login" || pathname === "/signup" ? "hide sidenavbar-media" : "sidenavbar-media"}>
+            <div ref={sideRef} className={pathname === "/login" || pathname === "/signup" || pathname === "/review" ? "hide sidenavbar-media" : "sidenavbar-media"}>
                 <SideNavBar main={main}/>
             </div>
             <main className="sidenavlayout-children">

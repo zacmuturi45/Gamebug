@@ -86,6 +86,7 @@ export default function Home() {
 
     useEffect(() => {
         if (card_data_data) {
+            // console.log(`ARRRR ISS ${card_data_data.allGames.edges[0].node.genres}`)
             setCardData(card_data_data.allGames.edges)
             setFilteredCards(card_data_data.allGames.edges)
         }
@@ -175,7 +176,8 @@ export default function Home() {
     }
 
     const applyPlatformSort = (sortPlatform) => {
-        const sortedData = [...cardData];
+        if(card_data_data) {
+            const sortedData = [...card_data_data.allGames.edges];
         let sortedPlatforms = [];
 
         if (filterConditions[sortPlatform]) {
@@ -183,6 +185,7 @@ export default function Home() {
         }
 
         setCardData(sortedPlatforms);
+        }
     }
 
 
@@ -330,7 +333,7 @@ export default function Home() {
                         cardData.map((item, index) => (
                             <Card
                                 id={item.node.gameid}
-                                image={item.node.imageUrl}
+                                image={item.node.imageUrl[0]}
                                 video={item.node.videoUrl}
                                 key={index}
                                 platforms={item.node.platforms}

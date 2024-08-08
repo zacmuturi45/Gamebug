@@ -1,27 +1,39 @@
+"use client"
+
 import Image from 'next/image'
 import React from 'react'
-import { plusWhite } from '../../../public/images'
+import { cld, controller, giftBox, isaac, plusWhite } from '../../../public/images'
 import Link from 'next/link'
+import { AdvancedImage } from '@cloudinary/react'
+import { useRouter } from 'next/navigation'
 
-export default function FollowData({ image, name, edits, followerCount, follow, index }) {
+export default function FollowData({ image, name, id, gameCount, wishlistCount, index }) {
+    const router = useRouter();
+
     return (
-        <main key={index} className='follow-main-game-users'>
-            <Link href='/users'>
-                <div className='follow-main-game-users-div1'>
-                    <div className="follow-image-div">
-                        <Image src={image} alt='profile-image' className='follow-profile-image' />
+        <main key={index} className='follow-main-game-users row'
+            onClick={() => router.push(`/users/${id}`)}
+        >
+            <div className='follow-pic'>
+                <AdvancedImage
+                    className="follow-image"
+                    cldImg={cld.image(image)}
+                />
+            </div>
+            <div className='follow-div-items'>
+                <h4>{name.slice(0, 10)}...</h4>
+                <div className='dsp-f mt-1'>
+                    <div className='m-r-1 dsp-f ai-c'>
+                    <Image src={controller} height={20} width={18} alt='collections' />
+                    <span className='fs-sm m-l-1 spans-gray'>{gameCount}</span>
                     </div>
-                    <div className='follow-text-div'>
-                        <p>{name}</p>
-                        <p>{edits} games</p>
+                    
+                    <div className='dsp-f ai-c'>
+                    <Image src={giftBox} height={17} width={17} alt='collections' />
+                    <span className='fs-sm m-l-1 spans-gray'>{wishlistCount}</span>
                     </div>
-                </div>
-            </Link>
 
-            <div className='follow-main-game-users-div2'>
-                <Image src={plusWhite} alt='plusWhite' width={8} height={8} className='follow-span' />
-                <p>{follow}</p>
-                <p className='follow-followercount'>{followerCount}</p>
+                </div>
             </div>
         </main>
     )

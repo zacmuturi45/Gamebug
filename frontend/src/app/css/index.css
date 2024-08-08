@@ -37,12 +37,12 @@ img {
   flex-flow: row wrap;
 }
 
-.justify-center {
-  justify-content: center;
+.justify-flex-end {
+  justify-content: flex-end;
 }
 
-.justify-space-between {
-  justify-content: space-between;
+.justify-center {
+  justify-content: center;
 }
 
 @media (min-width: 0) {
@@ -112,6 +112,10 @@ img {
   }
 }
 
+.spans-gray {
+  color: #808080;
+}
+
 .thickspans-white {
   background-color: white;
 }
@@ -131,6 +135,10 @@ img {
 .navbar {
   padding: 0.2rem 0.4rem;
   box-shadow: 2px 2px 3px rgb(0, 0, 1);
+}
+
+.p-1 {
+  padding: 0.2rem;
 }
 
 .mt-1 {
@@ -185,6 +193,10 @@ img {
   align-items: center;
 }
 
+.fs-sm {
+  font-size: 0.75rem;
+}
+
 .fw-3 {
   font-weight: 300;
 }
@@ -203,6 +215,24 @@ body.no-scroll {
   font-family: "Ubuntu";
 }
 
+.rotate {
+  transform: rotate(90deg);
+  transition: all 0.1s ease;
+}
+
+.notifications-main {
+  height: 100vh;
+  padding: 3rem 1rem;
+}
+.notifications-main h1 {
+  font-size: 65px;
+  margin: 1rem 0;
+}
+.notifications-main p {
+  margin: 1rem 0;
+  color: rgb(102, 102, 102);
+}
+
 .name-circle {
   width: 45px;
   height: 45px;
@@ -214,6 +244,44 @@ body.no-scroll {
   text-transform: uppercase;
   font-size: 1.2rem;
   font-weight: 700;
+}
+
+.collection {
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-div {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+.collection-div p {
+  color: rgb(106, 106, 106);
+  margin: 0.5rem 0;
+  width: 100%;
+  text-align: center;
+}
+.collection-div .button-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.collection-div .button-div .button {
+  background-color: rgb(214, 214, 214);
+  padding: 0.5rem 2rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+.collection-div .button-div .button:hover {
+  opacity: 0.8;
+  transform: scale(0.99);
+}
+.collection-div .button-div .button p {
+  color: rgb(20, 20, 20);
 }
 
 .login-loader {
@@ -373,6 +441,9 @@ body.no-scroll {
   backdrop-filter: blur(15px);
   z-index: 20000;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .main__navbar h1 {
   cursor: pointer;
@@ -391,7 +462,7 @@ body.no-scroll {
 }
 .main__navbar form .toggleSearch {
   position: absolute;
-  right: 3%;
+  right: 1%;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
@@ -469,7 +540,7 @@ body.no-scroll {
 }
 .main__navbar input {
   height: 100%;
-  width: 90%;
+  width: 92%;
   border: none;
   outline: none;
   background-color: rgb(69, 67, 67);
@@ -495,7 +566,7 @@ body.no-scroll {
   justify-content: space-between;
   align-items: center;
   margin-right: 50px;
-  width: 220px;
+  min-width: 220px;
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -505,6 +576,9 @@ body.no-scroll {
   font-size: 15px;
   letter-spacing: 1px;
   cursor: pointer;
+}
+.main__navbar .nav-ul .ul-divp1 {
+  padding: 2px;
 }
 .main__navbar .nav-ul .ul-divp {
   padding: 2px;
@@ -516,6 +590,10 @@ body.no-scroll {
 .main__navbar .nav-ul .ul-div1:hover .ul-child-div1b {
   animation-name: move-b;
   animation-duration: 0.6s;
+}
+.main__navbar .nav-ul .ul-div1:hover .my-library {
+  opacity: 0.7;
+  transform: scale(0.99);
 }
 @keyframes move-b {
   from {
@@ -557,6 +635,63 @@ body.no-scroll {
 }
 .main__navbar .nav-ul .ul-div2 {
   position: relative;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info {
+  position: relative;
+  margin: 0 0.5rem 0 1rem;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info:hover .nav-infoChild {
+  display: flex;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  color: black;
+  z-index: 5;
+  width: 250px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div {
+  padding: 0.5rem 0.3rem;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div > div {
+  display: flex;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  align-items: center;
+  margin: 0.2rem 0;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div > div:hover {
+  background-color: rgb(216, 216, 216);
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div > div span {
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: -0.2px;
+  color: rgb(44, 44, 44);
+  margin: 0 0.5rem;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .last-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(186, 186, 186);
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .last-div:hover span {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .last-div span {
+  font-weight: 500;
 }
 .main__navbar .nav-ul .ul-div2:hover .ul-child-div1c {
   animation-name: move-c;
@@ -755,6 +890,8 @@ body.no-scroll {
     width: fit-content;
     right: 0.3rem;
     color: rgb(106, 106, 106);
+    justify-content: flex-end;
+    gap: 0.5rem;
   }
   .main__navbar .mobi-menu .mobi-container .mobi-div2 .logout-svg {
     align-self: center;
@@ -762,6 +899,9 @@ body.no-scroll {
   }
 }
 @media screen and (max-width: 720px) {
+  .notifications-main h1 {
+    font-size: 45px;
+  }
   .main__navbar form .faSearch-icon {
     left: 40px;
   }
@@ -903,11 +1043,13 @@ body.no-scroll {
   align-items: center;
   margin-left: 1rem;
   padding: 0.5rem;
-  width: 30%;
+  min-width: 30%;
+  width: fit-content;
   background-color: rgb(40, 40, 40);
 }
 .sidenavlayout .main-pagejsx .options-box .options-box-child1 .options-box-pdiv1 {
   font-size: 15px;
+  margin-right: 5px;
 }
 .sidenavlayout .main-pagejsx .options-box .options-box-child1 .options-box-absolute1 {
   z-index: 1000;
@@ -1086,7 +1228,7 @@ body.no-scroll {
 }
 .sidenavlayout .main_card:hover {
   transform: scale(1.03);
-  z-index: 999;
+  z-index: 3000;
   transition: 0.2s ease-in-out;
 }
 .sidenavlayout .cards {
@@ -1282,7 +1424,7 @@ body.no-scroll {
 }
 .sidenavlayout .cloudinarydiv3 .ellipsis-review {
   position: relative;
-  z-index: 3;
+  z-index: 3000;
 }
 .sidenavlayout .cloudinarydiv3 .ellipsis-review > div {
   position: absolute;
@@ -1337,6 +1479,11 @@ body.no-scroll {
   justify-content: space-between;
   background-color: rgb(52, 52, 52);
   border-radius: 12px;
+  cursor: pointer;
+}
+.sidenavlayout .cloudinarydiv7:hover {
+  transform: scale(0.99);
+  opacity: 0.8;
 }
 .sidenavlayout .cloudinarydiv7 > span {
   font-size: 17px;
@@ -1483,6 +1630,126 @@ body.no-scroll {
   display: none;
 }
 
+.popup-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+  width: 100%;
+}
+.popup-box .reviewdiv {
+  width: 40vw;
+  background-color: rgb(30, 30, 30);
+  padding: 1rem;
+  border-radius: 5px;
+  position: relative;
+}
+.popup-box .reviewdiv .xdiv {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+}
+.popup-box .reviewdiv > * {
+  margin: 0.5rem 0;
+}
+.popup-box .reviewdiv h4 {
+  color: rgb(187, 125, 11);
+}
+.popup-box .reviewdiv h1 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 45px;
+}
+.popup-box .reviewdiv .ratings {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.popup-box .reviewdiv .ratings #review-oval:hover {
+  color: rgb(168, 168, 168);
+  cursor: pointer;
+  transform: scale(0.95);
+}
+.popup-box .reviewdiv .ratings > div {
+  border: 2px solid rgb(69, 69, 69);
+  border-radius: 25px;
+  margin-right: 0.5rem;
+  padding: 3px 15px;
+  display: flex;
+  align-items: center;
+}
+.popup-box .reviewdiv .ratings > div span {
+  font-size: 12px;
+  margin-left: 4px;
+}
+.popup-box .reviewdiv p {
+  color: rgb(106, 106, 106);
+  margin-bottom: 0.5rem;
+}
+.popup-box .reviewdiv form textarea {
+  width: 90%;
+  border-radius: 5px;
+  color: rgb(134, 134, 134);
+  font-size: 17px;
+  background-color: black;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  min-height: 200px;
+}
+.popup-box .reviewdiv .buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  padding: 1rem 1rem 0 1rem;
+  margin-left: 1rem;
+}
+.popup-box .reviewdiv .buttons :nth-child(1) {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  margin-right: 0.5rem;
+  color: rgb(196, 28, 28);
+  cursor: pointer;
+}
+.popup-box .reviewdiv .buttons :nth-child(1):hover {
+  transform: scale(0.95);
+}
+.popup-box .reviewdiv .buttons :nth-child(2) {
+  background-color: rgb(106, 106, 106);
+  padding: 0.5rem 1.5rem;
+  font-size: 17px;
+  outline: none;
+  border: none;
+  color: black;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.popup-box .reviewdiv .buttons :nth-child(2):hover {
+  opacity: 0.7;
+  transform: scale(0.96);
+}
+
+@media screen and (max-width: 980px) {
+  .popup-box {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .popup-box .reviewdiv {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0;
+  }
+  .popup-box .reviewdiv .xdiv {
+    right: 20px;
+    top: 10px;
+  }
+  .popup-box .reviewdiv .ratings {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
 @media screen and (min-width: 2500px) {
   .main_card {
     width: 540px;
@@ -1628,7 +1895,7 @@ body.no-scroll {
   margin-bottom: 1rem;
   border-radius: 3px;
   backdrop-filter: blur(20px);
-  padding-top: 0.5rem;
+  padding: 1.5rem 1rem 1rem 1rem;
   width: 100%;
 }
 .reviewbox-main .reviewbox-div1 {
@@ -1642,13 +1909,13 @@ body.no-scroll {
 .reviewbox-main .reviewbox-div1 h2 {
   border-bottom: 1px solid rgb(77, 77, 77);
   width: fit-content;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 .reviewbox-main .reviewbox-review {
   margin: 0.2rem 0 1.7rem 0.5rem;
 }
 .reviewbox-main .reviewbox-review p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 0.5px;
   color: rgb(177, 177, 177);
 }
@@ -1706,8 +1973,33 @@ body.no-scroll {
   color: red;
   margin: 0 0.5rem 0 0.2rem;
 }
+.reviewbox-main .replydiv {
+  width: 90%;
+  margin: 0.5rem auto;
+}
+.reviewbox-main .replydiv .replydiv-child > div {
+  margin: 0.5rem 0;
+}
+.reviewbox-main .replydiv .replydiv-child .reply-container {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+.reviewbox-main .replydiv .replydiv-child .reply-container .cont-1 {
+  margin-right: 0.5rem;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.reviewbox-main .replydiv .replydiv-child .reply-container .cont-2 p {
+  color: rgb(177, 177, 177);
+}
+.reviewbox-main .replydiv .replydiv-child .reply-container .cont-2 span {
+  margin: 0.2rem 0;
+  color: rgb(132, 132, 132);
+  font-size: 0.8rem;
+}
 .reviewbox-main .reviewbox-div3 {
-  border-top: 1px solid rgb(52, 52, 52);
   padding: 1rem 0;
   position: relative;
 }
@@ -1717,10 +2009,22 @@ body.no-scroll {
   display: flex;
   justify-content: center;
 }
-.reviewbox-main .reviewbox-div3 form .blueball {
+.reviewbox-main .reviewbox-div3 form .blueb {
   position: absolute;
   height: 25px;
   width: 25px;
+  border-radius: 50%;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 2.5%;
+  transform: translateY(-50%);
+}
+.reviewbox-main .reviewbox-div3 form .blueball {
+  position: absolute;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
   background-color: rgb(56, 86, 122);
   top: 50%;
@@ -1733,11 +2037,21 @@ body.no-scroll {
   outline: none;
   border: none;
   border-radius: 2px;
-  padding: 0.5rem 0 0.5rem 2.2rem;
+  padding: 1rem 0 1rem 2.6rem;
   letter-spacing: 0.5px;
   color: rgb(158, 158, 158);
+  font-size: 0.9rem;
 }
 
+@media screen and (max-width: 720px) {
+  .reviewbox-main {
+    padding: 1rem 0.3rem;
+    align-self: center;
+  }
+  .reviewbox-main .reviewbox-div3 form input {
+    padding-left: 3rem;
+  }
+}
 .similarGamesComponent {
   position: relative;
   top: 0;
@@ -1823,6 +2137,10 @@ body.no-scroll {
   align-items: center;
   cursor: pointer;
   position: relative;
+}
+.game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1 .addTo1-loader {
+  padding: 0.45rem;
+  margin-left: 1.5rem;
 }
 .game_main .game_container .game-container-div1 .game-container-div1-addTo .addTo1:hover {
   background-color: rgb(227, 227, 227);
@@ -2050,6 +2368,12 @@ body.no-scroll {
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar1:hover .bar1-child {
   border: 2px solid rgb(58, 58, 58);
 }
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar {
+  box-shadow: 0 0 5px 3px rgba(117, 204, 139, 0.6), 0 0 5px 3px rgba(44, 175, 101, 0.5), 0 0 10px 3px rgba(30, 122, 69, 0.4);
+}
+.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar .barhov {
+  border: 2px solid rgb(58, 58, 58);
+}
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar2 {
   background: linear-gradient(180deg, #7364e8, #4338d6);
   height: 100%;
@@ -2186,32 +2510,6 @@ body.no-scroll {
 }
 .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar .bar4:hover .bar4-child {
   border: 2px solid rgb(58, 58, 58);
-}
-.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info {
-  display: flex;
-}
-.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  margin: 0 0.5rem 0 0;
-  border-radius: 15px;
-  width: fit-content;
-  padding: 0.1rem 1rem;
-}
-.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div p {
-  color: white;
-  font-weight: 600;
-}
-.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div div {
-  width: 10px;
-  margin-right: 0.5rem;
-  height: 10px;
-  border-radius: 50%;
-}
-.game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div strong {
-  margin-left: 0.2rem;
-  font-weight: 400;
 }
 .game_main .game_container .game-container-div1 .write-review {
   display: flex;
@@ -2407,23 +2705,56 @@ body.no-scroll {
   height: 100%;
 }
 .game_main .game_container .game-container-div2 .game-container-div2-buyGame {
-  width: 100%;
-  background-color: white;
   display: flex;
-  padding: 0.5rem 0;
-  border-radius: 12px;
+  flex-direction: column;
+  width: 100%;
+}
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyp {
+  color: rgb(108, 108, 108);
+}
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy1 {
+  display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
-  color: black;
+  border-radius: 5px;
+  width: 150px;
+  padding: 0.5rem;
+  background-color: rgb(58, 58, 58);
+  color: rgb(178, 178, 178);
 }
-.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buysvg {
-  margin: 0 0.5rem;
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy1 p {
+  color: rgb(143, 143, 143);
+  margin-right: 0.3rem;
+  font-size: 14px;
 }
-.game_main .game_container .game-container-div2 .game-container-div2-buyGame p {
-  font-size: 1rem;
-  font-weight: 500;
-  color: rgb(62, 62, 62);
-  letter-spacing: 0.5px;
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy1:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy2 {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  width: 150px;
+  padding: 0.5rem;
+  background-color: rgb(58, 58, 58);
+}
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy2 p {
+  font-size: 14px;
+  color: rgb(143, 143, 143);
+  margin-right: 0.3rem;
+}
+.game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy2:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
 }
 .game_main .game_container .game-container-div2 .game-users {
   width: 100%;
@@ -2611,9 +2942,6 @@ body.no-scroll {
 @media screen and (min-width: 2000px) {
   .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-bar {
     width: 80%;
-  }
-  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info {
-    width: 90%;
   }
 }
 @media screen and (max-width: 1850px) {
@@ -2959,16 +3287,6 @@ body.no-scroll {
     padding: 0.2rem;
     left: 20px;
   }
-  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info {
-    flex-wrap: wrap;
-  }
-  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div {
-    width: auto;
-    margin-right: 0.5rem;
-  }
-  .game_main .game_container .game-container-div1 .ratings-bar .ratings-bar-info > div p {
-    font-size: 12px;
-  }
   .game_main .game_container .game-container-div1 .write-review {
     transform: scale(0.8);
   }
@@ -3248,76 +3566,33 @@ body.no-scroll {
   }
 }
 .follow-main-game-users {
-  background-color: rgb(0, 0, 0);
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin: 1rem 0;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid rgb(53, 53, 53);
-  width: 100%;
-}
-.follow-main-game-users .follow-main-game-users-div1 {
+  background: hsla(0, 0%, 4%, 0.6);
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  width: 150px;
+  padding: 2rem 0.7rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
   cursor: pointer;
 }
-.follow-main-game-users .follow-main-game-users-div1:hover {
+.follow-main-game-users:hover {
   opacity: 0.7;
-  transition: 0.3s ease-in-out;
+  transform: scale(0.99);
 }
-.follow-main-game-users .follow-main-game-users-div1 .follow-image-div {
-  width: 40px;
-  height: 40px;
+.follow-main-game-users .follow-pic .follow-image {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  overflow: hidden;
 }
-.follow-main-game-users .follow-main-game-users-div1 .follow-image-div .follow-profile-image {
-  width: 100%;
-  height: 100%;
+.follow-main-game-users .follow-div-items {
+  display: flex;
+  flex-direction: column;
 }
-.follow-main-game-users .follow-main-game-users-div1 .follow-text-div {
-  margin-left: 1rem;
-}
-.follow-main-game-users .follow-main-game-users-div1 .follow-text-div :nth-child(1) {
-  font-size: 0.9rem;
+.follow-main-game-users .follow-div-items h4 {
+  font-size: 0.8rem;
   font-weight: 500;
-}
-.follow-main-game-users .follow-main-game-users-div1 .follow-text-div :nth-child(2) {
-  color: rgb(110, 110, 110);
-  font-size: 0.8rem;
-}
-.follow-main-game-users .follow-main-game-users-div2 {
-  border: 1px solid rgb(110, 110, 110);
-  border-radius: 5px;
-  position: relative;
-  padding: 0.3rem 0.9rem;
-  height: fit-content;
-  align-self: center;
-}
-.follow-main-game-users .follow-main-game-users-div2:hover {
-  background-color: white;
-  color: black;
-  transition: all 0.3s ease-in-out;
-  border: 1px solid black;
-  cursor: pointer;
-}
-.follow-main-game-users .follow-main-game-users-div2 .follow-span {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-}
-.follow-main-game-users .follow-main-game-users-div2 :nth-child(2) {
-  font-size: 0.8rem;
-}
-.follow-main-game-users .follow-main-game-users-div2 .follow-followercount {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  color: rgb(110, 110, 110);
+  text-transform: capitalize;
 }
 
 ::-webkit-scrollbar {
@@ -3325,22 +3600,23 @@ body.no-scroll {
 }
 
 .follower-maindiv {
-  border: 1px solid rgb(63, 63, 63);
   width: 100%;
-  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 .follower-maindiv .follower-div {
-  width: 50%;
+  width: 100%;
   box-sizing: border-box;
   flex-direction: column;
 }
 .follower-maindiv .follower-div .follower-div-div {
-  height: 63vh;
-  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
 .user-reviews {
@@ -3354,8 +3630,7 @@ body.no-scroll {
 .user-reviews .user-reviews-reviews {
   padding-top: 1rem;
   width: 60%;
-  height: 65vh;
-  overflow-y: scroll;
+  height: auto;
 }
 
 .searchbar {
@@ -3400,14 +3675,35 @@ body.no-scroll {
 }
 
 .my-games-cards {
+  margin-top: 1rem;
   height: auto;
-  gap: 1rem;
+  gap: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .my-games-cards > *:hover {
   transform: scale(1.05, 1.02);
   transition: all 0.2s ease-in-out;
 }
 
+@media screen and (max-width: 980px) {
+  .my-games-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .follow-main-game-users {
+    padding: 1rem 0.2rem;
+  }
+  .follower-maindiv .follower-div {
+    padding: 0;
+  }
+  .follower-maindiv .follower-div .follower-div-div {
+    margin: 0;
+    gap: 0.3rem;
+  }
+}
 .users-main {
   display: flex;
   justify-content: center;
@@ -3431,9 +3727,11 @@ body.no-scroll {
 }
 .users-main .users-container .users-content-div1 .users-name h1 {
   font-size: 70px;
+  text-transform: capitalize;
 }
 .users-main .users-container .users-content-div1 .users-name > div {
   display: flex;
+  text-transform: uppercase;
   font-size: 3rem;
   font-weight: 800;
   justify-content: center;
@@ -3456,9 +3754,13 @@ body.no-scroll {
   border-radius: 3px;
   height: 45px;
   display: flex;
+  min-width: 120px;
   align-items: center;
   color: black;
   font-size: 1.2rem;
+}
+.users-main .users-container .users-content-div1 .users-follow-button .follow p {
+  text-transform: capitalize;
 }
 .users-main .users-container .users-content-div1 .users-follow-button .follow span {
   color: rgb(110, 110, 110);
@@ -3512,8 +3814,8 @@ body.no-scroll {
 }
 .users-main .users-container .users-content-div2 .users-navbar :nth-child(5) span {
   position: absolute;
-  top: -8px;
-  right: 0;
+  top: -12px;
+  right: -5%;
   font-size: 17px;
 }
 .users-main .users-container .users-content-div2 .users-navbar :nth-child(6) {
@@ -3521,13 +3823,13 @@ body.no-scroll {
 }
 .users-main .users-container .users-content-div2 .users-navbar :nth-child(6) span {
   position: absolute;
-  top: -8px;
-  right: 0%;
+  top: -12px;
+  right: -5%;
   font-size: 17px;
 }
 .users-main .users-container .users-content-div2 .users-components {
   height: auto;
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 @media screen and (max-width: 980px) {

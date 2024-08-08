@@ -10,11 +10,13 @@ import Link from 'next/link'
 import { cld } from '../../../public/images'
 import { useFilter } from '../contexts/sidenavContext'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { ADDTOMYGAMES, ADDTOWISHLIST, CHECKGAME, DELETEGAME, GAMECOUNT, ADDREVIEW, CHECKREVIEW } from '../GraphQL/queries'
+import { ADDTOMYGAMES, ADDTOWISHLIST, CHECKGAME, DELETEGAME, GAMECOUNT, ADDREVIEW, CHECKREVIEW, DELETEREVIEW } from '../GraphQL/queries'
 import { useLoggedUser } from '../contexts/loginContext'
 import { useRouter } from 'next/navigation'
 import Loader from './loader'
+import { useReview } from '../contexts/reviewContext';
 import AddGamePanel from './addGamePanel'
+import ProtectedRoutes from './protectedRoute'
 
 export default function Card({ id, image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
 
@@ -23,13 +25,16 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const [showPanel, setShowPanel] = useState(false);
     const panelRef = useRef(null);
     const [showGiftBox, setShowGiftBox] = useState(false);
-    const [platArray, setPlatArray] = useState([]);
+    // const [platArray, setPlatArray] = useState([]);
     const [addCount, setAddCount] = useState(0);
     const [loader, setLoader] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [chooseReview, setChooseReview] = useState(false);
+    const { setReviewInfo } = useReview();
+    const [cloudVid, setCloudVid] = useState("");
     const [added, setAdded] = useState(false);
-    const [gameComment, setGameComment] = useState("");
+    const [writeReview, setWriteReview] = useState("Write a review");
+    const [gameComment, setGameComment] = useState({ comment: "", reviewId: 0 });
     const panRef = useRef(null);
     const [deletedGame, setDeletedGame] = useState(false);
     const [showPlayingGame, setShowPlayingGame] = useState(false);
@@ -43,20 +48,21 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
     const [addToGames] = useMutation(ADDTOMYGAMES);
     const [addReview] = useMutation(ADDREVIEW);
+    const [deleteReview] = useMutation(DELETEREVIEW);
     const [addedToWishlist] = useMutation(ADDTOWISHLIST, {
         fetchPolicy: 'no-cache'
     });
     const [deleteGame] = useMutation(DELETEGAME, {
         fetchPolicy: 'no-cache'
     });
-    const [fetchCount, { loading, data, error }] = useLazyQuery(GAMECOUNT, {
+    const [fetchCount, { data }] = useLazyQuery(GAMECOUNT, {
         fetchPolicy: 'no-cache'
     });
-    const [fetchCheck, { loading: checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME, {
+    const [fetchCheck, { data: checkData }] = useLazyQuery(CHECKGAME, {
         fetchPolicy: 'no-cache'
     });
 
-    const [reviewCheck, { loading: reviewLoading, data: reviewData, error: reviewError }] = useLazyQuery(CHECKREVIEW, {
+    const [reviewCheck, { data: reviewData }] = useLazyQuery(CHECKREVIEW, {
         fetchPolicy: 'no-cache'
     });
 
@@ -80,8 +86,18 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     useEffect(() => {
         if(reviewData) {
             if(reviewData.checkReview.checkReview) {
-                setGameComment(reviewData.checkReview.checkedReview.gameComment)
+                setReviewInfo(prevState => ({
+                    ...prevState,
+                    title: title,
+                    gameComment: reviewData.checkReview.checkedReview.gameComment,
+                    userid: userInfo.userid,
+                    gameid: id,
+                    content: reviewData.checkReview.checkedReview.content,
+                    chooseRev: true
+                }));
+                setGameComment(prevState => ({ ...prevState, comment: reviewData.checkReview.checkedReview.gameComment, reviewId: reviewData.checkReview.checkedReview.reviewid }))
                 setChooseReview(true)
+                setWriteReview("Edit Review")
             }
         }
     }, [reviewData])
@@ -140,9 +156,9 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
         }
     }, [])
 
-    useEffect(() => {
-        getPlatforms(platforms)
-    }, [])
+    // useEffect(() => {
+    //     getPlatforms(platforms)
+    // }, [])
 
     const hideReviewPanel = (e) => {
         if (!panelRef.current.contains(e.target)) {
@@ -160,22 +176,24 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
 
 
     const onMouseOver = () => {
+        setCloudVid(video)
         playerRef.current.videoRef.current.play()
         setShowCard(true)
         setShowGiftBox(true)
     }
     const onMouseOut = () => {
-        playerRef.current.videoRef.current.pause()
+        setCloudVid("")
+        // playerRef.current.videoRef.current.pause()
         setShowCard(false)
         if (!showPanel) {
             setShowGiftBox(false)
         }
     }
 
-    const getPlatforms = (plat) => {
-        const plats = plat.map(item => platformIcons[item]).filter(icon => icon !== undefined);
-        setPlatArray(plats)
-    };
+    // const getPlatforms = (plat) => {
+    //     const plats = plat.map(item => platformIcons[item]).filter(icon => icon !== undefined);
+    //     setPlatArray(plats)
+    // };
 
     const addGame = async () => {
         try {
@@ -218,6 +236,10 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
         }
     }
 
+    const handleShowSimilarGames = () => {
+        setFilter(genres[0])
+    }
+
     const handleDeleteGame = async () => {
         try {
             const { data, errors } = await deleteGame({ variables: { gameId: id, userId: userInfo.userid } });
@@ -238,10 +260,69 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
             const { data, errors } = await addReview({ variables: { userId: userInfo.userid, gameId: id, gameComment: gameComment, gameRating: gameRating, content: content }});
             
             if(data.addReview.ok) {
-                setGameComment(data.addReview.newReview.gameComment)
+                setGameComment(prevState => ({ ...prevState, comment: data.addReview.newReview.gameComment, reviewId: data.addReview.newReview.reviewid }))
                 setChooseReview(true)
+                setWriteReview("Edit review")
             } else if (!data.addReview.ok) {
                 alert("You have already reviewed this game!")
+            }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    console.log(message)
+                });
+            }
+        }
+    }
+
+    const handleDeleteReview = async () => {
+        try {
+            const { data } = await deleteReview({variables: { revId: gameComment.reviewId, userId: userInfo.userid }})
+            if (data.deleteReview.ok) {
+                setReviewInfo(prevState => ({
+                    ...prevState,
+                    title: title,
+                    gameComment: "",
+                    userid: userInfo.userid,
+                    gameid: id,
+                    chooseRev: false
+                }));
+                setWriteReview("Write a review")
+                setChooseReview(false)
+            }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    console.log(message)
+                });
+            }
+        }
+    }
+
+    const handleSetReviewInfo = async () => {
+        try {
+            const { data } = await reviewCheck({ variables: { gameId: id, userId: userInfo.userid } });
+            if(data) {
+                if(data.checkReview.checkReview) {
+                    setReviewInfo(prevState => ({
+                        ...prevState,
+                        title: title,
+                        gameComment: data.checkReview.checkedReview.gameComment,
+                        userid: userInfo.userid,
+                        gameid: id,
+                        chooseRev: true
+                    }));
+                    router.push("/review")
+                } else {
+                    setReviewInfo(prevState => ({
+                        ...prevState,
+                        title: title,
+                        userid: userInfo.userid,
+                        gameid: id,
+                        chooseRev: false
+                    }));
+                    router.push("/review")
+                }
             }
         } catch (error) {
             if (error.graphQLErrors) {
@@ -268,7 +349,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     muted
                     loop
                     ref={playerRef}
-                    cldVid={cld.video(vid)}
+                    cldVid={cld.video(cloudVid)}
                     plugins={[lazyload()]}
                 />
             </div>
@@ -277,17 +358,9 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                 <div className="cloudinary-container">
                     <div className="cloudinarydiv1">
                         {
-                            platArray.map((item, index) => {
-                                const platIcons = {
-                                    psWhite: "PS5",
-                                    iosWhite: "iOS",
-                                    xboxWhite: "Xbox One",
-                                    nintendoWhite: "Nintendo Switch",
-                                    androidWhite: "Android",
-                                    windowsWhite: "PC"
-                                }
-                                return (<div key={index} onClick={() => setFilter(item === windowsWhite ? "PC" : (item === psWhite ? "PlayStation 5" : (item === iosWhite ? "iOS" : (item === xboxWhite ? "Xbox One" : (item === nintendoWhite ? "Nintendo Switch" : (item === androidWhite ? "Android" : ""))))))}>
-                                    <Image src={item} width={17} height={17} alt='svg-image' className='gamePlatform-image' />
+                            platforms.map((item, index) => {
+                                return (<div key={index} onClick={() => setFilter(item === "PC" ? "PC" : (item === "PS5" ? "PlayStation 5" : (item === "iOS" ? "iOS" : (item === "Xbox One" ? "Xbox One" : (item === "Nintendo Switch" ? "Nintendo Switch" : (item === "Android" ? "Android" : ""))))))}>
+                                    <Image src={platformIcons[item]} width={17} height={17} alt='svg-image' className='gamePlatform-image' />
                                 </div>)
                             })
                         }
@@ -360,18 +433,20 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                                                     ))
                                                 }
                                             </div>
-                                            <div className='review-box'>Write a review</div>
+                                            <ProtectedRoutes><div className='review-box' onClick={() => handleSetReviewInfo()}>{writeReview}</div></ProtectedRoutes>
                                             <div className='addTo-box'>Add to my games</div>
                                         </div>
                                     ) : (<div className='showpanel'>
                                         <div className='grid-box-review'>
                                         <span style={{color: "rgb(106, 106, 106)", marginBottom: ".5rem"}}>Your review</span>
                                         <div className='grid-box2'>
-                                            <Image src={comment[gameComment]} width={35} height={35} alt='pumpkin-cry' />
-                                            <span>{gameComment}</span>
-                                            <span className='delete-span'>Delete</span>
+                                            <Image src={comment[gameComment.comment]} width={35} height={35} alt='pumpkin-cry' />
+                                            <span>{gameComment.comment}</span>
+                                            <span
+                                            onClick={() => handleDeleteReview()}
+                                            className='delete-span'>Delete</span>
                                         </div>
-                                        <div className='review-box2'>Write a review</div>
+                                       <ProtectedRoutes> <div className='review-box2' onClick={() => handleSetReviewInfo()}>{writeReview}</div></ProtectedRoutes>
                                         </div>
                                         <div className='addTo-box2'><span>Add to collection</span></div>
                                     </div>)
@@ -405,7 +480,9 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                             <strong>{chart}</strong>
                         </div>
 
-                        <div className="cloudinarydiv7">
+                        <div className="cloudinarydiv7"
+                        onClick={() => handleShowSimilarGames()}
+                        >
                             <span>Show more like this</span>
                             <Image src={arrowdown} alt='arrow-down' width={20} height={20} style={{ transform: "rotate(-90deg)", opacity: "0.5" }} />
                         </div>

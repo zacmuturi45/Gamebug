@@ -6,14 +6,14 @@ import Link from 'next/link'
 export default function GameUsers({ image, name, edits, followerCount, index }) {
     return (
         <main key={index} className='main-game-users'>
-            <Link href='/users'>
+            <Link href={`/users/${55}`}>
                 <div className='main-game-users-div1'>
                     <div className="image-div">
                         <Image src={image} alt='profile-image' className='profile-image' />
                     </div>
                     <div className='text-div'>
                         <p>{name}</p>
-                        <p>{edits} edits</p>
+                        <p>{edits} games</p>
                     </div>
                 </div>
             </Link>

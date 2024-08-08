@@ -16,6 +16,31 @@ body.no-scroll {
     font-family: "Ubuntu";
 }
 
+.rotate {
+    transform: rotate(90deg);
+    transition: all .1s ease;
+}
+
+.notifications-main {
+    height: 100vh;
+    padding: 3rem 1rem;
+    h1 {
+        font-size: 65px;
+        margin: 1rem 0;
+    }
+    p {
+        margin: 1rem 0;
+        color: rgb(102, 102, 102);
+    }
+}
+
+
+
+.norotate {
+    transform: rotate(0deg);
+    transition: all .1s ease;
+}
+
 .name-circle {
     width: 45px;
     height: 45px;
@@ -28,7 +53,42 @@ body.no-scroll {
     font-size: 1.2rem;
     font-weight: 700;
 }
-
+.collection {
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.collection-div {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    p {
+        color: rgb(106, 106, 106);
+        margin: .5rem 0;
+        width: 100%;
+        text-align: center;
+    }
+    .button-div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .button {
+            background-color: rgb(214, 214, 214);
+            padding: .5rem 2rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+                transform: scale(0.99);
+            }
+            p {
+                color: rgb(20, 20, 20);
+            }
+        }
+    }
+}
 .login-loader {
     display: flex;
     justify-content: center;
@@ -240,7 +300,9 @@ body.no-scroll {
     backdrop-filter: blur(15px);
     z-index: 20000;
     transition: all .3s ease-in-out;
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     h1 {
         cursor: pointer;
         font-weight: 800;
@@ -259,7 +321,7 @@ body.no-scroll {
         margin: 0 2.5rem 0 1.5%;
         .toggleSearch {
             position: absolute;
-            right: 3%;
+            right: 1%;
             top: 50%;
             transform: translateY(-50%);
             z-index: 2;
@@ -345,7 +407,7 @@ body.no-scroll {
 
     input {
         height: 100%;
-        width: 90%;
+        width: 92%;
         border: none;
         outline: none;
         background-color: rgb(69, 67, 67);
@@ -374,7 +436,7 @@ body.no-scroll {
         justify-content: space-between;
         align-items: center;
         margin-right: 50px;
-        width: 220px;
+        min-width: 220px;
         font-size: .65rem;
         font-weight: 600;
         letter-spacing: .5px;
@@ -385,7 +447,9 @@ body.no-scroll {
             letter-spacing: 1px;
             cursor: pointer;
         }
-
+        .ul-divp1 {
+            padding: 2px;
+        }
         .ul-divp {
             padding: 2px;
             overflow: hidden;
@@ -397,6 +461,10 @@ body.no-scroll {
                 .ul-child-div1b {
                     animation-name: move-b;
                     animation-duration: .6s;
+                }
+                .my-library {
+                    opacity: 0.7;
+                    transform: scale(0.99);
                 }
                 @keyframes move-b {
                     from {
@@ -443,6 +511,68 @@ body.no-scroll {
 
         .ul-div2 {
             position: relative;
+            .nav-info {
+                position: relative;
+                margin: 0 .5rem 0 1rem;
+                &:hover {
+                    .nav-infoChild {
+                        display: flex;
+                    }
+                }
+                .nav-infoChild {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background-color: white;
+                    color: black;
+                    z-index: 5;
+                    width: 250px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    display: none;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding-top: .5rem;
+                    .div {
+                        padding: .5rem .3rem;
+                        >div {
+                            display: flex;
+                            padding: .3rem .5rem;
+                            border-radius: 4px;
+                            align-items: center;
+                            margin: .2rem 0;
+                            &:hover {
+                                background-color: rgb(216, 216, 216);
+    
+                            }
+                            span {
+                                font-weight: 400;
+                                font-size: 1rem;
+                                letter-spacing: -.2px;
+                                color: rgb(44, 44, 44);
+                                margin: 0 .5rem;
+                            }
+                        }
+                    }
+                    .last-div {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: rgb(186, 186, 186);
+                        padding: .5rem;
+                        margin-top: .3rem;
+                        &:hover {
+                            span {
+                                opacity: 0.8;
+                                transform: scale(0.95);
+                            }
+                        }
+                        span {
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
             &:hover {
                 .ul-child-div1c {
                     animation-name: move-c;
@@ -716,6 +846,8 @@ body.no-scroll {
                     width: fit-content;
                     right: .3rem;
                     color: rgb(106, 106, 106);
+                    justify-content: flex-end;
+                    gap: .5rem;
                     .mobi-profile {
                         width: 60px;
                         height: 60px;
@@ -738,6 +870,11 @@ body.no-scroll {
 }
 
 @media screen and (max-width: 720px) {
+    .notifications-main {
+        h1 {
+            font-size: 45px;
+        }
+    }
     .main__navbar {
         form {
             .faSearch-icon {
@@ -784,6 +921,8 @@ body.no-scroll {
     top: -125px;
     transition: all .3s ease-in-out;
 }
+
+
 
 // ........................................
 // MAIN-LAYOUT
@@ -915,10 +1054,12 @@ body.no-scroll {
                 align-items: center;
                 margin-left: 1rem;
                 padding: .5rem;
-                width: 30%;
+                min-width: 30%;
+                width: fit-content;
                 background-color: rgb(40, 40, 40);
                 .options-box-pdiv1 {
                     font-size: 15px;
+                    margin-right: 5px;
                 }
                 .options-box-absolute1 {
                     z-index: 1000;
@@ -1136,6 +1277,7 @@ body.no-scroll {
             }
         }
     }
+    
 
 
     // .........................................
@@ -1155,7 +1297,7 @@ body.no-scroll {
 
         &:hover {
             transform: scale(1.03);
-            z-index: 999;
+            z-index: 3000;
             transition: .2s ease-in-out;
         }
     }
@@ -1374,7 +1516,7 @@ body.no-scroll {
 
         .ellipsis-review {
             position: relative;
-            z-index: 3;
+            z-index: 3000;
 
             > div {
                 position: absolute;
@@ -1439,7 +1581,11 @@ body.no-scroll {
         justify-content: space-between;
         background-color: rgb(52, 52, 52);
         border-radius: 12px;
-
+        cursor: pointer;
+        &:hover {
+            transform: scale(0.99);
+            opacity: 0.8;
+        }
         >span {
             font-size: 17px;
             font-weight: 400;
@@ -1460,7 +1606,6 @@ body.no-scroll {
         display: flex;
         flex-direction: column;
         color: rgb(26, 26, 26);
-
         >span {
             padding: .5rem 0 .5rem 1.2rem;
             color: rgb(56, 56, 56);
@@ -1608,6 +1753,132 @@ body.no-scroll {
 
 .view_more {
     display: none;
+}
+
+//REVIEW BOX POPUP
+.popup-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5rem;
+    width: 100%;
+    .reviewdiv {
+        width: 40vw;
+        background-color: rgb(30, 30, 30);
+        padding: 1rem;
+        border-radius: 5px;
+        position: relative;
+        .xdiv {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+        }
+        >* {
+            margin: .5rem 0;
+        }
+        h4 {
+            color: rgb(187, 125, 11);
+        }
+        h1 {
+            font-weight: 500;
+            letter-spacing: .5px;
+            font-size: 45px;
+        }
+        .ratings {
+            display: flex;
+            margin-bottom: 1rem;
+            #review-oval {
+                &:hover {
+                    color: rgb(168, 168, 168);
+                    cursor: pointer;
+                    transform: scale(0.95);
+                }
+            }
+            > div {
+                border: 2px solid rgb(69, 69, 69);
+                border-radius: 25px;
+                margin-right: .5rem;
+                padding: 3px 15px;
+                display: flex;
+                align-items: center;
+                span {
+                    font-size: 12px;
+                    margin-left: 4px;
+                }
+            }
+        }
+        p {
+            color: rgb(106, 106, 106);
+            margin-bottom: .5rem;
+        }
+        form {
+            textarea {
+                width: 90%;
+                border-radius: 5px;
+                color: rgb(134, 134, 134);
+                font-size: 17px;
+                background-color: black;
+                border: none;
+                outline: none;
+                padding: 1rem;
+                min-height: 200px;
+            }
+        }
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            width: 90%;
+            padding: 1rem 1rem 0 1rem;
+            margin-left: 1rem;
+            :nth-child(1) {
+                background: transparent;
+                border: none;
+                outline: none;
+                font-size: 17px;
+                margin-right: .5rem;
+                color: rgb(196, 28, 28);
+                cursor: pointer;
+                &:hover {
+                    transform: scale(0.95);
+                }
+            }
+            :nth-child(2) {
+                background-color: rgb(106, 106, 106);
+                padding: .5rem 1.5rem;
+                font-size: 17px;
+                outline: none;
+                border: none;
+                color: black;
+                border-radius: 3px;
+                cursor: pointer;
+                &:hover {
+                    opacity: 0.7;
+                    transform: scale(0.96);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 980px){
+    .popup-box {
+        box-sizing: border-box;
+        margin: 0 auto;
+        padding: 0;
+        .reviewdiv {
+            width: 100%;
+            padding: .5rem;
+            margin: 0;
+            .xdiv {
+                right: 20px;
+                top: 10px;
+            }
+            .ratings {
+                flex-wrap: wrap;
+                gap: .5rem;
+            }
+        }
+    }
 }
 
 // .....................................
@@ -1799,7 +2070,7 @@ body.no-scroll {
     margin-bottom: 1rem;
     border-radius: 3px;
     backdrop-filter: blur(20px);
-    padding-top: .5rem;
+    padding: 1.5rem 1rem 1rem 1rem;
     width: 100%;
     .reviewbox-div1 {
         display: flex;
@@ -1811,13 +2082,13 @@ body.no-scroll {
         h2 {
             border-bottom: 1px solid rgb(77, 77, 77);
             width: fit-content;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
         }
     }
     .reviewbox-review {
         margin: .2rem  0 1.7rem .5rem;
         p {
-            font-size: .9rem;
+            font-size: 1rem;
             letter-spacing: .5px;
             color: rgb(177, 177, 177);
         }
@@ -1876,16 +2147,57 @@ body.no-scroll {
             }
         }
     }
+    .replydiv {
+        width: 90%;
+        margin: .5rem auto;
+        .replydiv-child {
+            >div {
+                margin: .5rem 0;
+            }
+            .reply-container {
+                display: flex;
+                align-items: center;
+                padding: .5rem 0;
+                .cont-1 {
+                    margin-right: .5rem;
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                }
+                .cont-2 {
+                    p {
+                        color: rgb(177, 177, 177);
+                    }
+                    span {
+                        margin: .2rem 0;
+                        color: rgb(132, 132, 132);
+                        font-size: .8rem;
+                    }
+                }
+            }
+        }
+    }
     .reviewbox-div3 {
-        border-top: 1px solid rgb(52, 52, 52);
         padding: 1rem 0;
         position: relative;
         form {
             position: relative;
-            .blueball {
+            .blueb {
                 position: absolute;
                 height: 25px;
                 width: 25px;
+                border-radius: 50%;
+                top: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                left: 2.5%;
+                transform: translateY(-50%);
+            }
+            .blueball {
+                position: absolute;
+                height: 35px;
+                width: 35px;
                 border-radius: 50%;
                 background-color: rgb(56, 86, 122);
                 top: 50%;
@@ -1901,9 +2213,24 @@ body.no-scroll {
                 outline: none;
                 border: none;
                 border-radius: 2px;
-                padding: .5rem 0 .5rem 2.2rem;
+                padding: 1rem 0 1rem 2.6rem;
                 letter-spacing: .5px;
                 color: rgb(158, 158, 158);
+                font-size: .9rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .reviewbox-main {
+        padding: 1rem .3rem;
+        align-self: center;
+        .reviewbox-div3 {
+            form {
+                input {
+                    padding-left: 3rem;
+                }
             }
         }
     }
@@ -2005,7 +2332,10 @@ body.no-scroll {
                     align-items: center;
                     cursor: pointer;
                     position: relative;
-
+                    .addTo1-loader {
+                        padding: .45rem;
+                        margin-left: 1.5rem;
+                    }
                     &:hover {
                         background-color: rgb(227, 227, 227);
                         transition: all .3s ease-in-out;
@@ -2266,6 +2596,15 @@ body.no-scroll {
                             }
                         }
                     }
+
+                .bar {
+                    box-shadow: 0 0 5px 3px rgba(117, 204, 139, 0.6), 
+                    0 0 5px 3px rgba(44, 175, 101, 0.5), 
+                    0 0 10px 3px rgba(30, 122, 69, 0.4);
+                    .barhov {
+                        border: 2px solid rgb(58, 58, 58);
+                    }
+                }
 
                     .bar2 {
                         background: linear-gradient(180deg, #7364e8, #4338d6);
@@ -2652,22 +2991,55 @@ body.no-scroll {
                 }
             }
             .game-container-div2-buyGame {
-                width: 100%;
-                background-color: white;
                 display: flex;
-                padding: .5rem 0;
-                border-radius: 12px;
-                align-items: center;
-                justify-content: center;
-                color: black;
-                .buysvg {
-                    margin: 0 .5rem;
+                flex-direction: column;
+                width: 100%;
+                .buyp {
+                    color: rgb(108, 108, 108);
                 }
-                p {
-                    font-size: 1rem;
-                    font-weight: 500;
-                    color: rgb(62, 62, 62);
-                    letter-spacing: .5px;
+                .buyGame1 {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: .5rem 0;
+                    .buy1 {
+                        display: flex;
+                        cursor: pointer;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 5px;
+                        width: 150px;
+                        padding: .5rem;
+                        background-color: rgb(58, 58, 58);
+                        color: rgb(178, 178, 178);
+                        p {
+                            color: rgb(143, 143, 143);
+                            margin-right: .3rem;
+                            font-size: 14px;
+                        }
+                        &:hover {
+                            opacity: 0.7;
+                            transform: scale(0.99);
+                        }
+                    }
+                    .buy2 {
+                        display: flex;
+                        cursor: pointer;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 5px;
+                        width: 150px;
+                        padding: .5rem;
+                        background-color: rgb(58, 58, 58);
+                        p {
+                            font-size: 14px;
+                            color: rgb(143, 143, 143);
+                            margin-right: .3rem;
+                        }
+                        &:hover {
+                            opacity: 0.7;
+                            transform: scale(0.99);
+                        }
+                    }
                 }
             }
             .game-users {
@@ -3711,75 +4083,33 @@ body.no-scroll {
 // COMPONENTS/UTILITES
 
 .follow-main-game-users {
-    background-color: rgb(0, 0, 0);
-    box-sizing: border-box;
-    border-radius: 5px;
-    margin: 1rem 0;
-    padding: 1rem;
+    background: hsla(0, 0%, 4%, 0.6);
     display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid rgb(53, 53, 53);
-    width: 100%;
-    .follow-main-game-users-div1 {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        &:hover {
-            opacity: 0.7;
-            transition: .3s ease-in-out;
-        }
-        .follow-image-div {
-            width: 40px;
-            height: 40px;
+    align-items: center;
+    justify-content: space-around;
+    width: 150px;
+    padding: 2rem .7rem;
+    margin-bottom: .5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+        transform: scale(0.99);
+    }
+    .follow-pic {
+        .follow-image {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            overflow: hidden;
-            .follow-profile-image {
-                width: 100%;
-                height: 100%;
-            }
-        }
-        .follow-text-div {
-            margin-left: 1rem;
-            :nth-child(1) {
-                font-size: .9rem;
-                font-weight: 500;
-            }
-            :nth-child(2) {
-                color: rgb(110, 110, 110);
-                font-size: .8rem;
-            }
         }
     }
-
-    .follow-main-game-users-div2 {
-        border: 1px solid rgb(110, 110, 110);
-        border-radius: 5px;
-        position: relative;
-        padding: .3rem .9rem;
-        height: fit-content;
-        align-self: center;
-        &:hover {
-            background-color: white;
-            color: black;
-            transition: all .3s ease-in-out;
-            border: 1px solid black;
-            cursor: pointer;
-        }
-        .follow-span {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-        }
-        :nth-child(2) {
+    .follow-div-items {
+        display: flex;
+        flex-direction: column;
+        h4 {
             font-size: .8rem;
-        }
-        .follow-followercount {
-            position: absolute;
-            top: 110%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: .6rem;
-            color: rgb(110, 110, 110);
+            font-weight: 500;
+            text-transform: capitalize;
         }
     }
 }
@@ -3787,24 +4117,25 @@ body.no-scroll {
     display: none;
 }
 .follower-maindiv {
-    border: 1px solid rgb(63, 63, 63);
     width: 100%;
-    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     .follower-div {
-        width: 50%;
+        width: 100%;
         box-sizing: border-box;
-        // border: 2px solid blue;
         flex-direction: column;
         .follower-div-div {
-            height: 63vh;
-            overflow-y: scroll;
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .8rem;
         }
     }
 }
+
 .user-reviews {
     align-self: center;
     width: 100%;
@@ -3815,8 +4146,7 @@ body.no-scroll {
     .user-reviews-reviews {
         padding-top: 1rem;
         width: 60%;
-        height: 65vh;
-        overflow-y: scroll;
+        height: auto;
     }
 }
 
@@ -3860,15 +4190,65 @@ body.no-scroll {
     pointer-events: none;
     cursor: pointer;
 }
+.my-games {
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    >div {
+        margin: 1rem 0;
+    }
+    .dropdown {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.6;
+            color: white;
+            transition: .2s ease-in-out;
+        }
+        :nth-child(1) {
+            display: flex;
+            align-items: center;
+            p {
+                color: rgb(102, 102, 102);
+                margin-left: 1rem;
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
 
 .my-games-cards {
+    margin-top: 1rem;
     height: auto;
-    // overflow-y: scroll;
-    gap: 1rem;
+    gap: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     > * {
         &:hover {
             transform: scale(1.05, 1.02);
             transition: all .2s ease-in-out;
+        }
+    }
+}
+
+@media screen and (max-width: 980px) {
+    .my-games-cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .follow-main-game-users {
+        padding: 1rem .2rem;
+    }
+    .follower-maindiv {
+        .follower-div {
+            padding: 0;
+            .follower-div-div {
+                margin: 0;
+                gap: .3rem;
+            }
         }
     }
 }
@@ -3895,9 +4275,11 @@ body.no-scroll {
                 gap: 2rem;
                 h1 {
                     font-size: 70px;
+                    text-transform: capitalize;
                 }
                 > div {
                     display: flex;
+                    text-transform: uppercase;
                     font-size: 3rem;
                     font-weight: 800;
                     justify-content: center;
@@ -3920,9 +4302,13 @@ body.no-scroll {
                     border-radius: 3px;
                     height: 45px;
                     display: flex;
+                    min-width: 120px;
                     align-items: center;
                     color: black;
                     font-size: 1.2rem;
+                    p {
+                        text-transform: capitalize;
+                    }
                     span {
                         color: rgb(110, 110, 110);
                         margin-left: .2rem;
@@ -3975,8 +4361,8 @@ body.no-scroll {
                     width: fit-content;
                     span {
                         position: absolute;
-                        top: -8px;
-                        right: 0;
+                        top: -12px;
+                        right: -5%;
                         font-size: 17px;
                     }
                 }
@@ -3984,16 +4370,15 @@ body.no-scroll {
                     position: relative;
                     span {
                         position: absolute;
-                        top: -8px;
-                        right: 0%;
+                        top: -12px;
+                        right: -5%;
                         font-size: 17px;
                     }
                 }
             }
             .users-components {
-                // border: 1px solid rgb(55, 55, 55);
                 height: auto;
-                margin: 2rem 0;
+                margin: 1rem 0;
             }
         } 
         // users-content-div2 ends here

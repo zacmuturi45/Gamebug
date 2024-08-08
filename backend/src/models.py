@@ -12,12 +12,6 @@ metadata = MetaData(
 
 db = SQLAlchemy(metadata=metadata)
 
-# purchased_game = db.Table(
-#     "purchased_games",
-#     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-#     db.Column("game_id", db.Integer, db.ForeignKey("games.id"), primary_key=True),
-# )
-
 wishlist_game = db.Table(
     "wishlist_games",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
@@ -63,6 +57,8 @@ class User(db.Model):
         backref="followers",
     )
 
+    review_likes = db.relationship("ReviewLikes", back_populates="user")
+
 
 class Game(db.Model):
     __tablename__ = "games"
@@ -70,7 +66,7 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     platforms = db.Column(ARRAY(db.String), nullable=False)
-    date_added = db.Column(db.DateTime, default=datetime.now())
+    date_added = db.Column(db.DateTime, default=datetime.now)
     genres = db.Column(ARRAY(db.String), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     chart = db.Column(db.String(100), default="Unranked")
@@ -97,13 +93,17 @@ class Game(db.Model):
     game_status_row = db.relationship(
         "User", secondary="game_status", back_populates="user_game_status"
     )
+    
+    status_check = db.relationship("GameStatusCheck", back_populates="game", overlaps="game_status_row,user_game_status")
 
 
 class GameStatusCheck(db.Model):
     __tablename__ = "game_status"
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), primary_key=True)
-    status = db.Column(db.Integer)
+    status = db.Column(db.Integer, default=0)
+    
+    game = db.relationship("Game", back_populates="status_check", overlaps="game_status_row,user_game_status")
 
 
 class PurchasedGame(db.Model):
@@ -123,6 +123,17 @@ class Purchase(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
 
+class ReviewLikes(db.Model):
+    __tablename__ = "review_likes"
+
+    review_id = db.Column(db.Integer, db.ForeignKey("reviews.id"), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    to_like = db.Column(db.Boolean, nullable=False)
+
+    review = db.relationship("Review", back_populates="review_likes")
+    user = db.relationship("User", back_populates="review_likes")
+
+
 class Review(db.Model):
     __tablename__ = "reviews"
 
@@ -133,3 +144,10 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.now())
+    likes = db.Column(db.Integer, default=0)
+    dislikes = db.Column(db.Integer, default=0)
+    
+    parent_id = db.Column(db.Integer, db.ForeignKey("reviews.id"), nullable=True)
+    replies = db.relationship("Review", backref=db.backref("parent", remote_side=[id]), lazy="dynamic")
+
+    review_likes = db.relationship("ReviewLikes", back_populates="review")

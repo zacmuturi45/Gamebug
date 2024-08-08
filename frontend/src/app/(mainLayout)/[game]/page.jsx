@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { windowsWhite, psWhite, xboxWhite, greenplus, vamp, alpha, blood, action, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart, platformIcons, platforms, thumbsop, thumbsDown } from '../../../../public/images'
+import { windowsWhite, psWhite, xboxWhite, greenplus, vamp, alpha, blood, action, bomb, giftBox, thumbsUp, isaac, grateful, tick, pumpkincry, pumpkinmeh, arrowdown, cart, platformIcons, platforms, thumbsop, thumbsDown, comment, create_date_string, xboxGray, steam } from '../../../../public/images'
 import Image from 'next/image'
 import { cld } from '../../../../public/images'
 import { AdvancedImage, AdvancedVideo, lazyload } from '@cloudinary/react'
@@ -11,12 +11,15 @@ import { cardArray } from '../../../../public/images'
 import UtilityButton from '@/app/components/button'
 import Card from '@/app/components/cloudinaryCard'
 import ReviewBox from '@/app/components/reviewBox'
-import { useQuery } from '@apollo/client'
-import { ONEGAME, SIMILAR_GAMES } from '@/app/GraphQL/queries'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { ADDREVIEW, ADDTOMYGAMES, ADDTOWISHLIST, ALLGAMEREVIEWS, ALLREVIEWS, BUYERS, CHECKAVERAGERATING, CHECKGAME, CHECKLIBRARY, CHECKRATINGS, CHECKRATINGTYPES, CHECKREVIEW, COUNTREVIEWS, GAMECOUNT, ONEGAME, SIMILAR_GAMES } from '@/app/GraphQL/queries'
 import Link from 'next/link'
 import SimilarGames from '@/app/components/similarGames'
 import gsap from 'gsap'
 import Loader from '@/app/components/loader'
+import { useLoggedUser } from '@/app/contexts/loginContext'
+import { useRouter } from 'next/navigation'
+import { useReview } from '@/app/contexts/reviewContext'
 
 export default function game({ params }) {
 
@@ -24,21 +27,74 @@ export default function game({ params }) {
   const [buttonText, setButtonText] = useState(false)
   const [cardCount, setCardCount] = useState(6);
   const [showOptions, setShowOptions] = useState(false);
-  const [reviewOptions, setReviewOptions] = useState("Newest first")
+  const [reviewOptions, setReviewOptions] = useState("Sort")
   const clickRef = useRef(null);
   const [viewSlice, setViewSlice] = useState(3);
+  const [added, setAdded] = useState(false);
   const similarRef = useRef(null);
+  const [addedToUserWishlist, setAddedToUserWishlist] = useState(false);
   const similarParentRef = useRef(null);
-
+  const [reviewCount, setReviewCount] = useState(0);
+  const [libraryCount, setLibraryCount] = useState(0);
+  const [addCount, setAddCount] = useState(0);
+  const { userInfo, setUserInfo } = useLoggedUser();
+  const { reviewInfo, setReviewInfo } = useReview();
+  const [loader, setLoader] = useState(false);
+  const [gameRating, setGameRating] = useState({ rated: "None", ratings: 0 })
+  const [gameRatingTypes, setGameRatingTypes] = useState({ exceptional: 0, recommend: 0, meh: 0, skip: 0 })
+  const [addToGames] = useMutation(ADDTOMYGAMES);
+  const [addReview] = useMutation(ADDREVIEW);
+  const router = useRouter();
+  const [addedToWishlist] = useMutation(ADDTOWISHLIST);
+  const [reviewee, setReviewee] = useState("");
   const gameId = parseInt(params.game, 10)
+  const [revData, setRevData] = useState([]);
 
-  const { loading, error, data } = useQuery(ONEGAME, {
+  const { loading, error, data: oneData } = useQuery(ONEGAME, {
     variables: { id: gameId },
+  });
+
+  const [fetchCount, { loading: countFetch, data: countData, error: countError }] = useLazyQuery(GAMECOUNT, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [fetchLibraryCount, { loading: libLoading, data: libData, error: libError }] = useLazyQuery(CHECKLIBRARY, {
+    fetchPolicy: 'no-cache'
   });
 
   const { loading: similarLoading, error: similarError, data: similarGamesData } = useQuery(SIMILAR_GAMES, {
     variables: { id: gameId },
   });
+
+  const [fetchCheck, { loading: checkLoading, data: checkData, error: checkError }] = useLazyQuery(CHECKGAME, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [fetchRatings, { data: ratingsData }] = useLazyQuery(CHECKRATINGS, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [fetchAverageRating, { data: averageRatingsData }] = useLazyQuery(CHECKAVERAGERATING, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [fetchRatingTypes, { data: ratingTypesData }] = useLazyQuery(CHECKRATINGTYPES, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [reviewCheck, { data: reviewData }] = useLazyQuery(CHECKREVIEW, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [countRevs, { data: countReviewData }] = useLazyQuery(COUNTREVIEWS, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [allReviews, { data: allReviewData }] = useLazyQuery(ALLGAMEREVIEWS, {
+    fetchPolicy: 'no-cache'
+  });
+
+  const [userwithgame, { data: userWithGameData }] = useLazyQuery(BUYERS)
 
   const reviewArray = [
     { svg: tick, review: "Super nice game", ratingsvg: bomb, profilePic: isaac, date: "April 5, 2024", likes: 120, dislikes: 2, rating: "Recommended", name: "Lukasz Milescu" },
@@ -60,12 +116,114 @@ export default function game({ params }) {
   ]
 
 
-  // useEffect(() => {
-  //   const similarHeight = similarRef.current.getBoundingClientRect().height
-  //   gsap.to(similarParentRef.current, {
-  //     height: similarHeight + 50
-  //   })
-  // }, [cardCount])
+
+  useEffect(() => {
+    if (userInfo.userid) {
+      fetchCheck({ variables: { gameId: gameId, userId: userInfo.userid } });
+    }
+  }, [addedToUserWishlist])
+
+  useEffect(() => {
+    if (userInfo.userid) {
+      fetchLibraryCount({ variables: { gameId: gameId, userId: userInfo.userid } });
+    }
+  }, [gameId, userInfo, added, addedToUserWishlist])
+
+  useEffect(() => {
+    fetchRatings({ variables: { gameId: gameId } });
+    fetchAverageRating({ variables: { gameId: gameId } });
+    fetchRatingTypes({ variables: { gameId: gameId } });
+    reviewCheck({ variables: { gameId: gameId, userId: userInfo.userid } });
+    countRevs({ variables: { gameId: gameId } });
+    allReviews({ variables: { gameId: gameId } });
+    userwithgame({ variables: { id: gameId } });
+  }, [])
+
+  useEffect(() => {
+    if (allReviewData) {
+      setRevData(allReviewData.allGameReviews)
+    }
+  }, [allReviewData])
+
+  useEffect(() => {
+    if (userWithGameData !== undefined) {
+      console.log(`GAME DATA ISS ${userWithGameData.userWithGame[0].boughtGames.edges[0].node.gameid}`)
+    } else console.log('Nadaaaalll')
+  }, [userWithGameData])
+
+  useEffect(() => {
+    if (countReviewData) {
+      setReviewCount(countReviewData.countReviews)
+    }
+  }, [countReviewData])
+
+  useEffect(() => {
+    if (reviewData) {
+      if (reviewData.checkReview.checkedReview) {
+        setReviewee(reviewData.checkReview.checkedReview.gameComment)
+      }
+    }
+  }, [reviewData])
+
+  useEffect(() => {
+    if (ratingsData !== undefined && averageRatingsData !== undefined) {
+      setGameRating(prevState => ({
+        ...prevState,
+        rated: averageRatingsData.checkAverageRating,
+        ratings: ratingsData.checkRatings
+      }));
+    }
+  }, [ratingsData, averageRatingsData])
+
+  useEffect(() => {
+    if (ratingTypesData !== undefined) {
+      setGameRatingTypes(prevState => ({
+        ...prevState,
+        exceptional: ratingTypesData.checkRatingTypes.exceptional,
+        recommend: ratingTypesData.checkRatingTypes.recommend,
+        meh: ratingTypesData.checkRatingTypes.meh,
+        skip: ratingTypesData.checkRatingTypes.skip
+      }));
+    }
+  }, [ratingTypesData])
+
+  useEffect(() => {
+    if (libData && libData.checkLibrary != undefined) {
+      setLibraryCount(libData.checkLibrary);
+    }
+  }, [libData, addedToUserWishlist])
+
+  useEffect(() => {
+    if (checkData !== undefined) {
+      if (checkData.checkGame.inBoughtGames === true) {
+        setAdded(true);
+        setAddedToUserWishlist(false)
+      } else if (checkData.checkGame.inBoughtGames === false) {
+        setAdded(false);
+        if (checkData.checkGame.inWishlist) {
+          setAddedToUserWishlist(true)
+        }
+      } else if (checkData.checkGame.inWishlist === false) {
+        setAddedToUserWishlist(false)
+        if (checkData.checkGame.inBoughtGames) {
+          setAdded(true)
+        }
+      } else if (checkData.checkGame.inWishlist === true) {
+        setAddedToUserWishlist(true)
+        setAdded(false)
+      }
+    }
+  }, [checkData])
+
+  useEffect(() => {
+    fetchCount({ variables: { gameId: gameId } });
+  }, [libData])
+
+  useEffect(() => {
+    if (countData && countData.addToGames !== undefined) {
+      setAddCount(countData.addToGames);
+    }
+  }, [countData])
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -83,17 +241,87 @@ export default function game({ params }) {
   }, [])
 
   const handleAddtoGames = () => {
-    confetti({
-      particleCount: 100,
-      spread: 50,
-      origin: { y: 0.6 },
-    });
+    if (userInfo.userid) {
+      if (added) {
+        alert("This game already exists in your library!")
+      } else {
+        addGame()
+      }
+    } else { router.push("/login") }
   }
 
   const handleLoadMore = () => {
     if (cardArray.length >= cardCount + 4) {
       setCardCount(cardCount + 4)
     } else { setCardCount(8) }
+  }
+
+  const addGameToWishlist = async () => {
+    try {
+      const { data, errors } = await addedToWishlist({ variables: { gameId: gameId, userId: userInfo.userid } });
+      if (data.addedToWishlist.ok) {
+        setAddedToUserWishlist(true)
+        if (added) {
+          setAdded(false)
+        }
+      } else { console.log("This game already exists in your wishlist") }
+    } catch (error) {
+      if (error.graphQLErrors) {
+        error.graphQLErrors.forEach(({ message }) => {
+          alert(message)
+        });
+      }
+    }
+  }
+
+  const addGame = async () => {
+    try {
+      const { data, errors } = await addToGames({ variables: { gameId: gameId, userId: userInfo.userid } });
+      if (data.addToGames.ok) {
+        setLoader(true)
+        setTimeout(() => {
+          setLoader(false)
+          confetti({
+            particleCount: 100,
+            spread: 50,
+            origin: { y: 0.6 },
+          });
+          setAdded(true)
+          if (addedToUserWishlist) {
+            setAddedToUserWishlist(false)
+          }
+          setAddCount(data.addToGames.count)
+        }, 2000);
+      } else { console.log("This Game already exists in your library") }
+    } catch (error) {
+      if (error.graphQLErrors) {
+        error.graphQLErrors.forEach(({ message }) => {
+          alert(message)
+        });
+      }
+    }
+  }
+
+  const handleAddReview = async (content, gameComment, gameRating) => {
+    if (!userInfo.userid) { router.push("/login") }
+    try {
+      const { data } = await addReview({ variables: { userId: userInfo.userid, gameId: gameId, gameComment: gameComment, gameRating: gameRating, content: content } });
+
+      if (data.addReview.ok) {
+        setReviewInfo(prevState => ({
+          ...prevState,
+          gameComment: data.addReview.newReview.gameComment,
+        }));
+        fetchRatingTypes({ variables: { gameId: gameId } });
+        setReviewee(data.addReview.newReview.gameComment)
+      }
+    } catch (error) {
+      if (error.graphQLErrors) {
+        error.graphQLErrors.forEach(({ message }) => {
+          console.log(message)
+        });
+      }
+    }
   }
 
   const vid = "my-videos/new.mp4"
@@ -126,19 +354,76 @@ export default function game({ params }) {
     "Newest first",
     "Oldest first",
     "Exceptional",
-    "Recommended",
+    "Recommend",
     "Meh",
     "Skip"
   ]
 
-  if (loading || similarLoading) return <div style={{alignSelf: "center", marginTop: "20%"}}><Loader /></div>;
+  const handleSetReviewInfo = async () => {
+    try {
+      const { data } = await reviewCheck({ variables: { gameId: gameId, userId: userInfo.userid } });
+      if (data) {
+        if (data.checkReview.checkReview) {
+          setReviewInfo(prevState => ({
+            ...prevState,
+            title: oneData.oneGame.title,
+            gameComment: data.checkReview.checkedReview.gameComment,
+            userid: userInfo.userid,
+            gameid: gameId,
+            content: data.checkReview.checkedReview.content,
+          }));
+          router.push("/review")
+        }
+      } else {
+        setReviewInfo(prevState => ({
+          ...prevState,
+          title: oneData.oneGame.title,
+          gameComment: "",
+          userid: userInfo.userid,
+          gameid: gameId,
+          content: ""
+        }));
+        router.push("/review")
+      }
+    } catch (error) {
+      if (error.graphQLErrors) {
+        error.graphQLErrors.forEach(({ message }) => {
+          console.log(message)
+        });
+      }
+    }
+  }
+
+  const handleFilterReviews = (option) => {
+    setReviewOptions(option)
+    if (allReviewData) {
+      const revArray = ["Exceptional", "Recommend", "Meh", "Skip"]
+      const copy = [...allReviewData.allGameReviews]
+      if (revArray.includes(option)) {
+        const filtered = copy.filter((item) => item.gameComment === option)
+        setRevData(filtered)
+      } else if (option === "Newest first") {
+        const filtered = copy.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
+        setRevData(filtered)
+      } else if (option === "Oldest first") {
+        const filtered = copy.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
+        setRevData(filtered)
+      }
+    }
+  }
+
+  const utilityFunction = (id) => {
+    router.push(`/users/${id}`)
+  }
+
+
+  if (loading || similarLoading) return <div style={{ alignSelf: "center", marginTop: "20%" }}><Loader /></div>;
 
   if (error || similarError) return <p>Error: {error ? error.message : similarError.message}</p>
 
-  console.log(`SimilarGames is ${similarGamesData.similarUserGames[0].title}`)
 
 
-  const gamePlatforms = data.oneGame.platforms.map(item => platformIcons[item]).filter(it => it !== undefined);
+  const gamePlatforms = oneData.oneGame.platforms.map(item => platformIcons[item]).filter(it => it !== undefined);
 
 
   return (
@@ -146,7 +431,7 @@ export default function game({ params }) {
 
       <div className='game_container row'>
         <div className='game-container-div1'>
-          <div className='game-container-div1-gray-title'><h4>{`HOME / GAMES / ${data.oneGame.title}`}</h4></div>
+          <div className='game-container-div1-gray-title' style={{ textTransform: "uppercase" }}><h4>{`HOME / GAMES / ${oneData.oneGame.title}`}</h4></div>
 
           <div className='game-container-div1-svgs'>
             <div className='dsp-f'>
@@ -158,23 +443,36 @@ export default function game({ params }) {
                 })
               }
             </div>
-            <span className='m-l-2'>AVERAGE PLAYTIME: 329 HOURS</span>
+            <span className='m-l-2'>{`TOTAL PLAYERS: ${addCount} PLAYERS`}</span>
           </div>
 
-          <div className='game-container-div1-title'><h1>{data.oneGame.title}</h1></div>
+          <div className='game-container-div1-title'><h1>{oneData.oneGame.title}</h1></div>
 
           <div className='game-container-div1-addTo'>
             <div className='addTo1'>
-              <div onClick={handleAddtoGames}>
-                <p>Add to</p>
-                <h4>My games<span className='m-l-1'>847</span></h4>
-              </div>
+              {
+                loader ? (<div className='addTo1-loader'><Loader /></div>) : (
+                  <div onClick={handleAddtoGames}>
+                    <p>{added ? "Added to" : "Add to"}</p>
+                    <h4>My games - <span className='m-l-1'>{libraryCount}</span></h4>
+                  </div>
+                )
+              }
               <Image src={greenplus} width={35} height={35} alt='plus-sign' className='addTo-svg' id='addtosvg' />
             </div>
 
-            <div className='addTo2'>
+            <div className='addTo2'
+              onClick={() => {
+                if (userInfo.username) {
+                  if (addedToUserWishlist) {
+                    alert("This game already exists in your wishlist")
+                  } else { addGameToWishlist() }
+                } else { router.push("/login") }
+              }}
+              style={addedToUserWishlist ? { background: "rgb(119, 177, 32)" } : { background: "transparent" }}
+            >
               <div>
-                <p>Add to</p>
+                <p style={addedToUserWishlist ? { color: "rgb(46, 46, 46)" } : { color: "rgb(106, 106, 106)" }}>{addedToUserWishlist ? "Added to" : "Add to"}</p>
                 <h4>Wishlist</h4>
               </div>
               <Image src={giftBox} width={35} height={35} alt='plus-sign' className='addTo-svg' id='addtosvg2' />
@@ -191,18 +489,18 @@ export default function game({ params }) {
 
           <div className='game-container-div1-ratings-div'>
             <div className='ratings-div1'>
-              <h2><span>Exeptional</span></h2>
-              <p>249 RATINGS</p>
+              <h2><span>{gameRating.rated}</span></h2>
+              <p>{`${gameRating.ratings} RATINGS`}</p>
             </div>
 
             <div className='ratings-div-container'>
               <div className='ratings-div2'>
-                <h2>#316</h2>
-                <p>RPG</p>
+                <h2>{`#${gameRating.ratings + 34}`}</h2>
+                <p style={{ textTransform: "uppercase" }}>{oneData.oneGame.genres[0]}</p>
               </div>
 
               <div className='ratings-div3'>
-                <h2>#1</h2>
+                <h2>{`#${gameRating.ratings + 3}`}</h2>
                 <p>TOP 2024</p>
               </div>
             </div>
@@ -213,40 +511,50 @@ export default function game({ params }) {
             <p>Click to rate</p>
             <div className='ratings-bar-bar'>
 
-              <div className='bar1'>
+              <div className={reviewee === "Exceptional" ? "bar1 bar" : "bar1"}
+                onClick={() => handleAddReview(null, "Exceptional", null)}
+              >
                 <div className="bar1div">
                   <Image src={bomb} width={40} height={40} alt='rating-svg' className='rating-bar-svg' />
                 </div>
-                <div className='bar1-child'><div style={{ backgroundColor: "green" }}></div><p>Exceptional<strong>115</strong></p></div>
+                <div className={reviewee === "Exceptional" ? "bar1-child barhov" : "bar1-child"}><div style={{ backgroundColor: "green" }}></div><p>Exceptional<strong>{gameRatingTypes.exceptional}</strong></p></div>
               </div>
 
-              <div className='bar2'>
+              <div className={reviewee === "Recommend" ? "bar2 bar" : "bar2"}
+                onClick={() => handleAddReview(null, "Recommend", null)}
+              >
                 <div className="bar2div">
                   <Image src={thumbsUp} width={50} height={50} alt='rating-svg' className='rating-bar-svg' />
                 </div>
-                <div className='bar2-child'><div style={{ backgroundColor: "blue" }}></div><p>Recommended<strong>75</strong></p></div>
+                <div className={reviewee === "Recommend" ? "bar2-child barhov" : "bar2-child"}><div style={{ backgroundColor: "blue" }}></div><p>Recommended<strong>{gameRatingTypes.recommend}</strong></p></div>
               </div>
 
-              <div className='bar3'>
-                <div className='dsp-f justify-center bar3-child'><div style={{ backgroundColor: "orange" }}></div><p>Meh<strong>25</strong></p></div>
+              <div className={reviewee === "Meh" ? "bar3 bar" : "bar3"}
+                onClick={() => handleAddReview(null, "Meh", null)}
+              >
+                <div className={reviewee === "Meh" ? "bar3-child barhov dsp-f justify-center" : "bar3-child dsp-f justify-center"}><div style={{ backgroundColor: "orange" }}></div><p>Meh<strong>{gameRatingTypes.meh}</strong></p></div>
               </div>
 
-              <div className='bar4'>
-                <div className='bar4-child'><div style={{ backgroundColor: "red" }}></div><p>Skip<strong>37</strong></p></div>
+              <div className={reviewee === "Skip" ? "bar4 bar" : "bar4"}
+                onClick={() => handleAddReview(null, "Skip", null)}
+              >
+                <div className={reviewee === "Skip" ? "bar4-child barhov" : "bar4-child"}><div style={{ backgroundColor: "red" }}></div><p>Skip<strong>{gameRatingTypes.skip}</strong></p></div>
               </div>
 
             </div>
-            {/* <div className="ratings-bar-info">
-            </div> */}
           </div>
 
-          <div className='write-review'>
-            <UtilityButton text={"Write a review"} scale={0.8} color={"rgb(110, 110, 110)"} />
+          <div className='write-review' onClick={() => {
+            if (userInfo.userid && oneData) {
+              handleSetReviewInfo()
+            } else { router.push("/login") }
+          }}>
+            <UtilityButton text={!reviewInfo.chooseRev ? "Edit review" : "Write a review"} scale={0.8} color={"rgb(110, 110, 110)"} />
           </div>
           <div className='about-div'>
             <h4>About</h4>
             <div>
-              <p>{about.split(" ").join(" ").slice(0, sliceNo)} {buttonText ? "" : ".... "}<span onClick={handleReadMore}>{buttonText ? "Read less" : "Read more"}</span></p>
+              <p>{oneData.oneGame.about.split(" ").join(" ").slice(0, sliceNo)} {buttonText ? "" : ".... "}<span onClick={handleReadMore}>{buttonText ? "Read less" : "Read more"}</span></p>
             </div>
           </div>
 
@@ -254,18 +562,18 @@ export default function game({ params }) {
 
             <div className='game-info-div1'>
               <div><h4>Platforms</h4>{
-                data.oneGame.platforms.map((item, index) => (<span key={index}>{item}</span>))
+                oneData.oneGame.platforms.map((item, index) => (<span key={index}>{item}</span>))
               }</div>
               <div><h4>Release date</h4><span>TBA</span></div>
-              <div><h4>Publisher</h4><span>Paradox Interactive</span></div>
+              <div><h4>Publisher</h4><span>{oneData.oneGame.publisher}</span></div>
             </div>
 
             <div className='game-info-div2'>
               <div><h4>Genre</h4>{
-                data.oneGame.genres.map((item, index) => (<span key={index}>{item}</span>))
+                oneData.oneGame.genres.map((item, index) => (<span key={index}>{item}</span>))
               }</div>
-              <div><h4>Developer</h4><span>Hardsuit Labs</span></div>
-              <div><h4>Age Rating</h4><span>Not rated</span></div>
+              <div><h4>Developer</h4><span>{oneData.oneGame.developer}</span></div>
+              <div><h4>Age Rating</h4><span>{oneData.oneGame.ageRating}</span></div>
             </div>
 
           </div>
@@ -282,13 +590,17 @@ export default function game({ params }) {
             <div className='game-info2-div1'>
               <h4>Tags</h4>
               <div>
-                <span>Action,</span><span>Story</span><span>Action,</span><span>Great Soundtrack</span><span>Open world,</span><span>First-person</span><span>Horror,</span><span>Gore</span><span>Violent,</span><span>Vampire</span><span>Single-player,</span><span>RPG</span><span>Atmospheric,</span><span>RPG</span>
+                {
+                  oneData.oneGame.tags.map((item, index) => (
+                    <span key={index}>{item}, </span>
+                  ))
+                }
               </div>
 
             </div>
             <div className="game-info2-div2">
               <h4>Website</h4>
-              <p>https://www.bloodlines2.com</p>
+              <p>{`https://www.${oneData.oneGame.title}.com`}</p>
             </div>
           </div>
 
@@ -302,17 +614,17 @@ export default function game({ params }) {
               className='game-container-video'
               muted
               loop
-              cldVid={cld.video(data.oneGame.videoUrl)}
+              cldVid={cld.video(oneData.oneGame.videoUrl)}
               plugins={[lazyload]}
               controls
             />
           </div>
 
           <div className='game-container-div2-images'>
-            {images.map((image, index) => {
+            {oneData.oneGame.imageUrl.map((image, index) => {
               return <div key={index}>
                 <AdvancedImage
-                  cldImg={cld.image(data.oneGame.imageUrl)}
+                  cldImg={cld.image(image)}
                   className="game-image"
                 />
               </div>
@@ -320,8 +632,16 @@ export default function game({ params }) {
           </div>
 
           <div className='game-container-div2-buyGame'>
-            <Image src={cart} width={30} height={30} alt='plus-sign' className='buysvg' />
-            <p>Purchase Game</p>
+            <p className='buyp'>Where to buy</p>
+            <div className='buyGame1'>
+              <a href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer">
+                <div className='buy1'><p>Steam</p><Image src={steam} width={25} height={25} /></div>
+              </a>
+
+              <a href="https://www.xbox.com/en-US/microsoft-store" target='blank' rel='noopener noreferrer'>
+                <div className='buy2'><p>X-box store</p><Image src={xboxGray} width={25} height={25} /></div>
+              </a>
+            </div>
           </div>
 
           <div className="game-users">
@@ -333,7 +653,7 @@ export default function game({ params }) {
             }
           </div>
 
-          <div className="game-collections">
+          {/* <div className="game-collections">
 
             <div className='game-collections-div1'>
               <h1>Collections with Vampire: The Masquerade - Bloodlines 2</h1>
@@ -360,7 +680,7 @@ export default function game({ params }) {
               }
             </div>
 
-          </div>
+          </div> */}
 
         </div>
 
@@ -369,7 +689,7 @@ export default function game({ params }) {
       <div className='similar-games cols-8-xl' ref={similarParentRef}>
 
         <div className='dsp-f justify-center'>
-          <h1>{`Games like ${data.oneGame.title}`}</h1>
+          <h1>{`Games like ${oneData.oneGame.title}`}</h1>
         </div>
 
         <div>
@@ -379,10 +699,10 @@ export default function game({ params }) {
             }
           </div>
           <div className='mt-4 dsp-f ai-c justify-center'>
-          <div>
-            <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount >= cardArray.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
+            <div>
+              <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount >= cardArray.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
+            </div>
           </div>
-        </div>
         </div>
 
       </div>
@@ -392,11 +712,11 @@ export default function game({ params }) {
         <div className='reviews-div-container'>
 
           <div className='reviews-div-title'>
-            <h1>{`${data.oneGame.title} Reviews`}</h1>
+            <h1>{`${oneData.oneGame.title} Reviews`}</h1>
           </div>
 
           <div className='review-title'>
-            <h2>Reviews<span>5</span></h2>
+            <h2>Reviews<span>{reviewCount}</span></h2>
           </div>
 
           <div className='review-options'>
@@ -407,16 +727,18 @@ export default function game({ params }) {
             <div className={showOptions ? "showoptions review-options-options" : "hideoptions"}>
               {
                 reviewViews.map((view, index) => {
-                  return <span key={index} onClick={() => setReviewOptions(view)} >{view}</span>
+                  return <span key={index} onClick={() => handleFilterReviews(view)} >{view}</span>
                 })
               }
             </div>
           </div>
-          {
-            reviewArray.map((review, index) => {
-              return <ReviewBox svg={review.svg} thumbsop={thumbsop} thumbsdown={thumbsDown} rating={review.rating} ratingsvg={review.ratingsvg} profilePic={review.profilePic} name={review.name} index={index} review={review.review} date={review.date} likes={review.likes} dislikes={review.dislikes} />
-            })
-          }
+          <div>
+            {
+              revData && revData.map((item, index) => {
+                return <ReviewBox rating={item.gameComment} replies={item.replies.edges} gameId={gameId} reviewId={item.reviewid} ratingsvg={comment[item.gameComment]} id={item.user.userid} utilityFunction={utilityFunction} profilePic={item.user.profilePic} name={item.user.username} review={item.content} date={item.dateAdded} likes={item.likes} dislikes={item.dislikes} index={index} />
+              })
+            }
+          </div>
         </div>
 
       </div>

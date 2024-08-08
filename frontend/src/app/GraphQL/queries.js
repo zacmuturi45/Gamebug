@@ -28,6 +28,27 @@ query {
 }
 `;
 
+export const ALLREVIEWS = gql`
+query {
+    allReviews {
+        edges {
+            node {
+                reviewid
+                content
+                gameRating
+                gameComment
+                likes
+                dislikes
+                user {
+                    username
+                    profilePic
+                }
+            }
+        }
+    }
+}
+`;
+
 export const SEARCH_QUERY = gql`
 query ($query: String!) {
     search(query: $query) {
@@ -84,6 +105,26 @@ query OneGame($id: Int!) {
         chart
         imageUrl
         videoUrl
+        about
+        publisher
+        developer
+        ageRating
+        tags
+        buyers {
+            edges {
+                node {
+                    username
+                    profilePic
+                    boughtGames {
+                        edges {
+                            node {
+                                gameid
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 `;
@@ -93,17 +134,119 @@ query ($id: Int!) {
     oneUser (id: $id) {
         userid
         username
+        profilePic
+        userWishlistGames {
+            edges {
+                node {
+                    gameid
+                    imageUrl
+                    title
+                    videoUrl
+                    platforms
+                    dateAdded
+                    genres
+                    chart
+                    reviews {
+                        edges {
+                            node {
+                                gameRating
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        reviews {
+            edges {
+                node {
+                    content
+                    gameRating
+                    dateAdded
+                    gameComment
+                    likes
+                    dislikes
+                }
+            }
+        }
+        boughtGames {
+            edges {
+                node {
+                    title
+                    gameid
+                    imageUrl
+                    videoUrl
+                    platforms
+                    dateAdded
+                    genres
+                    chart
+                    statusCheck {
+                        status
+                    }
+                    reviews {
+                        edges {
+                            node {
+                                gameRating
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        followers {
+            edges {
+                node {
+                    userid
+                    username
+                    profilePic
+                    userWishlistGames {
+                        edges {
+                            node {
+                                gameid
+                            }
+                        }
+                    }
+                    boughtGames {
+                        edges {
+                            node {
+                                gameid
+                            }
+                        }
+                    }
+                }
+            }
+        }
         following {
             edges {
                 node {
                     userid
                     username
+                    profilePic
+                    userWishlistGames {
+                        edges {
+                            node {
+                                gameid
+                            }
+                        }
+                    }
+                    boughtGames {
+                        edges {
+                            node {
+                                gameid
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
 `;
+
+export const FOLLOWSTATUS = gql`
+query ($followerId: Int!, $followeeId: Int!) {
+    checkFollowStatus(followerId: $followerId, followeeId: $followeeId) 
+}
+`
 
 export const SIMILAR_GAMES = gql`
 query similarGames($id: Int!) {
@@ -145,13 +288,29 @@ mutation Login($email: String!, $password: String!) {
         }
     }
 }
+`;
+
+export const GAMESTATUS = gql`
+query ($userId: Int!, $gameId: Int!) {
+    checkGameStatus(userId: $userId, gameId: $gameId)
+}
 `
+
+export const FOLLOW = gql`
+mutation Follow($followerId: ID!, $followeeId: ID!) {
+    followerFollowee (followerId: $followerId, followeeId: $followeeId) {
+        ok
+        status
+    }
+}
+`;
 
 export const ADDTOMYGAMES = gql`
 mutation addToMyGames($gameId: Int!, $userId: Int!) {
     addToGames(gameId: $gameId, userId: $userId) {
         ok
         count
+        userLibrary
     }
 }
 `;
@@ -159,6 +318,41 @@ mutation addToMyGames($gameId: Int!, $userId: Int!) {
 export const GAMECOUNT = gql`
 query gameCount($gameId: Int!) {
     addToGames(gameId: $gameId)
+}
+`;
+
+export const CHECKRATINGS = gql`
+query ratingsCheck($gameId: Int!) {
+    checkRatings(gameId: $gameId)
+}
+`;
+
+export const COUNTREVIEWS = gql`
+query countReviews($gameId: Int!) {
+    countReviews(gameId: $gameId) 
+}
+`;
+
+export const CHECKAVERAGERATING = gql`
+query averageRatingsCheck($gameId: Int!) {
+    checkAverageRating(gameId: $gameId)
+}
+`;
+
+export const CHECKRATINGTYPES = gql`
+query ratingTypes($gameId: Int!) {
+    checkRatingTypes(gameId: $gameId) {
+        exceptional
+        recommend
+        meh
+        skip
+    }
+}
+`;
+
+export const CHECKLIBRARY = gql`
+query checkLib($gameId: Int!, $userId: Int!) {
+    checkLibrary(gameId: $gameId, userId: $userId)
 }
 `;
 
@@ -198,23 +392,114 @@ mutation deleteGames($gameId: Int!, $userId: Int!) {
 `;
 
 export const ADDREVIEW = gql`
-mutation addReviews($gameId: Int!, $userId: Int!, $content: String, $gameComment: String, $gameRating: Int) {
-    addReview(gameId: $gameId, userId: $userId, content: $content, gameComment: $gameComment, gameRating: $gameRating) {
+mutation addReviews($gameId: Int!, $userId: Int!, $content: String, $gameComment: String, $gameRating: Int, $parentId: Int) {
+    addReview(gameId: $gameId, userId: $userId, content: $content, gameComment: $gameComment, gameRating: $gameRating, parentId: $parentId) {
         ok
         newReview {
+            reviewid
             gameComment
         }
     }
 }
-`; 
+`;
+
+export const EDITREVIEW = gql`
+mutation editReviews($gameId: Int!, $userId: Int!, $content: String, $gameComment: String, $gameRating: Int) {
+    editReview(gameId: $gameId, userId: $userId, content: $content, gameComment: $gameComment, gameRating: $gameRating) {
+        ok
+        newReview {
+            reviewid
+            gameComment
+        }
+    }
+}
+`;
 
 export const CHECKREVIEW = gql`
 query ($gameId: Int!, $userId: Int!) {
     checkReview(gameId: $gameId, userId: $userId) {
         checkReview
         checkedReview {
+            reviewid
             gameComment
+            content
         }
     }
 }
-`
+`;
+
+export const DELETEREVIEW = gql`
+mutation deletedReview ($revId: Int!, $userId: Int!) {
+    deleteReview (revId: $revId, userId: $userId) {
+        ok
+    }
+}
+`;
+
+export const LIKEDISLIKE = gql`
+mutation likeDislike ($reviewId: Int!, $userId: Int!, $toLike: Boolean!) {
+    toggleReviewLike(reviewId: $reviewId, userId: $userId, toLike: $toLike) {
+        ok
+        review {
+            likes
+            dislikes
+        }
+    }
+}
+`;
+
+export const ALLGAMEREVIEWS = gql`
+query ($gameId: Int!) {
+    allGameReviews (gameId: $gameId) {
+        reviewid
+        content
+        gameComment
+        gameRating
+        dateAdded
+        likes
+        dislikes
+        replies {
+            edges {
+                node {
+                    reviewid
+                    content
+                    user {
+                        userid
+                        username
+                        profilePic
+                    }
+                }
+            }
+        }
+        user {
+            userid
+            username
+            profilePic
+        }
+    }
+}
+`;
+
+export const BUYERS = gql`
+query ($id: Int!) {
+    userWithGame(id: $id) {
+        userid
+        username
+        profilePic
+        boughtGames {
+            edges {
+                node {
+                    gameid
+                }
+            }
+        }
+        followers {
+            edges {
+                node {
+                    userid
+                }
+            }
+        }
+    }
+}
+`;
