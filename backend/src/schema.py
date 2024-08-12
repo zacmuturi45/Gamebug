@@ -141,22 +141,25 @@ class ReviewCheck(ObjectType):
 class GameStatus(SQLAlchemyObjectType):
     class Meta:
         model = GameStatusCheck
-        
+
+
 class ToggleReviewLikeMutation(Mutation):
     class Arguments:
-        review_id=Int(required=True)
-        user_id=Int(required=True)
-        to_like=Boolean(required=True)
-        
-    ok=Boolean()
-    review=Field(Review)
-    
+        review_id = Int(required=True)
+        user_id = Int(required=True)
+        to_like = Boolean(required=True)
+
+    ok = Boolean()
+    review = Field(Review)
+
     def mutate(self, info, review_id, user_id, to_like):
-        existing_interaction = ReviewLikes.query.filter_by(review_id=review_id, user_id=user_id).first()
+        existing_interaction = ReviewLikes.query.filter_by(
+            review_id=review_id, user_id=user_id
+        ).first()
         review = ReviewModel.query.get(review_id)
         if not review:
             raise Exception("Review does not exist")
-        
+
         if existing_interaction:
             if existing_interaction.to_like == to_like:
                 db.session.delete(existing_interaction)
@@ -174,16 +177,14 @@ class ToggleReviewLikeMutation(Mutation):
                     review.dislikes += 1
         else:
             new_interaction = ReviewLikes(
-                review_id=review_id,
-                user_id=user_id,
-                to_like=to_like
+                review_id=review_id, user_id=user_id, to_like=to_like
             )
             db.session.add(new_interaction)
             if to_like:
                 review.likes += 1
             else:
                 review.dislikes += 1
-                
+
         db.session.commit()
         return ToggleReviewLikeMutation(ok=True, review=review)
 
@@ -305,6 +306,51 @@ class SignUpMutation(Mutation):
         return SignUpMutation(
             ok=True, user=new_user, success_message="Signup successful"
         )
+
+
+class SettingsChanges(Mutation):
+    class Arguments:
+        user_id = Int(required=True)
+        password = String()
+        username = String(required=True)
+
+    ok = Boolean()
+    newName = String()
+
+    def mutate(self, info, password=None, user_id=None, username=None):
+        user = UserModel.query.get(user_id)
+
+        if not user:
+            raise Exception("User with the provided does not exist")
+        if password and username:
+            hashed_passwword = generate_password_hash(password)
+            old_password = user.password_hash
+            if old_password == hashed_passwword:
+                raise Exception("New password cannot be same as old password")
+            user.password_hash = hashed_passwword
+            user.username = username
+            db.session.commit()
+        user.username = username
+        db.session.commit()
+        return SettingsChanges(ok=True, newName=username)
+
+
+class ChangePassword(Mutation):
+    class Arguments:
+        email = String(required=True)
+        password = String(required=True)
+
+    ok = Boolean()
+
+    def mutate(self, info, email, password):
+        user = UserModel.query.filter_by(email=email).first()
+
+        if not user:
+            return ChangePassword(ok=False)
+        hashed_password = generate_password_hash(password)
+        user.password_hash = hashed_password
+        db.session.commit()
+        return ChangePassword(ok=True)
 
 
 class LoginMutation(Mutation):
@@ -443,6 +489,33 @@ class EditReview(Mutation):
         return EditReview(ok=False, new_review=None)
 
 
+class AddReply(Mutation):
+    class Arguments:
+        game_id = Int(required=True)
+        user_id = Int(required=True)
+        content = String()
+        parent_id = Int()
+
+    ok = Boolean()
+    new_review = Field(lambda: Review)
+
+    def mutate(self, info, game_id, user_id, content=None, parent_id=None):
+        user = UserModel.query.get(user_id)
+        game = GameModel.query.get(game_id)
+
+        if not user:
+            raise Exception("User with the provided id does not exist")
+        if not game:
+            raise Exception("Game with the provided id does not exist")
+
+        newReview = ReviewModel(
+            game_id=game_id, user_id=user_id, content=content, parent_id=parent_id
+        )
+        db.session.add(newReview)
+        db.session.commit()
+        return AddReply(ok=True, new_review=newReview)
+
+
 class AddReview(Mutation):
     class Arguments:
         game_id = Int(required=True)
@@ -456,11 +529,18 @@ class AddReview(Mutation):
     new_review = Field(lambda: Review)
 
     def mutate(
-        self, info, game_id, user_id, content=None, game_rating=None, game_comment=None, parent_id=None
+        self,
+        info,
+        game_id,
+        user_id,
+        content=None,
+        game_rating=None,
+        game_comment=None,
+        parent_id=None,
     ):
         user = UserModel.query.get(user_id)
         game = GameModel.query.get(game_id)
-        ratingDict = {"Exceptional": 10, "Recommend": 7.5, "Meh": 5, "Skip": 2.5}
+        ratingDict = {"Exceptional": 9, "Recommend": 7, "Meh": 4, "Skip": 2}
 
         if not user:
             raise Exception("User with the provided id does not exist")
@@ -478,10 +558,15 @@ class AddReview(Mutation):
                 check_review.game_rating = game_rating
             if game_comment:
                 check_review.game_comment = game_comment
+                check_review.game_rating = ratingDict[game_comment]
+            if parent_id:
+                check_review.parent_id = parent_id
             db.session.commit()
             return AddReview(ok=True, new_review=check_review)
 
-        new_review = ReviewModel(game_id=game_id, user_id=user_id, content=content, parent_id=parent_id)
+        new_review = ReviewModel(
+            game_id=game_id, user_id=user_id, content=content, parent_id=parent_id
+        )
 
         if game_comment:
             new_review.game_comment = game_comment
@@ -524,6 +609,22 @@ class AddToWishlist(Mutation):
             )
 
         return AddToWishlist(ok=False, success_message="")
+
+
+class DeleteUser(Mutation):
+    class Arguments:
+        user_id = Int(required=True)
+
+    ok = Boolean()
+
+    def mutate(root, info, user_id):
+        user = UserModel.query.get(user_id)
+
+        if user is None:
+            raise Exception("User with provided id does not exist")
+        db.session.delete(user)
+        db.session.commit()
+        return DeleteUser(ok=True)
 
 
 class DeleteReview(Mutation):
@@ -610,11 +711,19 @@ class MyMutations(ObjectType):
 
     add_review = AddReview.Field()
 
+    settings = SettingsChanges.Field()
+
+    change_password = ChangePassword.Field()
+
     delete_review = DeleteReview.Field()
 
+    delete_user = DeleteUser.Field()
+
     edit_review = EditReview.Field()
-    
+
     toggle_review_like = ToggleReviewLikeMutation.Field()
+
+    add_reply = AddReply.Field()
 
 
 class Query(ObjectType):
@@ -647,8 +756,10 @@ class Query(ObjectType):
     check_average_rating = Field(String, game_id=Int(required=True))
 
     check_library = Field(Int, game_id=Int(required=True), user_id=Int(required=True))
-    
-    check_game_status = Field(Int, game_id=Int(required=True), user_id=Int(required=True))
+
+    check_game_status = Field(
+        Int, game_id=Int(required=True), user_id=Int(required=True)
+    )
 
     check_follow_status = Field(
         String, follower_id=Int(required=True), followee_id=Int(required=True)
@@ -669,10 +780,12 @@ class Query(ObjectType):
     user_with_game = List(User, id=Int())
 
     user_try = List(User, game_id=Int())
-    
+
     def resolve_check_game_status(self, info, game_id, user_id):
-        status = GameStatusCheck.query.filter_by(game_id=game_id, user_id=user_id).first()
-        
+        status = GameStatusCheck.query.filter_by(
+            game_id=game_id, user_id=user_id
+        ).first()
+
         if not status:
             return 0
         else:
@@ -716,8 +829,8 @@ class Query(ObjectType):
             db.session.query(func.count(ReviewModel.game_rating))
             .filter(
                 and_(
-                    ReviewModel.game_rating <= 7.5,
                     ReviewModel.game_rating > 5,
+                    ReviewModel.game_rating <= 7.5,
                     ReviewModel.game_id == game_id,
                 )
             )
@@ -727,8 +840,8 @@ class Query(ObjectType):
             db.session.query(func.count(ReviewModel.game_rating))
             .filter(
                 and_(
-                    ReviewModel.game_rating <= 5,
                     ReviewModel.game_rating > 2.5,
+                    ReviewModel.game_rating <= 5,
                     ReviewModel.game_id == game_id,
                 )
             )
@@ -738,8 +851,8 @@ class Query(ObjectType):
             db.session.query(func.count(ReviewModel.game_rating))
             .filter(
                 and_(
-                    ReviewModel.game_rating <= 2.5,
                     ReviewModel.game_rating > 0,
+                    ReviewModel.game_rating <= 2.5,
                     ReviewModel.game_id == game_id,
                 )
             )

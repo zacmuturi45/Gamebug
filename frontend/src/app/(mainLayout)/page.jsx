@@ -82,7 +82,7 @@ export default function Home() {
 
     const { filter, setFilter } = useFilter();
 
-    const { loading: card_data_loading, error: card_data_errors, data: card_data_data } = useQuery(CARD_DATA);
+    const { loading: card_data_loading, data: card_data_data } = useQuery(CARD_DATA);
 
     useEffect(() => {
         if (card_data_data) {

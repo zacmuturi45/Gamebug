@@ -130,6 +130,40 @@ query OneGame($id: Int!) {
 }
 `;
 
+export const CHANGEPASSWORD = gql`
+mutation changedpassword($email: String!, $password: String!) {
+    changePassword(email: $email, password: $password) {
+        ok
+    }
+}
+`;
+
+export const LOGGEDUSER = gql`
+query ($id: Int!) {
+    oneUser (id: $id) {
+        userid
+        username
+    }
+}
+`;
+
+export const DELETEUSER = gql`
+mutation DeleteUser ($userId: Int!) {
+    deleteUser(userId: $userId) {
+        ok
+    }
+}
+`;
+
+export const SETTINGS = gql`
+mutation settings($userId: Int!, $password: String, $username: String!) {
+    settings (userId: $userId, password: $password, username: $username) {
+        ok
+        newName
+    }
+}
+`;
+
 export const ONEUSER = gql`
 query ($id: Int!) {
     oneUser (id: $id) {
@@ -449,6 +483,18 @@ mutation likeDislike ($reviewId: Int!, $userId: Int!, $toLike: Boolean!) {
 }
 `;
 
+export const ADDREPLY = gql`
+mutation AddReply ($gameId: Int!, $userId: Int!, $content: String, $parentId: Int!) {
+    addReply(gameId: $gameId, userId: $userId, content: $content, parentId: $parentId) {
+        ok
+        newReview {
+            reviewid
+            content
+        }
+    }
+}
+`;
+
 export const ALLGAMEREVIEWS = gql`
 query ($gameId: Int!) {
     allGameReviews (gameId: $gameId) {
@@ -459,6 +505,7 @@ query ($gameId: Int!) {
         dateAdded
         likes
         dislikes
+        parentId
         replies {
             edges {
                 node {

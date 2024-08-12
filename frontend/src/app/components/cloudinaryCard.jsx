@@ -190,10 +190,6 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
         }
     }
 
-    // const getPlatforms = (plat) => {
-    //     const plats = plat.map(item => platformIcons[item]).filter(icon => icon !== undefined);
-    //     setPlatArray(plats)
-    // };
 
     const addGame = async () => {
         try {
@@ -304,22 +300,27 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
             const { data } = await reviewCheck({ variables: { gameId: id, userId: userInfo.userid } });
             if(data) {
                 if(data.checkReview.checkReview) {
+                    setFilter("")
                     setReviewInfo(prevState => ({
                         ...prevState,
                         title: title,
                         gameComment: data.checkReview.checkedReview.gameComment,
                         userid: userInfo.userid,
                         gameid: id,
-                        chooseRev: true
+                        chooseRev: true,
+                        content: data.checkReview.checkedReview.content
                     }));
                     router.push("/review")
                 } else {
+                    setFilter("")
                     setReviewInfo(prevState => ({
                         ...prevState,
                         title: title,
                         userid: userInfo.userid,
                         gameid: id,
-                        chooseRev: false
+                        chooseRev: false,
+                        content: "",
+                        gameComment: "Exceptional"
                     }));
                     router.push("/review")
                 }
@@ -367,7 +368,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     </div>
 
                     <div className="cloudinarydiv2">
-                        <h2><Link href={`/${id}`}><span>{title}</span></Link> <Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
+                        <h2 onClick={() => setFilter("")}><Link href={`/${id}`}><span>{title}</span></Link><Image src={reviews === 1 ? pumpkincry : (reviews === 2 ? pumpkinmeh : (reviews === 3 ? thumbsUp : bomb))} width={35} height={30} alt='review-svg' className='review-svg' />
                         </h2>
                     </div>
 
@@ -434,7 +435,13 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                                                 }
                                             </div>
                                             <ProtectedRoutes><div className='review-box' onClick={() => handleSetReviewInfo()}>{writeReview}</div></ProtectedRoutes>
-                                            <div className='addTo-box'>Add to my games</div>
+                                            <div className='addTo-box'
+                                            onClick={() => {
+                                                if(!added) {
+                                                    addGame()
+                                                }
+                                            }}
+                                            >{added ? "Added to library" : "Add to my games"}</div>
                                         </div>
                                     ) : (<div className='showpanel'>
                                         <div className='grid-box-review'>
@@ -448,7 +455,11 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                                         </div>
                                        <ProtectedRoutes> <div className='review-box2' onClick={() => handleSetReviewInfo()}>{writeReview}</div></ProtectedRoutes>
                                         </div>
-                                        <div className='addTo-box2'><span>Add to collection</span></div>
+                                        <div className='addTo-box2' onClick={() => {
+                                            if(!added) {
+                                                addGame()
+                                            }
+                                        }}><span>{added ? "Added to library" : "Add to my games"}</span></div>
                                     </div>)
                                 }
 

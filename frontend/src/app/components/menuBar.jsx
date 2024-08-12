@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react'
 import gsap from 'gsap'
+import { useLoggedUser } from '../contexts/loginContext'
 
-export default function MenuBar({ setToggleMenu, toggleMenu }) {
-    const [isAnimated, setIsAnimated] = useState(false);
+export default function MenuBar({ setToggleMenu, toggleMenu, isAnimated, setIsAnimated }) {
+    const { setBurgerOn, burgerOn } = useLoggedUser();
 
     const handleClick = () => {
         if (isAnimated) {

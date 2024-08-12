@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useFilter } from '@/app/contexts/sidenavContext';
 import { useReview } from '@/app/contexts/reviewContext';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { CHECKREVIEW, EDITREVIEW } from '@/app/GraphQL/queries';
+import { ADDREVIEW, CHECKREVIEW, EDITREVIEW } from '@/app/GraphQL/queries';
 import { DELETEREVIEW } from '@/app/GraphQL/queries';
 import { useLoggedUser } from '@/app/contexts/loginContext';
 
@@ -21,6 +21,7 @@ export default function ReviewPage() {
     const [revId, setrevId] = useState(0);
     const { setFilter } = useFilter();
     const [editReview] = useMutation(EDITREVIEW);
+    const [addReview] = useMutation(ADDREVIEW);
     const { setReviewInfo, reviewInfo } = useReview();
     const [deleteReview] = useMutation(DELETEREVIEW);
     const { userInfo } = useLoggedUser();
@@ -37,7 +38,8 @@ export default function ReviewPage() {
             setrevId(data.checkReview.checkedReview.reviewid)
         }
     }, [data])
-    const handleDeleteReview = async () => {
+    const handleDeleteReview = async (e) => {
+        e.preventDefault()
         try {
             const { data } = await deleteReview({ variables: { revId: revId, userId: reviewInfo.userid } });
             if (data.deleteReview.ok) {
@@ -55,9 +57,10 @@ export default function ReviewPage() {
                     message: "Review successfully deleted!"
                 }));
                 setTimeout(() => {
+                    setFilter("Home")
                     router.push("/")
                 }, 1000);
-            }
+            } else {alert("Error Deleting review")}
         } catch (error) {
             if (error.graphQLErrors) {
                 error.graphQLErrors.forEach(({ message }) => {
@@ -67,11 +70,47 @@ export default function ReviewPage() {
         }
     }
 
-    const handleSubmit = async (content, gameComment, gameRating) => {
+    const handleSubmit = async (event, content, gameComment, gameRating) => {
+        event.preventDefault()
         try {
-            const { data } = await editReview({ variables: { userId: reviewInfo.userid, gameId: reviewInfo.gameid, gameComment: gameComment, gameRating: gameRating, content: content } });
+            const { data } = await editReview({ variables: { userId: reviewInfo.userid, gameId: reviewInfo.gameid, gameComment: gameComment, gameRating: gameRating, content: content || "" } });
 
             if (data.editReview.ok) {
+                setReviewInfo(prevState => ({
+                    ...prevState,
+                    title: "",
+                    gameComment: "",
+                    userid: 0,
+                    gameid: 0,
+                    chooseRev: false
+                }))
+                setPopup(prevState => ({
+                    ...prevState,
+                    status: true,
+                    message: "Review successfully edited!"
+                }));  
+                setTimeout(() => {
+                    setFilter("Home")
+                    router.push("/")   
+                }, 1000);           
+            } else if (!data.editReview.ok) {
+                alert("Error editing review!")
+            }
+        } catch (error) {
+            if (error.graphQLErrors) {
+                error.graphQLErrors.forEach(({ message }) => {
+                    console.log(`REVIEW MSG ${message}`)
+                });
+            }
+        }
+    }
+
+    const handleAddReview = async (event, content, gameComment, gameRating) => {
+        event.preventDefault()
+        try {
+            const { data } = await addReview({ variables: { userId: reviewInfo.userid, gameId: reviewInfo.gameid, gameComment: gameComment, gameRating: gameRating, content: content || "" } });
+
+            if (data.addReview.ok) {
                 setReviewInfo(prevState => ({
                     ...prevState,
                     title: "",
@@ -86,6 +125,7 @@ export default function ReviewPage() {
                     message: "Review successfully added!"
                 }));  
                 setTimeout(() => {
+                    setFilter("Home")
                     router.push("/")   
                 }, 1000);           
             } else if (!data.editReview.ok) {
@@ -94,7 +134,7 @@ export default function ReviewPage() {
         } catch (error) {
             if (error.graphQLErrors) {
                 error.graphQLErrors.forEach(({ message }) => {
-                    console.log(message)
+                    console.log(`REVIEW MSG ${message}`)
                 });
             }
         }
@@ -140,8 +180,14 @@ export default function ReviewPage() {
                                         onChange={(e) => setReviewContent(e.target.value)}
                                     />
                                     <div className='buttons'>
-                                        <button onClick={() => handleDeleteReview()}>Delete review</button>
-                                        <button type='submit' onClick={() => handleSubmit(reviewContent, reviewInfo.gameComment, null)}>Publish</button>
+                                        <button onClick={(e) => handleDeleteReview(e)}>Delete review</button>
+                                        <button type='submit' onClick={(event) => {
+                                            if(reviewInfo.chooseRev) {
+                                                handleSubmit(event, reviewContent, reviewInfo.gameComment, null)
+                                            } else {
+                                                handleAddReview(event, reviewContent, reviewInfo.gameComment, null)
+                                            }
+                                        }}>Publish</button>
                                     </div>
                                 </form>
                             </div>

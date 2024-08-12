@@ -49,7 +49,7 @@ export default function Navbar() {
     const [gameResults, setGameResults] = useState([]);
     const searchRef = useRef(null);
     const [userResults, setUserResults] = useState([]);
-
+    const [isAnimated, setIsAnimated] = useState(false);
     const [fetchResults, { loading, data }] = useLazyQuery(SEARCH_QUERY);
 
     const router = useRouter();
@@ -151,16 +151,62 @@ export default function Navbar() {
         }
     };
 
-    const pity = [{ im: grateful, gm: "Fifa 24", pt: [psWhite, windowsWhite, nintendoWhite] }, { im: grateful, gm: "Pes 24", pt: [psWhite, windowsWhite, nintendoWhite] }]
-    const us = [{ im: grateful, gm: "Isaac" }, { im: isaac, gm: "Claire" }]
+    const handleClick = () => {
+        if (isAnimated) {
+            gsap.to(".div1", {
+                opacity: 1,
+                duration: .2,
+                ease: "sine.inOut"
+            });
+            gsap.to(".div2", {
+                rotate: "0deg",
+                duration: .3,
+                ease: "sine.inOut"
+            });
+            gsap.to(".div3", {
+                marginTop: "7px",
+                rotate: "0deg",
+                duration: .3,
+                ease: "sine.inOut"
+            });
+        } else {
+            gsap.to(".div1", {
+                opacity: 0,
+                duration: .2,
+                ease: "sine.inOut"
+            })
+            gsap.to(".div2", {
+                rotate: "-45deg",
+                duration: .3,
+                ease: "sine.inOut"
+            })
+            gsap.to(".div3", {
+                marginTop: 0,
+                rotate: "45deg",
+                duration: .3,
+                ease: "sine.inOut"
+            })
+        }
+        setIsAnimated(!isAnimated);
+        setToggleMenu(!toggleMenu)
+    }
+
+
+    const handleRoute = (item) => {
+        setFilter(item)
+        handleClick()
+        router.push("/")
+    }
+
+
 
     return (
         <main className={pathname === "/review" ? "hide" : (visible ? 'main__navbar' : 'main__navbar nav-hidden')}>
             <Link href="/"><h1 onClick={() => setFilter("Home")}>GameBug</h1></Link>
             <form>
-            <div className='toggleSearch'>
-                <div><span>CTRL</span> + <span>ENTER</span></div>
-            </div>
+                <div className='toggleSearch'>
+                    <div><span>CTRL</span> + <span>ENTER</span></div>
+                </div>
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' width={15} height={15} style={{ fontSize: 15 }} />
                     <div className="onSearchTab" ref={searchRef}>
@@ -214,7 +260,7 @@ export default function Navbar() {
                     <div className='ul-divp'>
                         <div className='ul-div1'>
                             <Link href={userInfo.userid ? `/users/${userInfo.userid}` : "/login"}><div onClick={() => setFilter("")}>
-                                {userInfo.username ? <span style={{ textTransform: "capitalize" }} className='dsp-f ai-c my-library'><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span style={{margin: "0 .5rem 0 .2rem", fontWeight: 400}}>My library</span></span> : <span>LOG IN</span>}
+                                {userInfo.username ? <span style={{ textTransform: "capitalize" }} className='dsp-f ai-c my-library'><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span style={{ margin: "0 .5rem 0 .2rem", fontWeight: 400 }}>My library</span></span> : <span>LOG IN</span>}
                             </div></Link>
                             {!userInfo.username && (
                                 <div>
@@ -228,19 +274,13 @@ export default function Navbar() {
                     <div className={userInfo.username ? "ul-divp1" : "ul-divp"}>
                         <div className='ul-div2'>
                             <div>
-                                {userInfo.username ? <div style={{marginRight: 10, display: "flex"}}>
-                                    <><Image src={notification} height={25} width={25} alt='notification' onClick={() => router.push("/notifications")}/></>
-                                    <div className='nav-info'><Image src={plusWhite} height={20} width={20} alt='plus' /><div className='nav-infoChild'>
-                                        <div className='div'>
-                                            <div><Image src={cart} width={20} height={20} alt='box' /><span>Add a game to your library</span></div>
-                                            <div><Image src={cart} width={20} height={20} alt='box' /><span>Start a new collection</span></div>
-                                        </div>
-                                        <div className='last-div' onClick={() => handleLogout()}><span>SIGN OUT</span></div>
-                                        </div></div>
+                                {userInfo.username ? <div style={{ marginRight: 10, display: "flex" }}>
+                                    <><Image src={notification} height={30} width={30} alt='notification' onClick={() => router.push("/notifications")} /></>
+                                    <div className='nav-info dsp-f ai-c' onClick={() => handleLogout()}><Image src={logout} height={25} width={25} alt='plus' /></div>
                                 </div> : <span onClick={() => { router.push("/signup") }}>SIGN UP</span>}
                             </div>
-                            <div className='ul-child-div2' style={userInfo.username ? {display: "none"} : {display: "block"}}></div>
-                            <div className='ul-child-div1c' style={userInfo.username ? {display: "none"} : {display: "block"}}></div>
+                            <div className='ul-child-div2' style={userInfo.username ? { display: "none" } : { display: "block" }}></div>
+                            <div className='ul-child-div1c' style={userInfo.username ? { display: "none" } : { display: "block" }}></div>
                         </div>
                     </div>
 
@@ -257,7 +297,11 @@ export default function Navbar() {
                 </ul>
 
                 <div className="overlay">
-                    <MenuBar setToggleMenu={setToggleMenu} toggleMenu={toggleMenu} />
+                    <div className='menuBar' onClick={() => handleClick()}>
+                        <div className='div1'></div>
+                        <div className='div2'></div>
+                        <div className='div3'></div>
+                    </div>
                 </div>
             </div>
             <AnimatePresence>
@@ -272,8 +316,7 @@ export default function Navbar() {
                             className='mobi-menu'>
                             <div className='mobi-container'>
                                 <div className='mobi-div1'>
-                                    <h2>My library</h2>
-                                    <h2>Home</h2>
+                                    <h2 onClick={() => handleRoute("Home")}>Home</h2>
                                     <h2>Browse</h2>
                                     <div className='mobi-box'>
                                         <div style={{ paddingLeft: ".5rem" }}>
@@ -281,7 +324,7 @@ export default function Navbar() {
                                             {
                                                 newReleases.map((item, index) => (
                                                     <div key={index}>
-                                                        <SideNavBox image={item.image} text={item.text} setToggleMenu={setToggleMenu} />
+                                                        <SideNavBox image={item.image} text={item.text} handleRoute={handleRoute} />
                                                     </div>
                                                 ))
                                             }
@@ -292,7 +335,7 @@ export default function Navbar() {
                                             {
                                                 platforms.map((item, index) => (
                                                     <div key={index}>
-                                                        <SideNavBox image={item.image} text={item.text} setToggleMenu={setToggleMenu} />
+                                                        <SideNavBox image={item.image} text={item.text} handleRoute={handleRoute} />
                                                     </div>
                                                 ))
                                             }
@@ -303,7 +346,7 @@ export default function Navbar() {
                                             {
                                                 genres.map((item, index) => (
                                                     <div key={index} className='sidenavbox-container'>
-                                                        <SideNavBox image={item.image} text={item.text} setToggleMenu={setToggleMenu} />
+                                                        <SideNavBox image={item.image} text={item.text} handleRoute={handleRoute} />
                                                     </div>
                                                 ))
                                             }
@@ -312,28 +355,45 @@ export default function Navbar() {
                                     </div>
                                 </div>
 
-                                <div className='mobi-div2' style={{marginRight: -15}}>
-                                    {userInfo.username ? <div style={{ textTransform: "capitalize", minHeight: 80, display: "flex", flexDirection: "column", alignItems: "flex-end", cursor: "pointer" }}><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span className='mt-1' style={{ color: "rgb(106, 106, 106)" }}>My Library</span>
-                                    </div> : <div className='dsp-f fd-c' style={{alignItems: "flex-end", marginRight: 15}} onClick={() => {
-                                        setToggleMenu(false)
+                                <div className='mobi-div2' style={{ marginRight: -15 }}>
+                                    {userInfo.username ? <div style={{ textTransform: "capitalize", minHeight: 80, display: "flex", flexDirection: "column", alignItems: "flex-end", cursor: "pointer" }}
+                                        onClick={() => {
+                                            setFilter("")
+                                            handleClick()
+                                            router.push(`/users/${userInfo.userid}`)
+                                        }}
+                                    ><NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /><span className='mt-1' style={{ color: "rgb(106, 106, 106)" }}>My Library</span>
+                                    </div> : <div className='dsp-f fd-c' style={{ alignItems: "flex-end", marginRight: 15 }} onClick={() => {
+                                        setFilter("")
+                                        handleClick()
                                         router.push("/signup")
                                     }}><Image src={login} width={50} height={50} alt='logout-svg' className='logout-svg' /><span>SIGN UP</span></div>}
 
 
                                     {userInfo.username ? (
-                                        <div className='dsp-f fd-c ai-c' style={{alignItems: "flex-end"}}>
-                                            <div style={{marginRight: 15, justifyContent: "flex-end", alignItems: "flex-end", cursor: "pointer"}} className='dsp-f fd-c'><Image src={notification} height={35} width={35} alt='notification'/><span style={{marginTop: 5}}>Notifications</span></div>
-                                            <div className="dsp-f fd-c ai-c" style={{paddingRight: 12, cursor: "pointer"}}>
-                                            <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => handleLogout()} />
-                                            <span onClick={() => {
-                                                handleLogout();
-                                            }}>Logout</span>
+                                        <div className='dsp-f fd-c ai-c' style={{ alignItems: "flex-end" }}>
+                                            <div style={{ marginRight: 15, justifyContent: "flex-end", alignItems: "flex-end", cursor: "pointer" }} className='dsp-f fd-c'
+                                                onClick={() => {
+                                                    handleClick()
+                                                    router.push("/notifications")
+                                                }}
+                                            ><Image src={notification} height={35} width={35} alt='notification' /><span style={{ marginTop: 5 }}>Notifications</span></div>
+                                            <div className="dsp-f fd-c ai-c" style={{ paddingRight: 12, cursor: "pointer" }}
+                                                onClick={() => {
+                                                    setFilter("")
+                                                    handleClick()
+                                                    handleLogout();
+                                                }}
+                                            >
+                                                <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => handleLogout()} />
+                                                <span>Logout</span>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className='dsp-f fd-c ai-c' style={{marginRight: 15}}>
+                                        <div className='dsp-f fd-c ai-c' style={{ marginRight: 15 }}>
                                             <Image src={logout} width={50} height={50} alt='logout-svg' className='logout-svg' onClick={() => {
-                                                setToggleMenu(false)
+                                                setFilter("")
+                                                handleClick()
                                                 router.push("/login")
                                             }} />
                                             <span>LOG IN</span>

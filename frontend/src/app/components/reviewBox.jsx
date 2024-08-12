@@ -5,21 +5,24 @@ import React, { useEffect, useState } from 'react'
 import { thumbsop, thumbsDown, cld, create_date_string, getMiddleDigit, gradients } from '../../../public/images'
 import { AdvancedImage } from '@cloudinary/react'
 import { useMutation } from '@apollo/client'
-import { ADDREVIEW, LIKEDISLIKE } from '../GraphQL/queries'
+import { ADDREPLY, ADDREVIEW, LIKEDISLIKE } from '../GraphQL/queries'
 import ProtectedRoutes from './protectedRoute'
 import { useLoggedUser } from '../contexts/loginContext'
 import NameCircle from './nameCircle'
 import { useRouter } from 'next/navigation'
+import { useFormik } from 'formik'
 
-export default function ReviewBox({ rating, ratingsvg, profilePic, review, utilityFunction, id, name, date, likes, dislikes, replies, index, gameId, reviewId }) {
+export default function ReviewBox({ rating, ratingsvg, profilePic, review, utilityFunction, id, name, date, likes, allRevs, dislikes, replies, index, gameId, reviewId }) {
     const [toggleReviewLike] = useMutation(LIKEDISLIKE);
     const { userInfo } = useLoggedUser();
     const [like, setLike] = useState(0);
     const [dislike, setDislike] = useState(0);
     const dt = create_date_string(date)
     const [replyText, setReplyText] = useState("");
-    const [addReview] = useMutation(ADDREVIEW);
+    const [addReply] = useMutation(ADDREPLY);
     const router = useRouter();
+    const [showReply, setShowReply] = useState(false);
+    const [parentId, setParentId] = useState(null);
 
     useEffect(() => {
         if (likes && dislikes) {
@@ -45,14 +48,18 @@ export default function ReviewBox({ rating, ratingsvg, profilePic, review, utili
     }
 
     const handleSubmit = async (content) => {
+        if (!userInfo.userid) {
+            router.push("/login")
+            return;
+        }
         try {
-            const { data } = await addReview({ variables: {gameId: gameId, userId: userInfo.userid, parentId: reviewId, content: content, gameRating: null, gameComment: null }});
-            if(data.addReview.ok) {
-                alert("Reply successfully added")
+            const { data } = await addReply({ variables: { gameId: gameId, userId: userInfo.userid, parentId: reviewId, content: content } });
+            if (data.addReply.ok) {
+                allRevs({ variables: { gameId: gameId } })
                 setReplyText("");
-            } else {alert("Error addding reply")}
+            } else { alert("Error addding reply") }
         } catch (error) {
-            if(error.graphQLErrors) {
+            if (error.graphQLErrors) {
                 error.graphQLErrors.forEach(({ message }) => {
                     alert(message)
                 });
@@ -60,12 +67,36 @@ export default function ReviewBox({ rating, ratingsvg, profilePic, review, utili
         }
     }
 
-    const handleKeydown = (e) => {
-        if(e.key === "Enter") {
-            e.preventDefault()
-            handleSubmit(replyText)
-        }
-    }
+    // const handleReplySubmit = (reviewId) => {
+    //     formik.setFieldValue('parentId', reviewId);
+    //     formik.handleSubmit();
+    // };
+
+    // const formik = useFormik({
+    //     initialValues: {
+    //         content: "",
+    //         gameId: gameId,
+    //         userId: userInfo.userid,
+    //         parentId: 373,
+    //     },
+    //     onSubmit: async (values, { setSubmitting, resetForm }) => {
+    //         try {
+    //             const { data } = await addReply({ variables: { gameId: values.gameId, content: values.content, userId: values.userId, parentId: values.parentId } });
+    //             if (data.addReply.ok) {
+    //                 resetForm();
+    //                 allRevs({ variables: { gameId: gameId } });
+    //             } else { alert("Error adding new Reply") }
+    //         } catch (error) {
+    //             if (error.graphQLErrors) {
+    //                 error.graphQLErrors.forEach(({ message }) => {
+    //                     alert(message)
+    //                 });
+    //             }
+    //         } finally {
+    //             setSubmitting(false);
+    //         }
+    //     }
+    // })
 
 
     return (
@@ -130,6 +161,38 @@ export default function ReviewBox({ rating, ratingsvg, profilePic, review, utili
                                     <div className='cont-2'>
                                         <span>{item.node.user.username}</span>
                                         <p>{item.node.content}</p>
+                                        {/* <ProtectedRoutes><p style={{ fontSize: 15, marginTop: 10, cursor: "pointer" }} onClick={() => setShowReply(true)}>Reply</p></ProtectedRoutes>
+
+
+                                        {
+                                            showReply && (
+                                                <div className='reviewbox-div3'>
+                                                    <form onSubmit={formik.handleSubmit}>
+                                                        {userInfo.userid ? (
+                                                            <div className='blueb' style={{ background: `${gradients[getMiddleDigit(userInfo.userid)]}` }}>{userInfo.username.slice(0, 1)}</div>
+                                                        ) : (<div className='blueball'></div>)}
+                                                        <input
+                                                            type="text"
+                                                            name="content"
+                                                            id={`${index}${item.node.user.username}`}
+                                                            placeholder='Write a reply...'
+                                                            value={formik.values.content}
+                                                            onChange={formik.handleChange}
+                                                            onBlur={formik.handleBlur}
+                                                        />
+
+
+                                                        <div style={{ paddingRight: "1rem" }} className='spans-gray p-1 fs-sm dsp-f ai-c justify-flex-end'><button className='reply-button' type='button' style={{ cursor: "pointer" }}
+                                                            onClick={() => handleReplySubmit(item.node.reviewId)}
+                                                            disabled={formik.isSubmitting}
+                                                        >Reply</button></div>
+
+                                                    </form>
+
+                                                </div>
+                                            )
+                                        } */}
+
                                     </div>
                                 </div>
                             ))
@@ -139,7 +202,10 @@ export default function ReviewBox({ rating, ratingsvg, profilePic, review, utili
             </div>
 
             <div className='reviewbox-div3'>
-                <form>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit(replyText)
+                }}>
                     {userInfo.userid ? (
                         <div className='blueb' style={{ background: `${gradients[getMiddleDigit(userInfo.userid)]}` }}>{userInfo.username.slice(0, 1)}</div>
                     ) : (<div className='blueball'></div>)}
@@ -151,16 +217,12 @@ export default function ReviewBox({ rating, ratingsvg, profilePic, review, utili
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
                     />
+
+                    {replyText.length > 0 && (
+                        <div style={{ paddingRight: "1rem" }} className='spans-gray p-1 fs-sm dsp-f ai-c justify-flex-end'><button className='reply-button' type='submit' style={{ cursor: "pointer" }}>Reply</button></div>
+                    )}
                 </form>
-                {replyText.length > 0 && (
-                    <div style={{ paddingRight: "1rem" }} className='spans-gray p-1 fs-sm dsp-f ai-c justify-flex-end'><button className='reply-button' type='submit' onClick={() => {
-                        if(!userInfo.userid) {
-                            router.push("/login")
-                        } else {
-                            handleSubmit(replyText)
-                        }
-                    }}>Reply</button></div>
-                )}
+
             </div>
 
         </main>

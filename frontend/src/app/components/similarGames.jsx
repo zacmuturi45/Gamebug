@@ -7,7 +7,11 @@ export default function SimilarGames({ data, count, id }) {
         <div className=' row similarGamesComponent'>
             {
                 data.similarUserGames.slice(0, count).map((card, index) => {
-                    return <Card id={card.gameid} image={card.imageUrl[0]} video={card.videourl} platforms={card.platforms} title={card.title} releaseDate={card.dateAdded} genres={card.genres} chart={card.chart} index={index} />
+                    return (
+                        <div className='similar-game'>
+                            <Card id={card.gameid} image={card.imageUrl[0]} video={card.videourl} platforms={card.platforms} title={card.title} releaseDate={card.dateAdded} genres={card.genres} chart={card.chart} index={index} />
+                        </div>
+                    )
 
                 })
             }

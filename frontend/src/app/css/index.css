@@ -640,59 +640,6 @@ body.no-scroll {
   position: relative;
   margin: 0 0.5rem 0 1rem;
 }
-.main__navbar .nav-ul .ul-div2 .nav-info:hover .nav-infoChild {
-  display: flex;
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: white;
-  color: black;
-  z-index: 5;
-  width: 250px;
-  border-radius: 4px;
-  overflow: hidden;
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 0.5rem;
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div {
-  padding: 0.5rem 0.3rem;
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div > div {
-  display: flex;
-  padding: 0.3rem 0.5rem;
-  border-radius: 4px;
-  align-items: center;
-  margin: 0.2rem 0;
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div > div:hover {
-  background-color: rgb(216, 216, 216);
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .div > div span {
-  font-weight: 400;
-  font-size: 1rem;
-  letter-spacing: -0.2px;
-  color: rgb(44, 44, 44);
-  margin: 0 0.5rem;
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .last-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(186, 186, 186);
-  padding: 0.5rem;
-  margin-top: 0.3rem;
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .last-div:hover span {
-  opacity: 0.8;
-  transform: scale(0.95);
-}
-.main__navbar .nav-ul .ul-div2 .nav-info .nav-infoChild .last-div span {
-  font-weight: 500;
-}
 .main__navbar .nav-ul .ul-div2:hover .ul-child-div1c {
   animation-name: move-c;
   animation-duration: 0.6s;
@@ -945,6 +892,17 @@ body.no-scroll {
   position: sticky;
   top: -31vh;
   padding-top: 2rem;
+}
+.sidenavlayout .sidenavbar .sidenav-profile-name {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.sidenavlayout .sidenavbar .sidenav-profile-name:hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 .sidenavlayout .sidenavbar .sidenavbar-content {
   margin-top: 30px;
@@ -1791,6 +1749,9 @@ body.no-scroll {
     margin-bottom: 2.5rem;
     width: 300px;
   }
+  .main_card .cloudinary .cloudinary_video {
+    display: none;
+  }
   .main_card .showpanel {
     transform: scale(0.7);
   }
@@ -2044,6 +2005,99 @@ body.no-scroll {
     padding-left: 3rem;
   }
 }
+.settings-main {
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100%;
+  padding: 3rem 2rem;
+}
+.settings-main .settings-container {
+  width: 70%;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.settings-main .settings-container h1 {
+  font-size: 45px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+.settings-main .settings-container .profilepic {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+.settings-main .settings-container .profilepic h2 {
+  margin: 0 0.5rem;
+  font-size: 35px;
+  font-weight: 400;
+}
+.settings-main .settings-container .password p, .settings-main .settings-container .username p {
+  color: rgb(102, 102, 102);
+  margin: 0.5rem 0;
+  font-size: 20px;
+}
+.settings-main .settings-container .password input, .settings-main .settings-container .username input {
+  border: none;
+  outline: none;
+  background-color: rgb(65, 65, 65);
+  color: rgb(195, 195, 195);
+  margin-right: 0.5rem;
+  padding: 0.7rem;
+  border-radius: 5px;
+  font-size: 17px;
+  margin-bottom: 2rem;
+}
+.settings-main .settings-container .save .changes-button {
+  padding: 0.5rem 4rem;
+  color: black;
+  font-size: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin-right: 0.5rem;
+}
+.settings-main .settings-container .save .changes-button:hover {
+  opacity: 0.8;
+  transform: scale(0.99);
+  transition: all 0.2s ease;
+}
+.settings-main .settings-container .save .delete-button {
+  padding: 0.5rem;
+  margin: 0 1rem;
+  color: red;
+  cursor: pointer;
+}
+.settings-main .settings-container .save .delete-button:hover {
+  opacity: 0.8;
+  transform: scale(0.95);
+  transition: all 0.2s ease;
+}
+
+@media screen and (max-width: 720px) {
+  .settings-main .settings-container {
+    width: 100%;
+    padding: 0;
+  }
+  .settings-main .settings-container h1 {
+    text-align: center;
+  }
+  .settings-main .settings-container .profilepic {
+    align-items: center;
+    justify-content: center;
+  }
+  .settings-main .settings-container .save {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .settings-main .settings-container .save > * {
+    margin: 0.3rem 0;
+  }
+}
 .similarGamesComponent {
   position: relative;
   top: 0;
@@ -2053,7 +2107,6 @@ body.no-scroll {
   gap: 2rem;
   padding: 0.5rem;
   justify-content: center;
-  transform: scale(0.85, 0.75);
   transform-origin: top;
 }
 .similarGamesComponent > *:hover {
@@ -3322,7 +3375,13 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
   }
-  .game_main .game_container .game-container-div2 .game-container-div2-buyGame {
+  .game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy1 {
+    transform: scale(0.9);
+    transform-origin: left;
+    width: 130px;
+  }
+  .game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy2 {
+    transform-origin: left;
     transform: scale(0.9);
   }
   .game_main .game_container .game-container-div2 .game-collections .game-collections-div1 p {
@@ -3800,23 +3859,23 @@ body.no-scroll {
   text-underline-offset: 10px;
   transition: all 0.3s ease-in-out;
 }
-.users-main .users-container .users-content-div2 .users-navbar :nth-child(5) {
+.users-main .users-container .users-content-div2 .users-navbar :nth-child(4) {
   position: relative;
   width: fit-content;
 }
-.users-main .users-container .users-content-div2 .users-navbar :nth-child(5) span {
+.users-main .users-container .users-content-div2 .users-navbar :nth-child(4) span {
   position: absolute;
-  top: -12px;
-  right: -5%;
+  top: -0.5rem;
+  right: -2%;
   font-size: 17px;
 }
-.users-main .users-container .users-content-div2 .users-navbar :nth-child(6) {
+.users-main .users-container .users-content-div2 .users-navbar :nth-child(5) {
   position: relative;
 }
-.users-main .users-container .users-content-div2 .users-navbar :nth-child(6) span {
+.users-main .users-container .users-content-div2 .users-navbar :nth-child(5) span {
   position: absolute;
-  top: -12px;
-  right: -5%;
+  top: -0.5rem;
+  right: -2%;
   font-size: 17px;
 }
 .users-main .users-container .users-content-div2 .users-components {
@@ -3904,6 +3963,10 @@ body.no-scroll {
   .users-main .users-container .users-content-div2 .users-navbar h4 {
     font-size: 1.2rem;
     min-width: fit-content;
+  }
+  .users-main .users-container .users-content-div2 .users-navbar :nth-child(4) span {
+    top: -10px;
+    right: -10%;
   }
   .users-main .users-container .users-content-div2 .users-navbar :nth-child(5) span {
     top: -10px;

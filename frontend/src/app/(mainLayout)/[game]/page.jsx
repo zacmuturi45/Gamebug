@@ -122,7 +122,7 @@ export default function game({ params }) {
 
   useEffect(() => {
     if (allReviewData) {
-      setRevData(allReviewData.allGameReviews)
+      setRevData(allReviewData.allGameReviews.filter(item => item.parentId === null))
     }
   }, [allReviewData])
 
@@ -232,9 +232,9 @@ export default function game({ params }) {
   }
 
   const handleLoadMore = () => {
-    if (cardArray.length >= cardCount + 4) {
-      setCardCount(cardCount + 4)
-    } else { setCardCount(8) }
+    if (similarGamesData.similarUserGames.length > cardCount) {
+      setCardCount(cardCount + 3)
+    } else { setCardCount(6) }
   }
 
   const addGameToWishlist = async () => {
@@ -295,7 +295,7 @@ export default function game({ params }) {
         }));
         fetchRatingTypes({ variables: { gameId: gameId } });
         setReviewee(data.addReview.newReview.gameComment)
-      }
+      } else { alert("Error adding quick review") }
     } catch (error) {
       if (error.graphQLErrors) {
         error.graphQLErrors.forEach(({ message }) => {
@@ -308,14 +308,6 @@ export default function game({ params }) {
   const vid = "my-videos/new.mp4"
 
   const about = "Sired in an act of vampire insurrection, your existence ignites the war for Seattle&apos;s blood trade. Enter uneasy alliances with the creatures who control the city and uncover the sprawling conspiracy which plunged Seattle into a bloody civil war between powerful vampire factions. ♞Become the Ultimate Vampire. Immerse yourself in the World of Darkness and live out your vampire fantasy in a city filled with intriguing characters that react to your choices.You and your unique disciplines are a weapon in our forward - driving, fast - moving, melee - focussed combat system.Your power will grow as you advance, but remember to uphold the Masquerade and guard your humanity... or face the consequences. ♝Descend into Seattle&apos;s Dark Heart and Survive the Vampire Elite. Seattle has always been run by vampires.Hunt your prey across Seattle locations faithfully reimagined in the World of Darkness.Meet the old blood founders present since the city&apos;s birth and the new blood steering the tech money redefining the city.Everyone has hidden agendas - so choose your allies wisely. ♚Enter into Uneasy Alliances. Choose a side among competing factions, each with their own unique traits and stories, in the war for Seattle&apos;s blood trade.The world will judge you by the company you keep, but remember no one&apos;s hands stay clean forever. ♛Experience the Story. Written by the creative mind behind the original Bloodlines, Vampire: The Masquerade® - Bloodlines™ 2 brings the ambitions of the first game to life and sees the return of a few fan favorite characters."
-
-  const gameUserData = [
-    { name: "iBarin", image: isaac, edits: 16, followerCount: 117 },
-    { name: "Rakesh", image: grateful, edits: 12, followerCount: 124 },
-    { name: "Dmello", image: isaac, edits: 23, followerCount: 147 },
-    { name: "Deadmau5", image: grateful, edits: 11, followerCount: 107 },
-    { name: "Sergei", image: isaac, edits: 17, followerCount: 151 }
-  ]
 
   const handleReadMore = () => {
     if (!buttonText) {
@@ -354,6 +346,17 @@ export default function game({ params }) {
             content: data.checkReview.checkedReview.content,
           }));
           router.push("/review")
+        } else {
+          setReviewInfo(prevState => ({
+            ...prevState,
+            title: oneData.oneGame.title,
+            gameComment: "",
+            userid: userInfo.userid,
+            gameid: gameId,
+            content: "",
+            chooseRev: false
+          }));
+          router.push("/review")
         }
       } else {
         setReviewInfo(prevState => ({
@@ -362,7 +365,8 @@ export default function game({ params }) {
           gameComment: "",
           userid: userInfo.userid,
           gameid: gameId,
-          content: ""
+          content: "",
+          chooseRev: false
         }));
         router.push("/review")
       }
@@ -525,12 +529,8 @@ export default function game({ params }) {
             </div>
           </div>
 
-          <div className='write-review' onClick={() => {
-            if (userInfo.userid && oneData) {
-              handleSetReviewInfo()
-            } else { router.push("/login") }
-          }}>
-            <UtilityButton text={!reviewInfo.chooseRev ? "Edit review" : "Write a review"} scale={0.8} color={"rgb(110, 110, 110)"} />
+          <div className='write-review'>
+            <UtilityButton text={"Write a review"} scale={0.8} color={"rgb(110, 110, 110)"} utilityFunction={handleSetReviewInfo} />
           </div>
           <div className='about-div'>
             <h4>About</h4>
@@ -560,13 +560,13 @@ export default function game({ params }) {
           </div>
 
           <div className="game-info2">
-            <div className='game-info2-div0'>
+            {/* <div className='game-info2-div0'>
               <h4>Other games in the series</h4>
               <div>
                 <span>Vampire: The Masquerade-Swansong,</span><span>Vampire: The Masquerade-Bloodhunt</span><span>Vampire: The Masquerade-Shadows of New York,</span><span>Vampire: The Masquerade-Coteries of New York</span><span>Vampire: The Masquerade-Redemption,</span>
               </div>
 
-            </div>
+            </div> */}
 
             <div className='game-info2-div1'>
               <h4>Tags</h4>
@@ -596,7 +596,7 @@ export default function game({ params }) {
               muted
               loop
               cldVid={cld.video(oneData.oneGame.videoUrl)}
-              plugins={[lazyload]}
+              plugins={[lazyload()]}
               controls
             />
           </div>
@@ -681,7 +681,7 @@ export default function game({ params }) {
           </div>
           <div className='mt-4 dsp-f ai-c justify-center'>
             <div>
-              <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount >= cardArray.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
+              <UtilityButton scale={0.85} color={"rgb(141, 141, 141)"} text={cardCount >= similarGamesData.similarUserGames.length ? "Show less" : "Show more"} utilityFunction={handleLoadMore} />
             </div>
           </div>
         </div>
@@ -716,7 +716,7 @@ export default function game({ params }) {
           <div>
             {
               revData && revData.map((item, index) => {
-                return <ReviewBox rating={item.gameComment} replies={item.replies.edges} gameId={gameId} reviewId={item.reviewid} ratingsvg={comment[item.gameComment]} id={item.user.userid} utilityFunction={utilityFunction} profilePic={item.user.profilePic} name={item.user.username} review={item.content} date={item.dateAdded} likes={item.likes} dislikes={item.dislikes} index={index} />
+                return <ReviewBox rating={item.gameComment} allRevs={allReviews} replies={item.replies.edges} gameId={gameId} reviewId={item.reviewid} ratingsvg={comment[item.gameComment]} id={item.user.userid} utilityFunction={utilityFunction} profilePic={item.user.profilePic} name={item.user.username} review={item.content} date={item.dateAdded} likes={item.likes} dislikes={item.dislikes} index={index} />
               })
             }
           </div>

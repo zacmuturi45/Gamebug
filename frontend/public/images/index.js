@@ -33,6 +33,7 @@ export { default as notification } from './notification.svg';
 export { default as giftBox } from './giftBox.svg';
 export { default as riot } from './riot.svg';
 export { default as pumpkincry } from './pumpkincry.svg';
+export { default as settings } from './settings.svg';
 export { default as pumpkinmeh } from './pumpkinmeh.svg'
 export { default as thumbsUp } from './thumbsUp.svg';
 export { default as bomb } from './bomb.svg';
@@ -85,7 +86,7 @@ import thumbsDown from './thumbsDown.svg';
 import pumpkincry from './pumpkincry.svg';
 import pumpkinmeh from './pumpkinmeh.svg';
 
-export const cld = new Cloudinary({ cloud: { cloudName: 'dntmdehob' } });
+export const cld = new Cloudinary({ cloud: { cloudName: 'daeuqpeqs' } });
 
 export const decodeToken = (token) => {
   try {

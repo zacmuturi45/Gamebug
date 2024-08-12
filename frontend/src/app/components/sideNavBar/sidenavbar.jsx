@@ -11,6 +11,7 @@ import ScrollTrigger from 'gsap/src/ScrollTrigger';
 import { useFilter } from '@/app/contexts/sidenavContext';
 import { useLoggedUser } from '@/app/contexts/loginContext';
 import NameCircle from '../nameCircle';
+import { useRouter } from 'next/navigation';
 
 export default function SideNavBar({ main }) {
 
@@ -20,7 +21,7 @@ export default function SideNavBar({ main }) {
   const { setFilter, filter } = useFilter();
   const [visible, setVisible] = useState(true);
   const [visible1, setVisible1] = useState(true);
-
+  const router = useRouter();
   const sidenavRef = useRef(null);
   const { userInfo } = useLoggedUser();
 
@@ -41,7 +42,7 @@ export default function SideNavBar({ main }) {
         <Link href="/" className='links linksh2'><h2 onClick={() => setFilter("Home")}>Home</h2></Link>
       </div>
 
-      {userInfo.username && <div className='dsp-f ai-c' style={{marginBottom: 5}}>{userInfo.username.length >= 10 ? (<span style={{marginRight: 15, textTransform: "capitalize", fontSize: "1.2rem", fontWeight: 700, letterSpacing: 1}}>{userInfo.username.slice(0, 10)}...</span>) : (<span style={{marginRight: 10, textTransform: "capitalize", fontSize: "1.2rem", fontWeight: 700, letterSpacing: 1}}>{userInfo.username}</span>)}<NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /></div>}
+      {userInfo.username && <div className='sidenav-profile-name' onClick={() => router.push(`/users/${userInfo.userid}`)}>{userInfo.username.length >= 10 ? (<span style={{marginRight: 15, textTransform: "capitalize", fontSize: "1.2rem", fontWeight: 700, letterSpacing: 1}}>{userInfo.username.slice(0, 10)}...</span>) : (<span style={{marginRight: 10, textTransform: "capitalize", fontSize: "1.2rem", fontWeight: 700, letterSpacing: 1}}>{userInfo.username}</span>)}<NameCircle name={userInfo.username.slice(0, 1)} gradient={gradients[getMiddleDigit(userInfo.userid)]} /></div>}
 
       <div className='sidenavbar-children'>
         <div className='box'>

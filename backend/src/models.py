@@ -93,8 +93,12 @@ class Game(db.Model):
     game_status_row = db.relationship(
         "User", secondary="game_status", back_populates="user_game_status"
     )
-    
-    status_check = db.relationship("GameStatusCheck", back_populates="game", overlaps="game_status_row,user_game_status")
+
+    status_check = db.relationship(
+        "GameStatusCheck",
+        back_populates="game",
+        overlaps="game_status_row,user_game_status",
+    )
 
 
 class GameStatusCheck(db.Model):
@@ -102,8 +106,12 @@ class GameStatusCheck(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), primary_key=True)
     status = db.Column(db.Integer, default=0)
-    
-    game = db.relationship("Game", back_populates="status_check", overlaps="game_status_row,user_game_status")
+
+    game = db.relationship(
+        "Game",
+        back_populates="status_check",
+        overlaps="game_status_row,user_game_status",
+    )
 
 
 class PurchasedGame(db.Model):
@@ -146,8 +154,10 @@ class Review(db.Model):
     date_added = db.Column(db.DateTime, default=datetime.now())
     likes = db.Column(db.Integer, default=0)
     dislikes = db.Column(db.Integer, default=0)
-    
+
     parent_id = db.Column(db.Integer, db.ForeignKey("reviews.id"), nullable=True)
-    replies = db.relationship("Review", backref=db.backref("parent", remote_side=[id]), lazy="dynamic")
+    replies = db.relationship(
+        "Review", backref=db.backref("parent", remote_side=[id]), lazy="dynamic"
+    )
 
     review_likes = db.relationship("ReviewLikes", back_populates="review")

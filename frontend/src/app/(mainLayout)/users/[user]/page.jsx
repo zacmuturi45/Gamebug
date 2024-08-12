@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { arrowdown } from '../../../../../public/images';
+import { arrowdown, settings } from '../../../../../public/images';
 import MyGames from '@/app/components/myGames';
 import Wishlist from '@/app/components/wishlist';
 import Reviews from '@/app/components/reviews';
@@ -124,20 +124,19 @@ export default function Users({ params }) {
                         <h1>{userinformation.username}</h1>
                         <div className='initials'>{userinformation.username.slice(0, 1)}</div>
                     </div>
-                    <div className={userInfo.userid ? (userInfo.userid === userId ? "hide" : "users-follow-button") : "users-follow-button"}>
+                    <div className={userInfo.userid ? "users-follow-button": ""}>
                         <div className='follow'
-                            onClick={() => handleFollow()}
                         >
                             {
                                 loading ? (
                                     <div className='user-loader'><Loader /></div>
                                 ) : (
-                                    <p>{status}<span>{userinformation.followers.length}</span></p>
+                                    (userInfo.userid === userId ? (<p onClick={() => router.push("/settings")}>Settings</p>) : (<p onClick={() => handleFollow()}>{status}<span>{userinformation.followers.length}</span></p>))
                                 )
                             }
                         </div>
-                        <div className='follow-image'>
-                            <Image src={arrowdown} width={25} height={25} alt='follow-svg' className='follow-svg' />
+                        <div className='follow-image' onClick={() => router.push("/settings")}>
+                            <Image src={settings} width={25} height={25} alt='follow-svg' className='follow-svg' />
                         </div>
                     </div>
                 </div>
@@ -147,7 +146,7 @@ export default function Users({ params }) {
                         <h4 onClick={() => handleClick("myGames")} id={userComponents.myGames ? "active" : ""}>Games</h4>
                         <h4 onClick={() => handleClick("wishlist")} id={userComponents.wishlist ? "active" : ""}>Wishlist</h4>
                         <h4 onClick={() => handleClick("reviews")} id={userComponents.reviews ? "active" : ""}>Reviews</h4>
-                        <h4 onClick={() => handleClick("collections")} id={userComponents.collections ? "active" : ""}>Collections</h4>
+                        {/* <h4 onClick={() => handleClick("collections")} id={userComponents.collections ? "active" : ""}>Collections</h4> */}
                         <h4 onClick={() => handleClick("following")} id={userComponents.following ? "active" : ""}>Following<span>{userinformation.following.length}</span></h4>
                         <h4 onClick={() => handleClick("followers")} id={userComponents.followers ? "active" : ""}>Followers<span>{userinformation.followers.length}</span></h4>
                     </div>
@@ -155,7 +154,7 @@ export default function Users({ params }) {
                         {userComponents.myGames && <MyGames boughtGames={userinformation.games} userid={userId} />}
                         {userComponents.wishlist && <Wishlist wishlistGames={userinformation.wishlist} />}
                         {userComponents.reviews && <Reviews reviews={userinformation.reviews} profilePic={userinformation.profilePic} username={userinformation.username} />}
-                        {userComponents.collections && <Collections />}
+                        {/* {userComponents.collections && <Collections />} */}
                         {userComponents.following && <Following following={userinformation.following} />}
                         {userComponents.followers && <Followers followers={userinformation.followers} />}
                     </div>
