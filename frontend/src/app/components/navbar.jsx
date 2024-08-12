@@ -219,7 +219,7 @@ export default function Navbar() {
                                             <h2>Games</h2>
                                             {
                                                 gameResults.map((item, index) => (
-                                                    <SearchGame image={item.imageUrl} platform={item.platforms} itemIndex={index} title={item.title} id={item.gameid} user={"game"} setQuery={setQuery} />
+                                                    <SearchGame image={item.imageUrl[0]} platform={item.platforms} itemIndex={index} title={item.title} id={item.gameid} user={"game"} setQuery={setQuery} />
                                                 ))
                                             }
                                         </div>

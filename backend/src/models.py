@@ -31,7 +31,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    profilePic = db.Column(db.String(255), default="GameGo/fifa24_gq5mew")
+    profilePic = db.Column(db.String(255), default="hitman1_dsmuar")
     isAdmin = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.String, nullable=False)
 
@@ -74,11 +74,12 @@ class Game(db.Model):
     video_url = db.Column(db.String(255))
     followers = db.Column(db.Integer)
     following = db.Column(db.Integer)
-    about = db.Column(db.String(1000), nullable=False)
+    about = db.Column(db.String(10000), nullable=False)
     publisher = db.Column(db.String(250), nullable=False)
     age_rating = db.Column(db.String(), default="Not rated")
     developer = db.Column(db.String(), nullable=False)
     tags = db.Column(ARRAY(db.String), nullable=True)
+    website = db.Column(db.String(1000))
 
     reviews = db.relationship("Review", backref="game", lazy=True)
 
