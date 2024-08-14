@@ -96,7 +96,7 @@ export default function Login() {
                 </button>
 
                 <div className='login-text'>
-                    <Link href="/signup"><p>Dont' have an account? Sign up.</p>
+                    <Link href="/signup"><p>Dont have an account? Sign up.</p>
                     </Link>
                     <p onClick={() => router.push("/forgot")}>Forgot your password?</p>
                 </div>

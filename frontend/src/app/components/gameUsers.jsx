@@ -7,10 +7,10 @@ import Link from 'next/link'
 import { AdvancedImage } from '@cloudinary/react'
 import { useRouter } from 'next/navigation'
 
-export default function GameUsers({ image, name, edits, index, userId }) {
+export default function GameUsers({ image, name, edits, index, userId, key }) {
     const router = useRouter();
     return (
-        <main key={index} className='main-game-users'>
+        <main key={key} className='main-game-users'>
             <Link href={`/users/${userId}`}>
                 <div className='main-game-users-div1'>
                     <div className="image-div">

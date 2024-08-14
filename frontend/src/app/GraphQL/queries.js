@@ -110,6 +110,7 @@ query OneGame($id: Int!) {
         developer
         ageRating
         tags
+        website
         buyers {
             edges {
                 node {

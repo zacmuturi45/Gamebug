@@ -11,7 +11,7 @@ export default function Followers({ followers }) {
                 <div className='follower-div-div'>
                     {
                         followers.map((data, index) => {
-                            return <FollowData image={data.node.profilePic} name={data.node.username} id={data.node.userid} gameCount={data.node.boughtGames.edges.length} wishlistCount={data.node.userWishlistGames.edges.length} index={index} />
+                            return <FollowData key={index} image={data.node.profilePic} name={data.node.username} id={data.node.userid} gameCount={data.node.boughtGames.edges.length} wishlistCount={data.node.userWishlistGames.edges.length} index={index} />
                         })
                     }
                 </div>

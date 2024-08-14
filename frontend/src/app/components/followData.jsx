@@ -7,11 +7,11 @@ import Link from 'next/link'
 import { AdvancedImage } from '@cloudinary/react'
 import { useRouter } from 'next/navigation'
 
-export default function FollowData({ image, name, id, gameCount, wishlistCount, index }) {
+export default function FollowData({ image, name, id, gameCount, wishlistCount, key, index }) {
     const router = useRouter();
 
     return (
-        <main key={index} className='follow-main-game-users row'
+        <main key={key} className='follow-main-game-users row'
             onClick={() => router.push(`/users/${id}`)}
         >
             <div className='follow-pic'>

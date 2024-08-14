@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faEllipsis, faRemove, faNavicon, faSpaceShuttle, faSignIn, faPencilSquare } from '@fortawesome/free-solid-svg-icons'
-import MenuBar from './menuBar'
+import { faSearch, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import UseScroll from './navScroll'
 import gsap from 'gsap'
 import Link from 'next/link'
@@ -16,10 +15,8 @@ import { SEARCH_QUERY } from '../GraphQL/queries'
 import { AnimatePresence, motion } from 'framer-motion'
 import { newReleases } from '../../../public/images'
 import SideNavBox from './sideNavBox'
-import { genres, platforms, arrowDown } from '../../../public/images'
-import { logoutLogic } from './logout'
+import { genres, platforms } from '../../../public/images'
 import { usePathname, useRouter } from 'next/navigation'
-import { destroyCookie } from 'nookies'
 import { useLoggedUser } from '../contexts/loginContext'
 import NameCircle from './nameCircle'
 import Loader from './loader'
@@ -219,7 +216,7 @@ export default function Navbar() {
                                             <h2>Games</h2>
                                             {
                                                 gameResults.map((item, index) => (
-                                                    <SearchGame image={item.imageUrl[0]} platform={item.platforms} itemIndex={index} title={item.title} id={item.gameid} user={"game"} setQuery={setQuery} />
+                                                    <SearchGame key={index} image={item.imageUrl[0]} platform={item.platforms} itemIndex={index} title={item.title} id={item.gameid} user={"game"} setQuery={setQuery} />
                                                 ))
                                             }
                                         </div>
@@ -231,13 +228,13 @@ export default function Navbar() {
                                         <h2>Users</h2>
                                         {
                                             userResults.map((item, index) => (
-                                                <SearchGame image={item.profilePic} itemIndex={index} title={item.username} id={item.userid} user={"user"} setQuery={setQuery} />
+                                                <SearchGame key={index} image={item.profilePic} itemIndex={index} title={item.username} id={item.userid} user={"user"} setQuery={setQuery} />
                                             ))
                                         }
                                     </div>
                                 )}
                             </div>
-                        ) : <div style={{ padding: "1.5rem" }}>{!loading && <p className='fw-3'>No results for "{query}"</p>}</div>}
+                        ) : <div style={{ padding: "1.5rem" }}>{!loading && <p className='fw-3'>No results for &quot;{query}&quot;</p>}</div>}
 
                         {/* {data && (data.search.length > 10 && <p id='p-results'>See all results</p>)} */}
                     </div>

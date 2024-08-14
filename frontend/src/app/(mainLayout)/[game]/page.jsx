@@ -21,7 +21,7 @@ import { useLoggedUser } from '@/app/contexts/loginContext'
 import { useRouter } from 'next/navigation'
 import { useReview } from '@/app/contexts/reviewContext'
 
-export default function game({ params }) {
+export default function Game({ params }) {
 
   const [sliceNo, setSliceNo] = useState(450);
   const [buttonText, setButtonText] = useState(false)
@@ -581,7 +581,7 @@ export default function game({ params }) {
             </div>
             <div className="game-info2-div2">
               <h4>Website</h4>
-              <p>{`https://www.${oneData.oneGame.title}.com`}</p>
+              <a href={oneData.oneGame.website} target="_blank" rel="noopener noreferrer"><p>{oneData.oneGame.website}</p></a>
             </div>
           </div>
 
@@ -602,7 +602,7 @@ export default function game({ params }) {
           </div>
 
           <div className='game-container-div2-images'>
-            {oneData.oneGame.imageUrl.slice(0, 4).map((image, index) => {
+            {oneData.oneGame.imageUrl.slice(1, 5).map((image, index) => {
               return <div key={index}>
                 <AdvancedImage
                   cldImg={cld.image(image)}
@@ -629,7 +629,7 @@ export default function game({ params }) {
             <div className="game-users-title">Top users</div>
             {
               oneData.oneGame.buyers.edges.slice(0, 5).map((data, index) => {
-                return <GameUsers image={data.node.profilePic} name={data.node.username} userId={data.node.userid} edits={data.node.boughtGames.edges.length} index={index} />
+                return <GameUsers key={index} image={data.node.profilePic} name={data.node.username} userId={data.node.userid} edits={data.node.boughtGames.edges.length} index={index} />
               })
             }
           </div>
@@ -716,7 +716,7 @@ export default function game({ params }) {
           <div>
             {
               revData && revData.map((item, index) => {
-                return <ReviewBox rating={item.gameComment} allRevs={allReviews} replies={item.replies.edges} gameId={gameId} reviewId={item.reviewid} ratingsvg={comment[item.gameComment]} id={item.user.userid} utilityFunction={utilityFunction} profilePic={item.user.profilePic} name={item.user.username} review={item.content} date={item.dateAdded} likes={item.likes} dislikes={item.dislikes} index={index} />
+                return <ReviewBox rating={item.gameComment} allRevs={allReviews} replies={item.replies.edges} gameId={gameId} reviewId={item.reviewid} ratingsvg={comment[item.gameComment]} id={item.user.userid} utilityFunction={utilityFunction} profilePic={item.user.profilePic} name={item.user.username} review={item.content} date={item.dateAdded} likes={item.likes} dislikes={item.dislikes} key={index} index={index} />
               })
             }
           </div>

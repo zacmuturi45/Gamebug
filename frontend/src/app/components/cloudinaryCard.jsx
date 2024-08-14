@@ -18,7 +18,7 @@ import { useReview } from '../contexts/reviewContext';
 import AddGamePanel from './addGamePanel'
 import ProtectedRoutes from './protectedRoute'
 
-export default function Card({ id, image, video, platforms, title, releaseDate, genres, chart, reviews, index }) {
+export default function Card({ id, image, video, platforms, title, releaseDate, key, genres, chart, reviews }) {
 
     const playerRef = useRef(null);
     const [showCard, setShowCard] = useState(false);
@@ -335,7 +335,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
     }
 
     return (
-        <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={index}>
+        <main className="cols-3-xxl cols-4-xl cols-6-lg col-12-sm main_card" onMouseOver={onMouseOver} onMouseOut={onMouseOut} key={key}>
             <div className="cloudinary" onMouseOver={() => { setFilter("") }}>
                 <div className='play-button-div'>
                     <Image src={play} alt='play-button' className='play-button' />
@@ -345,14 +345,16 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                     cldImg={cld.image(image)}
                 />
 
+                <div className='cloudinary_video'>
                 <AdvancedVideo
-                    className='cloudinary_video'
+                    className='vid'
                     muted
                     loop
                     ref={playerRef}
                     cldVid={cld.video(cloudVid)}
                     plugins={[lazyload()]}
                 />
+                </div>
             </div>
 
             <div className="theCloud">
@@ -387,7 +389,7 @@ export default function Card({ id, image, video, platforms, title, releaseDate, 
                                     {added ? <div className='dsp-f ai-c addToGamesdiv'><div className={showPlayingGame ? "addGamePanel showcard" : "hidecard"} >
                                         {
                                             panel.map((item, index) => (
-                                                <AddGamePanel activeIndex={activeIndex} setActiveIndex={setActiveIndex} index={index} svg={item.image} spanText={item.spanText} mainText={item.mainText} gameid={id} userid={userInfo.userid} />
+                                                <AddGamePanel key={index} activeIndex={activeIndex} setActiveIndex={setActiveIndex} index={index} svg={item.image} spanText={item.spanText} mainText={item.mainText} gameid={id} userid={userInfo.userid} />
                                             ))
                                         }
                                         <div className='g3' onClick={() => {

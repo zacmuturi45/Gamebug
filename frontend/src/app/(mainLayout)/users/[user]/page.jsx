@@ -124,7 +124,7 @@ export default function Users({ params }) {
                         <h1>{userinformation.username}</h1>
                         <div className='initials'>{userinformation.username.slice(0, 1)}</div>
                     </div>
-                    <div className={userInfo.userid ? "users-follow-button": ""}>
+                    <div className="users-follow-button">
                         <div className='follow'
                         >
                             {

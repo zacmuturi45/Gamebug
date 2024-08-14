@@ -9,7 +9,7 @@ export default function Reviews({ reviews, profilePic, username }) {
             <div className="user-reviews-reviews">
                 {
                     reviews.map((review, index) => {
-                        return <ReviewBox rating={review.node.gameComment} reviewId={review.node.reviewid} ratingsvg={comment[review.node.gameComment]} profilePic={profilePic} name={username} index={index} review={review.node.content} date={review.node.dateAdded} likes={review.node.likes} dislikes={review.node.dislikes} />
+                        return <ReviewBox key={index} rating={review.node.gameComment} reviewId={review.node.reviewid} ratingsvg={comment[review.node.gameComment]} profilePic={profilePic} name={username} index={index} review={review.node.content} date={review.node.dateAdded} likes={review.node.likes} dislikes={review.node.dislikes} />
                     })
                 }
             </div>

@@ -7,7 +7,7 @@ import { AdvancedImage } from '@cloudinary/react'
 import { useRouter } from 'next/navigation'
 import { useFilter } from '../contexts/sidenavContext'
 
-export default function SearchGame({ setQuery, title, platform, image, itemIndex, id, user }) {
+export default function SearchGame({ setQuery, title, platform, image, itemIndex, id, key, user }) {
     const router = useRouter();
     const { setFilter } = useFilter();
 
@@ -26,7 +26,7 @@ export default function SearchGame({ setQuery, title, platform, image, itemIndex
         plats = platform.map(item => platformIcons[item]).filter(icon => icon !== undefined);
     }
     return (
-        <div className='game-result' key={itemIndex}>
+        <div className='game-result' key={key}>
             <div className='game-result-image'>
                 <AdvancedImage
                     width={45}

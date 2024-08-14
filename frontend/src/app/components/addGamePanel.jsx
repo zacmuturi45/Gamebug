@@ -12,7 +12,7 @@ export default function AddGamePanel({ svg, setActiveIndex, mainText, spanText, 
         fetchPolicy: 'no-cache'
     });
 
-    const handleActiveIndex = async (index, gameid, userid) => {
+    const handleActiveIndex = async (index, gameid, userid, key) => {
         try {
             const { data, errors } = await updateGameStatus({ variables: { gameId: gameid, userId: userid, index: index } });
             if (data.updateGameStatus.ok) {
@@ -28,7 +28,7 @@ export default function AddGamePanel({ svg, setActiveIndex, mainText, spanText, 
     }
     return (
         <div
-            className='addGMain' key={index}
+            className='addGMain' key={key}
             onClick={() => handleActiveIndex(index, gameid, userid)}
         >
             <div className='gOne'>

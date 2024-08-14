@@ -12,7 +12,7 @@ import NameCircle from './nameCircle'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 
-export default function ReviewBox({ rating, ratingsvg, profilePic, review, utilityFunction, id, name, date, likes, allRevs, dislikes, replies, index, gameId, reviewId }) {
+export default function ReviewBox({ rating, ratingsvg, profilePic, review, utilityFunction, id, name, date, likes, allRevs, dislikes, replies, index, key, gameId, reviewId }) {
     const [toggleReviewLike] = useMutation(LIKEDISLIKE);
     const { userInfo } = useLoggedUser();
     const [like, setLike] = useState(0);
@@ -100,7 +100,7 @@ export default function ReviewBox({ rating, ratingsvg, profilePic, review, utili
 
 
     return (
-        <main key={index} className='reviewbox-main'>
+        <main key={key} className='reviewbox-main'>
 
             <div className='reviewbox-div1'>
                 <h2>{rating}</h2>

@@ -1359,6 +1359,11 @@ body.no-scroll {
             opacity: 0;
             z-index: 0;
             height: 100%;
+            .vid {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
 
         &:hover {
@@ -1919,6 +1924,16 @@ body.no-scroll {
             }
         }
     }
+    .main_card {
+        .cloudinary {
+            .play-button-div {
+                display: none;
+            }
+            .cloudinary_video {
+                display: none;
+            }
+        }
+    }
 
     .theCloud {
         .cloudinary-container {
@@ -2200,8 +2215,8 @@ body.no-scroll {
             position: relative;
             .blueb {
                 position: absolute;
-                height: 25px;
-                width: 25px;
+                height: 35px;
+                width: 35px;
                 border-radius: 50%;
                 top: 50%;
                 display: flex;
@@ -2229,7 +2244,7 @@ body.no-scroll {
                 outline: none;
                 border: none;
                 border-radius: 2px;
-                padding: 1rem 0 1rem 2.6rem;
+                padding: 1rem 0 1rem 3.5rem;
                 letter-spacing: .5px;
                 color: rgb(158, 158, 158);
                 font-size: .9rem;

@@ -1235,6 +1235,11 @@ body.no-scroll {
   z-index: 0;
   height: 100%;
 }
+.sidenavlayout .cloudinary .cloudinary_video .vid {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .sidenavlayout .cloudinary:hover .cloudinary_video {
   z-index: 2;
   opacity: 1;
@@ -1722,6 +1727,12 @@ body.no-scroll {
   .main-pagejsx .cards > * {
     margin: 2rem 0;
   }
+  .main_card .cloudinary .play-button-div {
+    display: none;
+  }
+  .main_card .cloudinary .cloudinary_video {
+    display: none;
+  }
   .theCloud .cloudinary-container .cloudinarydiv3 .mobileview {
     display: block;
   }
@@ -1964,8 +1975,8 @@ body.no-scroll {
 }
 .reviewbox-main .reviewbox-div3 form .blueb {
   position: absolute;
-  height: 25px;
-  width: 25px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
   top: 50%;
   display: flex;
@@ -1990,7 +2001,7 @@ body.no-scroll {
   outline: none;
   border: none;
   border-radius: 2px;
-  padding: 1rem 0 1rem 2.6rem;
+  padding: 1rem 0 1rem 3.5rem;
   letter-spacing: 0.5px;
   color: rgb(158, 158, 158);
   font-size: 0.9rem;
