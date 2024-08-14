@@ -6,7 +6,7 @@ import { tick } from '../../../public/images'
 import { useMutation } from '@apollo/client'
 import { UPDATEGAMESTATUS } from '../GraphQL/queries'
 
-export default function AddGamePanel({ svg, setActiveIndex, mainText, spanText, index, activeIndex, gameid, userid }) {
+export default function AddGamePanel({ svg, key, setActiveIndex, mainText, spanText, index, activeIndex, gameid, userid }) {
 
     const [updateGameStatus] = useMutation(UPDATEGAMESTATUS, {
         fetchPolicy: 'no-cache'
