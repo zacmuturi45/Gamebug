@@ -29,7 +29,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
     return forward(operation);
 });
 
-const httpLink = new HttpLink({ uri: "http://127.0.0.1:5555/graphql"});
+const httpLink = new HttpLink({ uri: "https://1b13-41-222-181-221.ngrok-free.app/graphql"});
 
 const link = from([
     errorLink,
