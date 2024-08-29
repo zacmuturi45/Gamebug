@@ -519,7 +519,6 @@ body.no-scroll {
 }
 .main__navbar form .form-div .onSearchTab .nav-loader {
   margin: 2.5rem;
-  border: 2px solid red;
   align-self: center;
   justify-self: center;
 }
