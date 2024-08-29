@@ -50,6 +50,85 @@ tags = [
 
 cloudGames = [
     {
+        "title": "Fortnite Battle Royale",
+        "platforms": ["PC", "Xbox One", "PS5"],
+        "genres": ["Action", "RPG", "Shooter"],
+        "price": 65,
+        "chart": "#112 Shooter",
+        "video_url": "65ff9214af64ca0c89abac55d80ed7ab_fpfwnc",
+        "imageurl": [
+            "fort_x5ftns",
+            "fort3_kblk6z",
+            "fort4_amel7a",
+            "fort5_vezkjb",
+            "fort2_uknx3b",
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": """
+Fortnite Battle Royale is the completely free 100-player PvP mode in Fortnite. One giant map. A battle bus. Fortnite building skills and destructible environments combined with intense PvP combat. The last one standing wins. Download now for FREE and jump into the action.
+This download also gives you a path to purchase the Save the World co-op PvE campaign during Fortnite’s Early Access season, or instant access if you received a Friend invite.
+Online features require an account and are subject to terms of service and applicable privacy policy (playstationnetwork.com/terms-of-service & playstationnetwork.com/privacy-policy).
+1 player
+Network Players 2-99
+10GB minimum save size
+DUALSHOCK®4
+Online Play (Required)
+Software subject to license (us.playstation.com/softwarelicense). Online features require an account and are subject to terms of service and applicable privacy policy (playstationnetwork.com/terms-of-service & playstationnetwork.com/privacy-policy).
+Fortnite © 2017, Epic Games, Inc. Epic Games, Fortnite, Unreal, Unreal Engine 4, UE4, and their respective logos are trademarks or registered trademarks of Epic Games, Inc. in the United States of America and elsewhere. All rights reserved. The rating icon is a registered trademark of the Entertainment Software Association. All other trademarks and trade names are the properties of their respective owners.
+        """,
+        "publisher": "Epic Games Publishing",
+        "age_rating": random.choice(age_rate),
+        "developer": "Epic Games",
+        "tags": [
+            "Singleplayer",
+            "Multiplayer",
+            "Split Screen",
+            "Cross-Platform Multiplayer",
+            "PvP",
+        ],
+        "website": "https://www.epicgames.com/fortnite",
+    },
+    {
+        "title": "Diablo IV",
+        "platforms": ["PC", "Xbox One", "PS5"],
+        "genres": ["Action", "RPG"],
+        "price": 65,
+        "chart": "#12 Action",
+        "video_url": "diablo_indww0",
+        "imageurl": [
+            "diablo_ja2bhv",
+            "diablo2_dwmrus",
+            "diablo3_fuoyia",
+            "diablo2_rnvzbh",
+            "diablo4_yi0m5f",
+        ],
+        "date_added": random_date(2023, 2024),
+        "about": """
+        Meet Your Maker
+
+Lilith has returned to Sanctuary, summoned by a dark ritual after eons in exile. Her return ushers in an age of darkness and misery.
+
+Sanctuary, a land once ravaged by war between the High Heavens and Burning Hells, has fallen once more into darkness. Lilith, daughter of Mephisto, Lord of Hatred, has been summoned by dark ritual after eons in exile. Now, hatred threatens to consume Sanctuary as evil spreads and a new wave of cultists and worshippers arise to embrace Lilith’s coming. Only a brave few dare to face this threat…
+
+Forge your path through the corrupt lands of Sanctuary – a continuous, ever-growing, and fully explorable world, teeming with choices, quests, corruption, and loot. Join fellow adventurers, retake besieged towns, delve into nightmarish dungeons, and uncover lost secrets as you fight for the fate of the world. Every inch of Diablo IV is built for adventure, with multiple zones to explore freely, each ripe with non-linear quests, epic bosses, discoverable towns, and multitudes of demons to slay.
+
+Create and customize your character to become steadfast in the face of darkness. Choose from one of five classes and forge your hero from an abundance of different cosmetics, talents, and abilities, creating a character that is uniquely your own. Grow stronger as your character progresses through powerful Skill Trees, developing even more unique end game specializations with Paragon Boards to dramatically impact your gameplay.
+
+Defeating great evil requires great gear. Discover and experiment with a vast arsenal of powerful weapons, armor, and more to fight back against the demons threatening these lands. Embrace the many powers of your collection by exploring unique combinations to battle in immersive, action-packed combat against the deadliest of enemies with devastating results.
+        """,
+        "publisher": "Activision Blizzard, Blizzard Entertainment",
+        "age_rating": random.choice(age_rate),
+        "developer": "Activision Blizzard",
+        "tags": [
+            "Singleplayer",
+            "Multiplayer",
+            "Split Screen",
+            "Cross-Platform Multiplayer",
+            "PvP",
+        ],
+        "website": "https://diablo.blizzard.com",
+    },
+    {
         "title": "Fifa 22",
         "platforms": ["PC", "Xbox One", "PS5"],
         "genres": ["Sports", "Strategy"],
