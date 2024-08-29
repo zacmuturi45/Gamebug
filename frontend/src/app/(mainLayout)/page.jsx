@@ -176,15 +176,15 @@ export default function Home() {
     }
 
     const applyPlatformSort = (sortPlatform) => {
-        if(card_data_data) {
+        if (card_data_data) {
             const sortedData = [...card_data_data.allGames.edges];
-        let sortedPlatforms = [];
+            let sortedPlatforms = [];
 
-        if (filterConditions[sortPlatform]) {
-            sortedPlatforms = sortedData.filter(filterConditions[sortPlatform])
-        }
+            if (filterConditions[sortPlatform]) {
+                sortedPlatforms = sortedData.filter(filterConditions[sortPlatform])
+            }
 
-        setCardData(sortedPlatforms);
+            setCardData(sortedPlatforms);
         }
     }
 
@@ -248,7 +248,7 @@ export default function Home() {
         };
     }, [sortVisible, platformVisible]);
 
-    if(card_data_loading) return <div style={{marginTop: "20%"}}><Loader /></div>
+    if (card_data_loading) return <div style={{ marginTop: "20%" }}><Loader /></div>
 
 
     return (
@@ -330,7 +330,7 @@ export default function Home() {
             <div className="row cards">
                 {cardData && (
                     cardData[0] === "This week" || cardData[0] === "Next week" ? <div id="no-games"><Image src={cry} width={120} height={120} alt="cry-emoji" /><p>No games for {cardData[0]}</p></div> :
-                        cardData.map((item, index) => (
+                        cardData.slice(0, addCards).map((item, index) => (
                             <Card
                                 id={item.node.gameid}
                                 image={item.node.imageUrl[0]}
@@ -347,11 +347,15 @@ export default function Home() {
                 )
                 }
             </div>
-            <div className="load-more"><span onClick={() => {
-                if (cardArray.length >= addCards + 24) {
-                    setAddCards(addCards + 24)
-                } else { return }
-            }}>Load more</span></div>
+            {
+                addCards <= cardData.length && (
+                    <div className="load-more"><span onClick={() => {
+                        if (cardArray.length >= addCards + 24) {
+                            setAddCards(addCards + 24)
+                        } else { return }
+                    }}>Load more</span></div>
+                )
+            }
         </main>
     );
 }
