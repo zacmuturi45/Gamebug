@@ -634,35 +634,6 @@ export default function Game({ params }) {
             }
           </div>
 
-          {/* <div className="game-collections">
-
-            <div className='game-collections-div1'>
-              <h1>Collections with Vampire: The Masquerade - Bloodlines 2</h1>
-              <p>4 Collections</p>
-            </div>
-
-            <div className='game-collections-div2'>
-              {
-                gameCollections.slice(0, viewSlice).map((game, index) => {
-                  return <div key={index} className='collection-grid'>
-                    <div className='collection-grid-grid'>
-                      <Image src={game.image.image1} width={35} height={35} alt='image' />
-                      <Image src={game.image.image2} width={35} height={35} alt='image' />
-                      <Image src={game.image.image3} width={35} height={35} alt='image' />
-                      <Image src={game.image.image4} width={35} height={35} alt='image' />
-                    </div>
-
-                    <div className='collection-grid-text'>
-                      <h2>{game.title}</h2>
-                      <p>{game.games} GAMES</p>
-                    </div>
-                  </div>
-                })
-              }
-            </div>
-
-          </div> */}
-
         </div>
 
       </div>

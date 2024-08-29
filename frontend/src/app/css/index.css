@@ -1068,7 +1068,7 @@ body.no-scroll {
   font-size: 1.2rem;
   padding: 1rem;
   border-radius: 8px;
-  width: 200px;
+  width: 150px;
   background-color: rgb(52, 52, 52);
 }
 .sidenavlayout .main-pagejsx .load-more > span:hover {
@@ -2823,71 +2823,6 @@ body.no-scroll {
 .game_main .game_container .game-container-div2 .game-users > * {
   padding: 0.8rem 0;
 }
-.game_main .game_container .game-container-div2 .game-collections {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 1rem 0;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div1 {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  gap: 1rem;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div1 h1 {
-  font-size: 1.6rem;
-  font-weight: bolder;
-  max-width: 300px;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  text-decoration-color: rgb(106, 106, 106);
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div1 p {
-  font-size: 0.8rem;
-  width: fit-content;
-  margin-top: 0.8rem;
-  color: rgb(110, 110, 110);
-  height: fit-content;
-  text-decoration: underline;
-  text-decoration-thickness: 0.5px;
-  text-underline-offset: 2px;
-  text-decoration-color: rgb(83, 83, 83);
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 {
-  display: flex;
-  flex-direction: column;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 .collection-grid {
-  display: flex;
-  padding: 0.7rem 0;
-  border-bottom: 1px solid rgb(60, 60, 60);
-  cursor: pointer;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 .collection-grid .collection-grid-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.3rem;
-  margin-right: 1rem;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 .collection-grid .collection-grid-text {
-  display: block;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 .collection-grid .collection-grid-text:hover {
-  opacity: 0.5;
-  transition: 0.2s ease-in-out;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 .collection-grid .collection-grid-text h2 {
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.3rem;
-}
-.game_main .game_container .game-container-div2 .game-collections .game-collections-div2 .collection-grid .collection-grid-text p {
-  color: rgb(110, 110, 110);
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-}
 .game_main .similar-games {
   position: relative;
   margin: 2rem 0;
@@ -3394,10 +3329,6 @@ body.no-scroll {
   .game_main .game_container .game-container-div2 .game-container-div2-buyGame .buyGame1 .buy2 {
     transform-origin: left;
     transform: scale(0.9);
-  }
-  .game_main .game_container .game-container-div2 .game-collections .game-collections-div1 p {
-    width: 100%;
-    margin-top: 12px;
   }
   .game_main .reviews-div {
     width: 100%;

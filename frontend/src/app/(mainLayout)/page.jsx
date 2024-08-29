@@ -19,7 +19,7 @@ export default function Home() {
 
     const [sortBy, setSortBy] = useState("Relevance");
     const [platforms, setPlatforms] = useState("Platforms");
-    const [addCards, setAddCards] = useState(24);
+    const [addCards, setAddCards] = useState(20);
     const [cardData, setCardData] = useState([]);
     const [arr, setArr] = useState([]);
     const [filteredCards, setFilteredCards] = useState([]);
@@ -348,12 +348,14 @@ export default function Home() {
                 }
             </div>
             {
-                addCards <= cardData.length && (
+                addCards <= cardData.length ? (
                     <div className="load-more"><span onClick={() => {
-                        if (cardArray.length >= addCards + 24) {
-                            setAddCards(addCards + 24)
+                        if (cardArray.length >= addCards + 4) {
+                            setAddCards(addCards + 4)
                         } else { return }
                     }}>Load more</span></div>
+                ) : (
+                    <div className="load-more"><span onClick={() => setAddCards(20)}>Show less</span></div>
                 )
             }
         </main>
