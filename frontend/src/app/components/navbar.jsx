@@ -207,7 +207,7 @@ export default function Navbar() {
                 <div className="form-div">
                     <FontAwesomeIcon icon={faSearch} className='faSearch-icon' width={15} height={15} style={{ fontSize: 15 }} />
                     <div className="onSearchTab" ref={searchRef}>
-                        {loading && <Loader />}
+                        {loading && (<div className='nav-loader'><Loader /></div>)}
                         {gameResults.length > 0 ? (
                             <div>
                                 {

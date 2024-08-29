@@ -381,6 +381,12 @@ body.no-scroll {
                 display: flex;
                 flex-direction: column;
                 padding-bottom: 1rem;
+                .nav-loader {
+                    margin: 2.5rem;
+                    border: 2px solid red;
+                    align-self: center;
+                    justify-self: center;
+                }
                 h2 {
                     font-weight: 500;
                     letter-spacing: .5px;

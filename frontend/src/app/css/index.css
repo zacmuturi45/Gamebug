@@ -517,6 +517,12 @@ body.no-scroll {
   flex-direction: column;
   padding-bottom: 1rem;
 }
+.main__navbar form .form-div .onSearchTab .nav-loader {
+  margin: 2.5rem;
+  border: 2px solid red;
+  align-self: center;
+  justify-self: center;
+}
 .main__navbar form .form-div .onSearchTab h2 {
   font-weight: 500;
   letter-spacing: 0.5px;
