@@ -10,7 +10,7 @@ Gamebug is a sleek, minimalist web application inspired by rawg.io, designed to 
 
 ## 📚 Table of Contents
 
-- [Demo](#demo)
+- [Website](#website)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
@@ -20,9 +20,9 @@ Gamebug is a sleek, minimalist web application inspired by rawg.io, designed to 
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
-## 🚀 Demo
+## 🚀 Website
 
-[Insert a live demo link if available]
+![Live Site](https://game-go-xi.vercel.app/2)
 
 **Screenshots**
 
