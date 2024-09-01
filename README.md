@@ -51,8 +51,6 @@ Gamebug is a sleek, minimalist web application inspired by rawg.io, designed to 
 *Secure login and signup*
 
 
-> **Note:** To add images, place your screenshots in a folder within your project directory (e.g., `/assets/images/`) and reference their paths in the markdown as shown above.
-
 ## ✨ Features
 
 - **User Authentication:** Secure login and registration using JWT.
@@ -84,7 +82,7 @@ Gamebug is a sleek, minimalist web application inspired by rawg.io, designed to 
 
 - [Python](https://www.python.org/) (v3.10 or higher)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [MongoDB](https://www.mongodb.com/try/download/community) database
+  - [PostgreSQL](https://www.postgresql.org/) database
 
 **Clone the Repository**
 
