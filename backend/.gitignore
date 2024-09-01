@@ -34,4 +34,4 @@ wheels/
 
 # IDEs
 .idea/
-.vscode/
+.vscode/.env
