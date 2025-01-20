@@ -48,7 +48,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 //The HttpLink is responsible for sending the GraphQL requests to the specified server
 //uri: The URI is where the GraphQL server is hosted. In our case it points to a GraphQL endpoint hosted via an ngrok tunnel
-const httpLink = new HttpLink({ uri: "https://5944-154-159-252-63.ngrok-free.app"});
+const httpLink = new HttpLink({ uri: "https://5944-154-159-252-63.ngrok-free.app/graphql"});
 
 
 //Combining Links(link):
