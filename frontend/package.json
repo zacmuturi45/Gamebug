@@ -26,7 +26,7 @@
     "gsap": "^3.12.5",
     "gulp-purgecss": "^6.0.0",
     "jwt-decode": "^4.0.0",
-    "next": "14.2.3",
+    "next": "14.2.35",
     "nookies": "^2.5.2",
     "react": "^18",
     "react-dom": "^18",
