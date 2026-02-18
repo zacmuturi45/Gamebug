@@ -11,6 +11,6 @@ Flask-GraphQL==2.0.1
 graphql-core==2.3.2
 
 SQLAlchemy==1.4.52
-psycopg2-binary==2.9.9
+psycopg2-binary
 python-dotenv==1.0.1
 gunicorn==21.2.0
