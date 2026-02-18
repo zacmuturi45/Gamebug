@@ -6,7 +6,6 @@ ariadne==0.22
 asttokens==2.4.1
 attrs==23.2.0
 backcall==0.2.0
--e git+ssh://git@github.com/zacmuturi45/GameGo.git@0ab9560843ddcb8c95d64fdf7892c4224b45fbd3#egg=backend&subdirectory=backend
 bcrypt==4.1.2
 black==24.4.2
 blinker==1.8.2
